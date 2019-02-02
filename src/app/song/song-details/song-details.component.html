@@ -12,13 +12,6 @@
         Released On: {{song.release_data | date}}
     </p>
   </mat-card-content>
-  <!--TODO add option to add to playlist-  select from list of playlists-->
-  <mat-card-actions>
-    <button mat-fab>
-      <mat-icon>play_arrow</mat-icon>  
-    </button>
-    <button mat-fab>
-      <mat-icon>playlist_add</mat-icon>  
-    </button>
-  </mat-card-actions>
+
+  <app-song-tool-bar [song]="song"></app-song-tool-bar>
 </mat-card>
