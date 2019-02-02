@@ -6,10 +6,13 @@
           {{ song.name }}
       </mat-panel-title>
       <mat-panel-description class="mat-h3" *ngFor="let artist of song.artists">
-        {{artist}}
+        {{ artist }}
       </mat-panel-description>
-
+      <mat-panel-description class="mat-h3">
+        {{ num_of_times_liked }}
+      </mat-panel-description>
     </mat-expansion-panel-header>
+
     <p class="mat-h3">
         {{ song.release_date | date}}
     </p>
