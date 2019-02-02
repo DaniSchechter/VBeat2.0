@@ -1,18 +1,21 @@
-<mat-accordion>
+<mat-accordion [class.col-sm-7]="selectedSong">
+  
   <mat-expansion-panel *ngFor="let song of songs" (click)="onSelectSong(song)">
     <mat-expansion-panel-header>
-      <mat-panel-title>
-          {{song.name}}
+      <mat-panel-title class="mat-h2">
+          {{ song.name }}
       </mat-panel-title>
-      <mat-panel-description *ngFor="let artist of song.artists">
+      <mat-panel-description class="mat-h3" *ngFor="let artist of song.artists">
         {{artist}}
+      </mat-panel-description>
+      <mat-panel-description class="mat-h3" style="color:white">
+          {{ song.release_date | date: "yyyy/mm/dd" }}
       </mat-panel-description>
     </mat-expansion-panel-header>
 
     <app-song-tool-bar [song]="selectedSong"></app-song-tool-bar>
 
   </mat-expansion-panel>
-
 </mat-accordion>
 
-<app-song-details [song]="selectedSong" ></app-song-details>
+<app-song-details [song]="selectedSong" [class.col-sm-7]="song" ></app-song-details>

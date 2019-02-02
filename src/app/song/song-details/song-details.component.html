@@ -1,14 +1,19 @@
 <mat-card *ngIf="song">
   <mat-card-header>
-    <mat-card-title>{{song.name}}</mat-card-title>
-    <mat-card-subtitle mat-display-4><b>By: </b>
-      <span *ngFor="let artist of song.artists">{{artist | uppercase}}, </span>
+    <mat-card-title >{{song.name}}</mat-card-title>
+    <mat-card-subtitle mat-display-4>
+      <span class="mat-h3"> 
+        By: 
+      </span>
+      <span class="mat-h3" *ngFor="let artist of song.artists">
+        {{artist | uppercase}}, 
+      </span>
     </mat-card-subtitle>
   </mat-card-header>
 
   <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
   <mat-card-content>
-    <p>
+    <p class="mat-h3">
         Released On: {{song.release_data | date}}
     </p>
   </mat-card-content>

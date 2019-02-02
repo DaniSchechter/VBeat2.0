@@ -1,12 +1,12 @@
 <!--TODO add option to add to playlist-  select from list of playlists-->
 <mat-card-actions>
-    <button mat-fab (click)="onPlay()">
-      <mat-icon>play_arrow</mat-icon>  
-    </button>
-    <button mat-fab (click)="onAddToQueue()">
+    <button mat-mini-fab (click)="onAddToQueue()">
         <mat-icon>queue_music</mat-icon>  
     </button>
-    <button mat-fab (click)="onAddToPlaylist()">
+    <button mat-mini-fab (click)="onPlay()">
+      <mat-icon>play_arrow</mat-icon>  
+    </button>
+    <button mat-mini-fab (click)="onAddToPlaylist()">
       <mat-icon>playlist_add</mat-icon>  
     </button>
 </mat-card-actions>
