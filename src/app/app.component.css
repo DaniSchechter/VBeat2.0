@@ -1,0 +1,10 @@
+:host {
+    display: block;
+    background: url('../assets/background.jpg');
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+.container {
+    width: 90vw;
+    margin: auto;
+}

@@ -11,7 +11,7 @@ export class Song {
     constructor(
         public song_id: number,
         public name: string,
-        public genre: Genre,
+        public genres: Genre[],
         public song_path: string,
         public image_path: string,
         public release_data: Date,

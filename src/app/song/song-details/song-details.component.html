@@ -1,8 +1,8 @@
-<mat-card>
+<mat-card *ngIf="song">
   <mat-card-header>
     <mat-card-title>{{song.name}}</mat-card-title>
-    <mat-card-subtitle mat-display-4>By:
-      <span *ngFor="let artist of song.artists">{{artist | uppercase}},</span>
+    <mat-card-subtitle mat-display-4><b>By: </b>
+      <span *ngFor="let artist of song.artists">{{artist | uppercase}}, </span>
     </mat-card-subtitle>
   </mat-card-header>
 
@@ -18,7 +18,7 @@
       <mat-icon>play_arrow</mat-icon>  
     </button>
     <button mat-fab>
-      <mat-icon >playlist_add</mat-icon>  
+      <mat-icon>playlist_add</mat-icon>  
     </button>
   </mat-card-actions>
 </mat-card>

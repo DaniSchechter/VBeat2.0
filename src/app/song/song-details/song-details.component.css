@@ -4,6 +4,7 @@ mat-card {
     width: 80vh;
     overflow-y: hidden;
     margin: auto;
+    margin-top:20px;
 }
 
 button {
