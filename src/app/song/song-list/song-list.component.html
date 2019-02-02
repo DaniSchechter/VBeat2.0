@@ -8,10 +8,11 @@
       <mat-panel-description class="mat-h3" *ngFor="let artist of song.artists">
         {{artist}}
       </mat-panel-description>
-      <mat-panel-description class="mat-h3" style="color:white">
-          {{ song.release_date | date: "yyyy/mm/dd" }}
-      </mat-panel-description>
+
     </mat-expansion-panel-header>
+    <p class="mat-h3">
+        {{ song.release_date | date}}
+    </p>
 
     <app-song-tool-bar [song]="selectedSong"></app-song-tool-bar>
 
