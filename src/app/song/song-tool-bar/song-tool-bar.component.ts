@@ -26,6 +26,6 @@ export class SongToolBarComponent implements OnInit {
   onLikeToggle() { 
     this.songLiked = !this.songLiked;
     this.song.num_of_times_liked += 1;
-    //TODO add notification for the server
+    //TODO add notification ffor the server
    }
 }
