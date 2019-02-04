@@ -14,9 +14,9 @@ export class Song {
         public genres: Genre[],
         public song_path: string,
         public image_path: string,
-        public release_data: Date,
+        public release_date: Date,
         public artists: string[], //TODO: change to artist array
-        public num_of_time_liked: number
+        public num_of_times_liked: number //Will be updated through web sockets
     ) { }
 
 }
