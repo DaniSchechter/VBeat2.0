@@ -9,7 +9,7 @@
     width: 90vw;
     height: 100vh;
     margin: auto;
-    padding-top:20px;
+    padding: 20px 0 0 0;
     overflow-y: scroll;
 }
 ::-webkit-scrollbar {

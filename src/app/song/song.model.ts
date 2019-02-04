@@ -16,7 +16,7 @@ export class Song {
         public image_path: string,
         public release_date: Date,
         public artists: string[], //TODO: change to artist array
-        public num_of_times_liked: Number //Will be updated through web sockets
+        public num_of_times_liked: number //Will be updated through web sockets
     ) { }
 
 }

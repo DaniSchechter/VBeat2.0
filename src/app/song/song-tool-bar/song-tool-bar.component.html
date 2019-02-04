@@ -15,6 +15,11 @@
     <!--TODO add the calss based on if userm liked or not-->
     <!-- ! TODO add service to connect between 2 song-tool-bars: in song details and it's equivalent in song-list-->
     <button mat-mini-fab [class.liked]="songLiked" (click)="onLikeToggle()">
-        <mat-icon title="Like">thumb_up</mat-icon>  
+        <mat-icon *ngIf="song" 
+                  title="Like" 
+                  [matBadge]="song.num_of_times_liked" 
+                  matBadgePosition="before" >
+                  thumb_up
+        </mat-icon>  
     </button>
 </mat-card-actions>

@@ -19,9 +19,13 @@ export class SongToolBarComponent implements OnInit {
     this.songLiked = false;
   }
 
-  //TODO change to real action for the next 3 buttons - the 4 is done
+  //TODO change to real action for the next 3 buttons 
   onAddToPlaylist() {alert("song "+ this.song.name +" added to playlist")}
   onPlay() {alert("song "+ this.song.name +" playnow")}
   onAddToQueue() {alert("song "+ this.song.name +" queue")}
-  onLikeToggle() { this.songLiked = !this.songLiked; }
+  onLikeToggle() { 
+    this.songLiked = !this.songLiked;
+    this.song.num_of_times_liked += 1;
+    //TODO add notification for the server
+   }
 }
