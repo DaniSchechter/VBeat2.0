@@ -6,7 +6,7 @@ const Song = require('./models/song');
 
 const app = express();
 
-mongoose.connect("mongodb+srv://alex:nE7fHawuXIMUmwlX@cluster0-k5m05.mongodb.net/angular-app?retryWrites=true")
+mongoose.connect("mongodb+srv://alex:nE7fHawuXIMUmwlX@cluster0-k5m05.mongodb.net/first-node?retryWrites=true")
 .then(()=>{
     console.log("connected to db!");
 }).catch(()=>{
@@ -47,6 +47,11 @@ app.get("/api/getSongs", (req, res, next) => {
             songs: songsResult
         });
     });
+});
+
+app.delete("api/songs/:id", (req, res, next) => {
+    Song.deleteOne({_id:req.params.id});
+    res.status(200);
 });
 
 module.exports = app;
