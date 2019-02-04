@@ -6,7 +6,7 @@ const Song = require('./models/song');
 
 const app = express();
 
-mongoose.connect("")
+mongoose.connect("mongodb+srv://alex:nE7fHawuXIMUmwlX@cluster0-k5m05.mongodb.net/angular-app?retryWrites=true")
 .then(()=>{
     console.log("connected to db!");
 }).catch(()=>{
