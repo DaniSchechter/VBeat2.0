@@ -25,7 +25,7 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Running NodeJS Server
 1. Install nodemon: `npm install --save-dev nodemon`
 2. In root folder, `nodemon server.js`
-3. npm run start:server
+3. `npm run start:server`
 
 ## Further help
 
