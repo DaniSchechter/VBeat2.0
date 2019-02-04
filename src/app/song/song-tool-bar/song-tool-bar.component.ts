@@ -24,8 +24,13 @@ export class SongToolBarComponent implements OnInit {
   onPlay() {alert("song "+ this.song.name +" playnow")}
   onAddToQueue() {alert("song "+ this.song.name +" queue")}
   onLikeToggle() { 
+    if( this.songLiked ) {
+      this.song.num_of_times_liked -= 1;
+    }
+    else {
+      this.song.num_of_times_liked += 1;
+    }
     this.songLiked = !this.songLiked;
-    this.song.num_of_times_liked += 1;
-    //TODO add notification ffor the server
+    //TODO add notification for the server
    }
 }
