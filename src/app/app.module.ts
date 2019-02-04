@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { SongDetailsComponent } from './song/song-details/song-details.component';
 import { SongListComponent } from './song/song-list/song-list.component';
 import { SongToolBarComponent } from './song/song-tool-bar/song-tool-bar.component';
+import { SongCreateComponent } from './song/song-create/song-create.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { SongToolBarComponent } from './song/song-tool-bar/song-tool-bar.compone
     SongDetailsComponent,
     SongListComponent,
     SongToolBarComponent,
+    SongCreateComponent,
   ],
   imports: [
     BrowserModule,
