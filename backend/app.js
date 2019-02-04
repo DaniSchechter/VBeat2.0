@@ -43,7 +43,7 @@ app.post("/api/createSong", (req, res, next) => {
 app.get("/api/getSongs", (req, res, next) => {
     Song.find().then(songsResult => {
         res.status(200).json({
-            message: "posts fetched successfully";
+            message: "songs fetched successfully",
             songs: songsResult
         });
     });
