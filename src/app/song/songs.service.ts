@@ -12,10 +12,10 @@ export class SongService{
 
     getSongs(){
         this.Http.get<{message: string, songs: Song[]}>('http://localhost:3000/api/getSong')
-        .subscribe((SongData)=>{
-            this.songs = SongData.songs;
-            this.songsUpdated.next([...this.songs]);
-        });
+            .subscribe((SongData)=>{
+                this.songs = SongData.songs;
+                this.songsUpdated.next([...this.songs]);
+            });
     }
 
     getSongsUpdateListener(){
@@ -25,8 +25,16 @@ export class SongService{
     addSong(name: string, genres: [number], song_path: string, image_path: string, release_date: Date,
         artists: [string], //TODO: change to artist array
         num_of_times_liked: number){
-        const song: Song = {id: null, name: name, genres: genres, song_path: song_path, image_path: image_path, release_date: release_date,
-            artists: artists, num_of_times_liked: num_of_times_liked};
+            const song: Song = {
+                id: null, 
+                name: name, 
+                genres: genres, 
+                song_path: song_path, 
+                image_path: image_path, 
+                release_date: release_date,
+                artists: artists, 
+                num_of_times_liked: num_of_times_liked
+            };
         this.Http.post<{message: string}>('http://localhost:3000/api/addSong', song)
         .subscribe((responseData)=>{
             console.log(responseData.message);
