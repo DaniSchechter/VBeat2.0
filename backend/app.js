@@ -25,7 +25,6 @@ app.use((req, res, next) => {
 
 app.post("/api/createSong", (req, res, next) => {
     const song = new Song({
-        song_id: req.body.song_id,
         name: req.body.name,
         genres: req.body.genres,
         song_path: req.body.song_path,
@@ -40,3 +39,7 @@ app.post("/api/createSong", (req, res, next) => {
         message: "Post addes successfully"
     });
 });
+
+app.get("/api/getSongs", (req, res, next) => {
+
+})
