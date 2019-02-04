@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
+
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -21,15 +22,17 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SongDetailsComponent } from './song/song-details/song-details.component';
-import { SongListComponent } from './song/song-list/song-list.component';
+import { SongListComponent } from './song/song-list/song-list.component'
+import { HttpClientModule } from '@angular/common/http'
+
 import { SongToolBarComponent } from './song/song-tool-bar/song-tool-bar.component';
 import { SongCreateComponent } from './song/song-create/song-create.component';
-
 
 @NgModule({
   declarations: [
     AppComponent,
     SongDetailsComponent,
+
     SongListComponent,
     SongToolBarComponent,
     SongCreateComponent,
@@ -44,7 +47,8 @@ import { SongCreateComponent } from './song/song-create/song-create.component';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatExpansionModule,
+    MatExpansionModule, 
+    HttpClientModule,
     MatButtonToggleModule,
     MatBadgeModule,
     MatFormFieldModule,
