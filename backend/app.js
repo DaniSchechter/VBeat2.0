@@ -26,13 +26,12 @@ app.use((req, res, next) => {
 app.post("/api/createSong", (req, res, next) => {
     const song = new Song({
         name: req.body.name,
-        genres: req.body.genres,
+        genre: req.body.genres,
         song_path: req.body.song_path,
         image_path: req.body.image_path,
-        release_data: req.body.release_data,
+        release_date: req.body.release_data,
         artists:  req.body.artists, // TODO: change to artist array
-        num_of_time_liked: req.body.num_of_time_liked
-        // TODO: add all the other fields that Dani didnt add yet !!!!!!
+        num_of_times_liked: req.body.num_of_time_liked
     });
     song.save();
     res.status(201).json({

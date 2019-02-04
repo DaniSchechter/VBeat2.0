@@ -24,7 +24,7 @@ export class SongService{
     }
 
     addSong(name: string, genre: Genre, song_path: string, image_path: string, release_date: Date,
-        artists: [string], //TODO: change to artist array
+        artists: string[], //TODO: change to artist array
         num_of_times_liked: number){
             const song: Song = {
                 id: null, 
@@ -38,7 +38,7 @@ export class SongService{
             };
         this.Http.post<{message: string}>('http://localhost:3000/api/addSong', song)
         .subscribe((responseData)=>{
-            console.log(responseData.message);
+            console.log(responseData.message); 
             this.songs.push(song);
             this.songsUpdated.next([...this.songs]);
         });
