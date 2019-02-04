@@ -1,24 +1,22 @@
-<mat-card>
+<mat-card *ngIf="song">
   <mat-card-header>
-    <mat-card-title>{{song.name}}</mat-card-title>
-    <mat-card-subtitle mat-display-4>By:
-      <span *ngFor="let artist of song.artists">{{artist | uppercase}},</span>
+    <mat-card-title >{{ song.name }}</mat-card-title>
+    <mat-card-subtitle mat-display-4>
+      <span class="mat-h3"> 
+        By: 
+      </span>
+      <span class="mat-h3" *ngFor="let artist of song.artists">
+        {{ artist | uppercase }}, 
+      </span>
     </mat-card-subtitle>
   </mat-card-header>
-
-  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+  <!-- TODO - think if display as a square width = height-->
+  <img mat-card-image [src]="song.image_path" alt="Photo is Unavailable">
   <mat-card-content>
-    <p>
-        Released On: {{song.release_data | date}}
+    <p class="mat-h3">
+        Released On: {{ song.release_date | date }}
     </p>
   </mat-card-content>
-  <!--TODO add option to add to playlist-  select from list of playlists-->
-  <mat-card-actions>
-    <button mat-fab>
-      <mat-icon>play_arrow</mat-icon>  
-    </button>
-    <button mat-fab>
-      <mat-icon >playlist_add</mat-icon>  
-    </button>
-  </mat-card-actions>
+
+  <app-song-tool-bar [song]="song"></app-song-tool-bar>
 </mat-card>

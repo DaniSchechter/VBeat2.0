@@ -1,11 +1,4 @@
-/*TODO check if can remove the 80 width*/
 mat-card {
-    display: block;
-    width: 80vh;
     overflow-y: hidden;
-    margin: auto;
-}
-
-button {
     margin: 10px;
 }

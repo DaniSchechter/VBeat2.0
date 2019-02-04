@@ -1,0 +1,7 @@
+button {
+    margin-left: 10px;
+}
+
+button.liked {
+    background-color: rgb(0, 132, 255);
+}

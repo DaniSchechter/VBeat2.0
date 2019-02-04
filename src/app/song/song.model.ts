@@ -9,13 +9,14 @@ export enum Genre {
 export class Song {
 
     constructor(
-        public song_id: number,
+        public id: number,
         public name: string,
-        public genre: Genre,
+        public genres: Genre[],
         public song_path: string,
         public image_path: string,
-        public release_data: Date,
-        public artists: string[] //TODO: change to artist array
+        public release_date: Date,
+        public artists: string[], //TODO: change to artist array
+        public num_of_times_liked: number //Will be updated through web sockets
     ) { }
 
 }

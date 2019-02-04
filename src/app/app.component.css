@@ -1,0 +1,17 @@
+:host {
+    display: block;
+    background: url('../assets/background.jpg');
+    background-repeat: no-repeat;
+    height: 100vh;
+    overflow: hidden;
+}
+.container {
+    width: 90vw;
+    height: 100vh;
+    margin: auto;
+    padding: 20px 0 0 0;
+    overflow-y: scroll;
+}
+::-webkit-scrollbar {
+    width: 0px;  /* remove scrollbar space */
+}
