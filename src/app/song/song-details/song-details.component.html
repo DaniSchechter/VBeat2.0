@@ -1,22 +1,22 @@
+<!-- ! TODO add num of likes-->
 <mat-card *ngIf="song">
   <mat-card-header>
-    <mat-card-title >{{song.name}}</mat-card-title>
+    <mat-card-title >{{ song.name }}</mat-card-title>
     <mat-card-subtitle mat-display-4>
       <span class="mat-h3"> 
         By: 
       </span>
       <span class="mat-h3" *ngFor="let artist of song.artists">
-        {{artist | uppercase}}, 
+        {{ artist | uppercase }}, 
       </span>
     </mat-card-subtitle>
   </mat-card-header>
-
-  <img mat-card-image [src]="image_path" alt="Photo is Unavailable">
+  <img mat-card-image [src]="song.image_path" alt="Photo is Unavailable">
   <mat-card-content>
     <p class="mat-h3">
-        Released On: {{song.release_date | date}}
+        Released On: {{ song.release_date | date }}
     </p>
   </mat-card-content>
-
+  <!-- ! TODO change the display of the song details to be under its song in list - make sure not to make overhead-->
   <app-song-tool-bar [song]="song"></app-song-tool-bar>
 </mat-card>

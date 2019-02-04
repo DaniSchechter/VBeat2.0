@@ -25,7 +25,7 @@ export class SongListComponent implements OnInit {
       name: "Song2",
       genres: [Genre.Blues, Genre.Country],
       song_path:"d",
-      image_path: "https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwjsrYyXyJ3gAhVGsKQKHcR9CeQQjRx6BAgBEAU&url=https%3A%2F%2Fwww.vectorstock.com%2Froyalty-free-vector%2Fbalon-simple-icon-vector-10463225&psig=AOvVaw13rf6DCdMm2ciJ1PYRKssb&ust=1549214576949954",
+      image_path: "http://r.ddmcdn.com/s_f/o_1/APL/uploads/2015/07/cecil-AP463227356214-1000x400.jpg",
       release_date: new Date('2018-11-1'),
       artists: ['Pink, PostyPost'],
       num_of_times_liked: 9
