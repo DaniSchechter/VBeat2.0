@@ -5,8 +5,10 @@
       <mat-panel-title class="mat-h2">
           {{ song.name }}
       </mat-panel-title>
-      <mat-panel-description class="mat-h3" *ngFor="let artist of song.artists">
-        {{ artist }}
+      <mat-panel-description>
+        <p class="mat-h3" *ngFor="let artist of song.artists">
+          {{ artist }}
+        </p>
       </mat-panel-description>
       <mat-panel-description class="mat-h3">
         {{ num_of_times_liked }}

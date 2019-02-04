@@ -1,0 +1,121 @@
+<mat-card>
+  <form (submit)="onSubmit(newForm)" #newForm="ngForm">
+      <!-- NAME -->
+      <mat-form-field appearance = "legacy" color = "accent">
+          <input 
+            matInput 
+            placeholder = "Name"
+            name = "name"
+            ngModel
+            required
+            minlength = 4
+            #name = "ngModel">
+          <mat-hint> At least 4 characters </mat-hint>
+          <mat-error *ngIf = "name.invalid"> Name is should be at least 4 characters long </mat-error>
+      </mat-form-field>
+      
+      <!-- GENRE -->
+      <mat-form-field appearance = "legacy" color = "accent">
+          <mat-select 
+              placeholder = "Genre"
+              name = "genre"
+              ngModel
+              required
+              #genre = "ngModel">
+              <mat-option
+                *ngFor = "let genre of genre_options" 
+                [value]="genre">
+                {{ genre }}
+              </mat-option>
+          </mat-select>
+          <mat-hint> Please select a genre </mat-hint>
+          <mat-error *ngIf = "genre.invalid"> Please select one genre </mat-error>
+      </mat-form-field>
+      
+      <!-- SONG PATH -->
+      <mat-form-field appearance = "legacy" color = "accent">
+          <input 
+            matInput 
+            type = "url"
+            pattern="https?://\S+"
+            placeholder = "Song path"
+            name = "song_path"
+            ngModel
+            required
+            #path = "ngModel">
+          <!--TODO ???? maybe change to local file upload ?????????-->
+          <mat-hint>Please enter song url to be uploaded</mat-hint> 
+          <mat-error *ngIf="path.invalid">Not a valid URL</mat-error>
+      </mat-form-field>
+     
+      <!-- IMAGE PATH -->
+      <mat-form-field appearance = "legacy" color = "accent">
+          <input 
+            matInput 
+            type = "url"
+            pattern="https?://\S+"
+            placeholder = "Song image path"
+            name = "song_image"
+            ngModel
+            required
+            #image="ngModel">
+          <!--TODO ???? maybe change to local file upload ?????????-->
+          <mat-hint> Please enter image url to be uploaded </mat-hint> 
+          <mat-error *ngIf = "image.invalid"> Not a valid URL </mat-error>
+      </mat-form-field>
+
+      <!-- RELEASE DATE -->
+      <!-- TODO add validation for future date-->
+      <mat-form-field appearance = "legacy" color = "accent">
+          <input 
+            matInput 
+            [matDatepicker] = "picker" 
+            placeholder = "Choose release date"
+            name = "release_date"
+            ngModel
+            required
+            #release_date="ngModel">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-hint> Please choose the date the song was released on (MM/DD/YYYY) </mat-hint> 
+          <mat-error *ngIf = "release_date.invalid"> Not a valid date </mat-error>
+      </mat-form-field>
+
+      <!-- ARTISTS -->
+      <!--TODO connect to artists/users list by auto complete: -->
+      <!--TODO Steps: (1)first two letters -> (2)db query-> (3)auto complete: propagate with naswer form db query -->
+      
+      <mat-form-field appearance = "legacy" color = "accent">
+          <!--TODO display loading gif on db querying - if need add async pipe after onSearchArtistChange func -->
+          <!-- ! TODO clear the input when selecting-->
+          <!-- ! TODO select not only on click but also on enter in the keyboard-->
+          <input 
+            type="text" 
+            placeholder="Artists" 
+            matInput 
+            [matAutocomplete]="auto"
+            #prefix
+            (keydown)="onSearchArtistChange(prefix.value)">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option 
+              *ngFor="let artist of filtered_artists" 
+              [value]="artist"
+              (click)="onSelectArtist(artist)">
+              {{ artist }}
+            </mat-option>
+          </mat-autocomplete>
+      </mat-form-field>
+      <!--List displaying the selected artists -->
+      <!-- TODO add option to delete selected artist - add icon of delete-->
+      <mat-list role="list">
+          <mat-list-item role="listitem" *ngFor="let artist of selected_artists">
+            {{ artist }}
+          </mat-list-item>
+      </mat-list>
+      <button 
+        mat-mini-fab 
+        type="submit">
+          <mat-icon title="Add new song">save</mat-icon>  
+        </button>
+  </form>
+</mat-card>

@@ -1,5 +1,5 @@
-mat-panel-title, mat-panel-description {
-    margin: auto;
+mat-panel-title, mat-panel-description p{
+    margin: auto 10px;
 }
 mat-accordion {
     display: block;
