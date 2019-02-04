@@ -14,7 +14,7 @@ export class SongService{
     constructor(private Http: HttpClient){}
 
     getSongs(){
-        this.Http.get<{message: string; songs: any}>('http://localhost:3000/api/getSong')
+        this.Http.get<{message: string; songs: any}>('http://localhost:3000/api/getSongs')
         .pipe(map((songData) => {
             return songData.songs.map(song => {
                 return {

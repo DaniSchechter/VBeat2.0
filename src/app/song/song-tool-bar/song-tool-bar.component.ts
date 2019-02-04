@@ -1,8 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Subscription } from 'rxjs';
 
 import { Song } from '../song.model'
-import { SongService } from '../songs.service';
 
 @Component({
   selector: 'app-song-tool-bar',
@@ -11,23 +9,19 @@ import { SongService } from '../songs.service';
 })
 export class SongToolBarComponent implements OnInit {
 
-  songs: Song[];
-  private songSub: Subscription;
-
-
   @Input()
   song: Song;
   songLiked: boolean;
 
-  constructor(public songsService : SongService) { }
+  constructor() { }
 
   ngOnInit() {
     this.songLiked = false;
-    this.songsService.getSongs();
-    this.songSub = this.songsService.getSongsUpdateListener()
-    .subscribe((songs: Song[]) => {
-      this.songs = songs;
-    })
+    // this.songsService.getSongs();
+    // this.songSub = this.songsService.getSongsUpdateListener()
+    // .subscribe((songs: Song[]) => {
+    //   this.songs = songs;
+    // })
   }
 
   //TODO change to real action for the next 3 buttons 
@@ -45,13 +39,5 @@ export class SongToolBarComponent implements OnInit {
     //TODO add notification for the server
    }
 
-   onDelete(songId: string){
-     this.songsService.deleteSong(songId);
-   }
-
-   ngOnDestroy(): void {
-     //Called once, before the instance is destroyed.
-     //Add 'implements OnDestroy' to the class.
-     this.songSub.unsubscribe();
-   }
+   
 }
