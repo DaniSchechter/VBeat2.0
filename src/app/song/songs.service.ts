@@ -59,6 +59,10 @@ export class SongService{
         });
     }
 
+    deleteSong(songId: string){
+        this.Http.delete('http://localhost:3000/api/songs/' + songId)
+        .subscribe();
+    }
     
 
 }
