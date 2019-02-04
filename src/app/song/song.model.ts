@@ -9,7 +9,7 @@ export enum Genre {
 export class Song {
 
     constructor(
-        public song_id: number,
+        public id: number,
         public name: string,
         public genres: Genre[],
         public song_path: string,
