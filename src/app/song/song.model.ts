@@ -1,9 +1,9 @@
 export enum Genre {
-    Blues = 1,
-    Country = 2,
-    Pop = 3,
-    Classic = 4, 
-    Electronic = 5
+    BLUES = "Blues",
+    COUNTRY = "Countrey",
+    POP = "Pop",
+    CLASSIC = "Classic", 
+    ELECTRONIC = "Electronic"
 }
 
 export class Song {
@@ -11,7 +11,7 @@ export class Song {
     constructor(
         public id: string,
         public name: string,
-        public genres: Genre[],
+        public genre: Genre,
         public song_path: string,
         public image_path: string,
         public release_date: Date,

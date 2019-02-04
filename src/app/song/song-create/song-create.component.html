@@ -1,0 +1,51 @@
+<!-- ! TODO remove it from here-->
+<mat-card>
+  <form (submit)="onAddSong(addSong)" #addSong="ngForm">
+      <!-- NAME -->
+      <mat-form-field appearance="legacy" color="accent">
+          <input 
+            matInput 
+            placeholder="Name"
+            name="name"
+            ngModel
+            required
+            minlength=4
+            #name="ngModel">
+          <mat-hint>At least 4 characters</mat-hint>
+          <mat-error *ngIf="name.invalid">Name is should be at least 4 characters long</mat-error>
+      </mat-form-field>
+      <!-- GENRE -->
+      <mat-form-field appearance="legacy" color="accent">
+          <mat-select 
+              placeholder="Genre"
+              name="genre"
+              ngModel
+              required
+              #genre="ngModel">
+              <mat-option
+                *ngFor="let genre of genre_options" 
+                [value]="genre">
+                {{ genre }}
+              </mat-option>
+          </mat-select>
+          <mat-hint>Please select a genre</mat-hint>
+          <mat-error *ngIf="genre.invalid">Genre is inivalid</mat-error>
+      </mat-form-field>
+      <!-- NAME -->
+      <mat-form-field appearance="legacy" color="accent">
+          <input 
+            matInput 
+            type="url"
+            placeholder="Song path"
+            name="path"
+            ngModel
+            required
+            minlength=4
+            #path="ngModel">
+          <!--TODO -->
+          <mat-hint>Please enter song url to be uploaded</mat-hint> 
+          <mat-error *ngIf="path.invalid">Name is should be at least 4 characters long</mat-error>
+      </mat-form-field>
+  </form>
+</mat-card>
+<app-song-list></app-song-list>
