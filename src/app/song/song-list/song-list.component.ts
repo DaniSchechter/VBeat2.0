@@ -13,7 +13,7 @@ export class SongListComponent implements OnInit {
   selectedSong: Song;
   songs: Song[]= [
     {
-      id: 1,
+      id: "1",
       name: "Song1",
       genres: [Genre.Blues, Genre.Country],
       song_path:"d",
@@ -23,7 +23,7 @@ export class SongListComponent implements OnInit {
       num_of_times_liked: 23
     },
     {
-      id: 2,
+      id: "2",
       name: "Song2",
       genres: [Genre.Blues, Genre.Country],
       song_path:"d",

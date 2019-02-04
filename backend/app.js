@@ -6,7 +6,7 @@ const Song = require('./models/song');
 
 const app = express();
 
-mongoose.connect("")
+mongoose.connect("mongodb+srv://alex:nE7fHawuXIMUmwlX@cluster0-k5m05.mongodb.net/angular-app?retryWrites=true")
 .then(()=>{
     console.log("connected to db!");
 }).catch(()=>{
@@ -41,5 +41,12 @@ app.post("/api/createSong", (req, res, next) => {
 });
 
 app.get("/api/getSongs", (req, res, next) => {
+    Song.find().then(songsResult => {
+        res.status(200).json({
+            message: "songs fetched successfully",
+            songs: songsResult
+        });
+    });
+});
 
-})
+module.exports = app;
