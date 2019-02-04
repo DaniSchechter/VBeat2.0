@@ -15,7 +15,7 @@ export class SongListComponent implements OnInit {
     {
       id: 1,
       name: "Song1",
-      genres: [Genre.Blues, Genre.Country],
+      genre: Genre.BLUES,
       song_path:"d",
       image_path:"http://material.angular.io/assets/img/examples/shiba2.jpg",
       release_date: new Date('2019-1-1'),
@@ -25,7 +25,7 @@ export class SongListComponent implements OnInit {
     {
       id: 2,
       name: "Song2",
-      genres: [Genre.Blues, Genre.Country],
+      genre: Genre.CLASSIC,
       song_path:"d",
       image_path: "http://r.ddmcdn.com/s_f/o_1/APL/uploads/2015/07/cecil-AP463227356214-1000x400.jpg",
       release_date: new Date('2018-11-1'),

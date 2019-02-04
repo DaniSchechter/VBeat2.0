@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Genre } from '../song.model'
 
 @Component({
   selector: 'app-song-create',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SongCreateComponent implements OnInit {
 
-  constructor() { }
+  genre_options: string[];
+  
+  constructor() {
+    this.genre_options = Object.keys(Genre);
+  }
+
 
   ngOnInit() {
+    
   }
 
 }

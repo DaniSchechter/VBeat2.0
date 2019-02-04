@@ -2,6 +2,7 @@ import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Song } from './song.model';
+import { Genre } from './song.model'
 
 @Injectable({providedIn: 'root'})
 export class SongService{
@@ -22,13 +23,13 @@ export class SongService{
         return this.songsUpdated.asObservable();
     }
 
-    addSong(name: string, genres: [number], song_path: string, image_path: string, release_date: Date,
+    addSong(name: string, genre: Genre, song_path: string, image_path: string, release_date: Date,
         artists: [string], //TODO: change to artist array
         num_of_times_liked: number){
             const song: Song = {
                 id: null, 
                 name: name, 
-                genres: genres, 
+                genre: genre, 
                 song_path: song_path, 
                 image_path: image_path, 
                 release_date: release_date,
