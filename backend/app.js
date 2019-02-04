@@ -34,9 +34,11 @@ app.post("/api/createSong", (req, res, next) => {
         num_of_time_liked: req.body.num_of_time_liked
         // TODO: add all the other fields that Dani didnt add yet !!!!!!
     });
-    song.save();
-    res.status(201).json({
-        message: "Post addes successfully"
+    song.save().then(newSong => {
+        res.status(201).json({
+            message: "Post addes successfully",
+            songId: newSong._id
+        });
     });
 });
 
@@ -50,7 +52,7 @@ app.get("/api/getSongs", (req, res, next) => {
 });
 
 app.delete("api/songs/:id", (req, res, next) => {
-    Song.deleteOne({_id:req.params.id});
+    Song.deleteOne({_id: req.params.id});
     res.status(200);
 });
 

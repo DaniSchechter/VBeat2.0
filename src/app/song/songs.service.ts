@@ -52,9 +52,10 @@ export class SongService{
                 artists: artists, 
                 num_of_times_liked: num_of_times_liked
             };
-        this.Http.post<{message: string}>('http://localhost:3000/api/addSong', song)
+        this.Http.post<{message: string, songId: string}>('http://localhost:3000/api/addSong', song)
         .subscribe((responseData)=>{
-            console.log(responseData.message);
+            const id = responseData.songId;
+            song.id = id;
             this.songs.push(song);
             this.songsUpdated.next([...this.songs]);
         });
@@ -62,7 +63,11 @@ export class SongService{
 
     deleteSong(songId: string){
         this.Http.delete('http://localhost:3000/api/songs/' + songId)
-        .subscribe();
+        .subscribe(() => {
+            const updatedSongs = this.songs.filter(song => songId !== songId);
+            this.songs = updatedSongs;
+            this.songsUpdated.next([...this.songs]);
+        });
     }
     
 

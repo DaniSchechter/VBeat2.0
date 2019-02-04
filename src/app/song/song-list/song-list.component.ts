@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 
 import { SongService } from '../songs.service';
 
-// TODO connect this to the song service
 
 @Component({
   selector: 'app-song-list',
@@ -21,17 +20,14 @@ export class SongListComponent implements OnInit {
 
   ngOnInit() {
     // this.songLiked = false;
-    console.debug("request to get songs");
     this.songsService.getSongs();
     this.songSub = this.songsService.getSongsUpdateListener()
     .subscribe((songs: Song[]) => {
-      console.log({'idodo': songs});
       this.songs = songs;
     })
   }
 
   onSelectSong(song: Song) {
-    console.debug("request to get songs");
     this.selectedSong = song;
   }
 
