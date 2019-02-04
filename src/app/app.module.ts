@@ -6,22 +6,19 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatBadgeModule } from '@angular/material/badge';
+
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SongDetailsComponent } from './song/song-details/song-details.component';
-import { SongListComponent } from './song/song-list/song-list.component';
-import { SongToolBarComponent } from './song/song-tool-bar/song-tool-bar.component';
-
+import { SongListComponent } from './song/song-list/song-list.component'
+import { HttpClientModule } from '@angular/common/http'
 
 @NgModule({
   declarations: [
     AppComponent,
     SongDetailsComponent,
-    SongListComponent,
-    SongToolBarComponent,
+    SongListComponent
   ],
   imports: [
     BrowserModule,
@@ -31,9 +28,8 @@ import { SongToolBarComponent } from './song/song-tool-bar/song-tool-bar.compone
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatExpansionModule,
-    MatButtonToggleModule,
-    MatBadgeModule
+    MatExpansionModule, 
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
