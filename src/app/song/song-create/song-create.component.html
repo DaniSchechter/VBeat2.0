@@ -1,5 +1,5 @@
 <mat-card>
-  <form (submit)="onSubmit(addSong)" #newSong="ngForm">
+  <form (submit)="onSubmit(newForm)" #newForm="ngForm">
       <!-- NAME -->
       <mat-form-field appearance = "legacy" color = "accent">
           <input 
@@ -65,6 +65,7 @@
       </mat-form-field>
 
       <!-- RELEASE DATE -->
+      <!-- TODO add validation for future date-->
       <mat-form-field appearance = "legacy" color = "accent">
           <input 
             matInput 
@@ -86,6 +87,8 @@
       
       <mat-form-field appearance = "legacy" color = "accent">
           <!--TODO display loading gif on db querying - if need add async pipe after onSearchArtistChange func -->
+          <!-- ! TODO clear the input when selecting-->
+          <!-- ! TODO select not only on click but also on enter in the keyboard-->
           <input 
             type="text" 
             placeholder="Artists" 
@@ -109,7 +112,10 @@
             {{ artist }}
           </mat-list-item>
       </mat-list>
-     
+      <button 
+        mat-mini-fab 
+        type="submit">
+          <mat-icon title="Add new song">save</mat-icon>  
+        </button>
   </form>
 </mat-card>
-<app-song-list></app-song-list>

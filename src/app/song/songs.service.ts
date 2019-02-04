@@ -52,7 +52,7 @@ export class SongService{
                 artists: artists, 
                 num_of_times_liked: num_of_times_liked
             };
-        this.Http.post<{message: string, songId: string}>('http://localhost:3000/api/addSong', song)
+        this.Http.post<{message: string, songId: string}>('http://localhost:3000/api/createSong', song)
         .subscribe((responseData)=>{
             const id = responseData.songId;
             song.id = id;
