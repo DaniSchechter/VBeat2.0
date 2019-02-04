@@ -49,4 +49,8 @@ app.get("/api/getSongs", (req, res, next) => {
     });
 });
 
+app.delete("api/songs/:id", (req, res, next) => {
+    
+});
+
 module.exports = app;
