@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { Song, Genre } from '../song.model'
 
+// TODO connect this to the song service
+
 @Component({
   selector: 'app-song-list',
   templateUrl: './song-list.component.html',
@@ -11,7 +13,7 @@ export class SongListComponent implements OnInit {
   selectedSong: Song;
   songs: Song[]= [
     {
-      song_id: 1,
+      id: 1,
       name: "Song1",
       genres: [Genre.Blues, Genre.Country],
       song_path:"d",
@@ -20,7 +22,7 @@ export class SongListComponent implements OnInit {
       artists: ['Drake ,CardiB']
     },
     {
-      song_id: 2,
+      id: 2,
       name: "Song2",
       genres: [Genre.Blues, Genre.Country],
       song_path:"d",
