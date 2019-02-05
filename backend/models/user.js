@@ -9,4 +9,41 @@ const userSchema = mongoose.Schema({
 	email: {type:String, require:true},
 });
 
+
+
+const app = require('../app');
+const User = null; // figure out how to initialize that
+
+
+app.put("/api/user", (req, res, next) => {
+	const user = new User({
+		username: req.body.username,
+		password: req.body.password, 
+		role: req.body.role,
+		profile_pic: req.body.profile_pic,
+		display_name: req.body.display_name, 
+		email: req.body.email
+	});
+
+	user.save().then(newUser => {
+		res.status(201).json({
+			message: "user created",
+			userId: newUser._id
+		});
+	});
+});
+
+app.get("/api/getSongs", (req, res, next) => {
+    Song.find().then(songsResult => {
+        res.status(200).json({
+            message: "songs fetched successfully",
+            songs: songsResult
+        });
+    });
+});
+app.delete("api/songs/:id", (req, res, next) => {
+    Song.deleteOne({_id: req.params.id});
+    res.status(200);
+});
+
 module.exports = mongoose.model('User', userSchema);
