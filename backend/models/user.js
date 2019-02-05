@@ -33,16 +33,34 @@ app.put("/api/user", (req, res, next) => {
 	});
 });
 
-app.get("/api/getSongs", (req, res, next) => {
-    Song.find().then(songsResult => {
+app.get("/api/user", (req, res, next) => {
+    User.find().then(userResult => {
         res.status(200).json({
-            message: "songs fetched successfully",
-            songs: songsResult
+            message: "ok",
+            users: userResult
         });
     });
 });
-app.delete("api/songs/:id", (req, res, next) => {
-    Song.deleteOne({_id: req.params.id});
+
+app.get("/api/user/:id", (req, res, next) => {
+	User.find().then(userResult => {
+		if(userResult == null || userResult == undefined) {
+			res.status(404).json({
+				message: "not found"
+				code: 404
+			});
+		} else {
+			res.status(200).json({
+				message: "ok",
+				users: userResult
+			});
+		}
+	});
+});
+
+
+app.delete("api/user/:id", (req, res, next) => {
+    User.deleteOne({_id: req.params.id});
     res.status(200);
 });
 
