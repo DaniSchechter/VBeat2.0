@@ -1,3 +1,25 @@
 mat-form-field {
-    margin: 20p 10%;
+    margin: 20px 10%;
+}
+
+mat-list {
+    width: 80%;
+    margin: auto;
+}
+
+mat-list-item {
+    border-radius: 50px;
+    margin-bottom: 10px;
+}
+
+mat-list mat-list-item button {
+    margin-right: 20px;
+}
+
+mat-list mat-list-item p {
+    display: inline-block;
+}
+
+div.mat-list-item-content {
+    padding: 0;
 }
