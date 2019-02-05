@@ -19,7 +19,7 @@ export class SongService{
             return songData.songs.map(song => {
                 return {
                     name: song.name, 
-                    genres: song.genres, 
+                    genre: song.genre, 
                     song_path: song.song_path, 
                     image_path: song.image_path, 
                     release_date: song.release_date,

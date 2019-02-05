@@ -7,7 +7,7 @@ const songSchema = mongoose.Schema({
     image_path: {type: String, require:true},
     release_date: {type: Date, require:true},
     artists: [String], //TODO: change to artist array
-    num_of_time_liked: {type: Number, require:true}
+    num_of_times_liked: {type: Number, require:true}
 });
 
 module.exports = mongoose.model('Song', songSchema);
