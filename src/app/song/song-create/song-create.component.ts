@@ -10,12 +10,15 @@ import { SongService } from '../songs.service'
 })
 export class SongCreateComponent implements OnInit {
   //For select optios of genre
-  genre_options: string[];  
-
+  genre_options: string[];
+  
   //TODO change to artists array not string array
   //TODO add the singed-in user as artist for this song - and disable his delete option 
   //Temp array for the selected artists, send to server only on submit
   selected_artists: string[];
+
+  //Temp string for current prefix filter
+  prefix: string;
 
   //TODO - remove the hard-coded artists and send real db queries as explained in the html - leave the list as empty list
   artists: string[]= ['CardiB','Catey','CICI','Pink','Pupi','Marshmelo','Melo','Khalid','Kuki','Bruno M'];  
@@ -34,26 +37,28 @@ export class SongCreateComponent implements OnInit {
   ngOnInit() {
     this.selected_artists = [];
     this.filtered_artists = [];  //gets an actual value only from pre-defined length - see updates below
-    this.name_length_to_query = 3;
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.artists.filter(artist  => artist.toLowerCase().includes(filterValue));
+    this.name_length_to_query = 2;
   }
 
   //TODO change to artist type not string
   // Adds an artist that was selected to song's artists lis
   onSelectArtist(artist: string) {
     this.selected_artists.push(artist);
+    this.clearFilteredrtists();
   }
 
-  onSearchArtistChange(prefix: string) {
-    //The value is being sent before an actual change in input - so expect (name_length_to_query - 1)
+  onSearchArtistChange() {
+    if(this.prefix == null || this.prefix.length == 0) {
+      this.clearFilteredrtists();
+    }
     //TODO - not filter the array - send query to db for artists which their name starts with prerfix
-    if( prefix.length >= this.name_length_to_query - 1 )
-      this.filtered_artists = this.artists.filter( artist => artist.startsWith(prefix));
+    else if( this.prefix.length >= this.name_length_to_query ) {
+      this.filtered_artists = this.artists.filter( artist => artist.toLowerCase().startsWith(this.prefix.toLowerCase()));
+    }
+  }
+  //TODO change to artist type not string
+  onDeleteSelectedArtist(artist_to_delete: string) {
+    this.selected_artists = this.selected_artists.filter( artist => artist != artist_to_delete);
   }
 
   onSubmit(form: NgForm){
@@ -69,5 +74,12 @@ export class SongCreateComponent implements OnInit {
       this.selected_artists, // TODO: change to artist array
       0
     )
+    //! TODO add pop up saying song was  added succesfully
+    form.resetForm();
+  }
+
+  private clearFilteredrtists() {
+    this.prefix = null;
+    this.filtered_artists = [];
   }
 }

@@ -29,7 +29,7 @@ app.post("/api/createSong", (req, res, next) => {
         genre: req.body.genre,
         song_path: req.body.song_path,
         image_path: req.body.image_path,
-        release_date: req.body.release_data,
+        release_date: req.body.release_date,
         artists:  req.body.artists, // TODO: change to artist array
         num_of_times_liked: req.body.num_of_times_liked
     });
