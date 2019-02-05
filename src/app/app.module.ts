@@ -7,7 +7,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
-
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,7 +16,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
 import { MatListModule } from '@angular/material/list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-
+import { MatSnackBarModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -27,6 +26,7 @@ import { HttpClientModule } from '@angular/common/http'
 
 import { SongToolBarComponent } from './song/song-tool-bar/song-tool-bar.component';
 import { SongCreateComponent } from './song/song-create/song-create.component';
+import { NotificationPopupComponent } from './notification-popup/notification-popup.component';
 
 import {HeaderComponent} from './header/header.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -40,6 +40,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     SongToolBarComponent,
     SongCreateComponent,
     HeaderComponent,
+    NotificationPopupComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,6 +64,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     MatNativeDateModule,
     MatListModule,
     MatAutocompleteModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

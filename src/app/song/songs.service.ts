@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Song } from './song.model';
 import { Genre } from './song.model'
+import { NotificationPopupService } from '../notification-popup/notification-popup.service'
 
 @Injectable({providedIn: 'root'})
 export class SongService{
@@ -11,7 +12,8 @@ export class SongService{
     private songs: Song[] = [];
     private songsUpdated = new Subject<Song[]>();
 
-    constructor(private Http: HttpClient){}
+    constructor(private Http: HttpClient,
+                private notificationService:NotificationPopupService){}
 
     getSongs(){
         this.Http.get<{message: string; songs: any}>('http://localhost:3000/api/songs')
@@ -62,6 +64,7 @@ export class SongService{
             song.id = id;
             this.songs.push(song);
             this.songsUpdated.next([...this.songs]);
+            this.notificationService.submitMessage("Song was added successfully");
         });
     }
 
@@ -72,7 +75,8 @@ export class SongService{
             const updatedSongs = this.songs.filter(song => song.id !== songId);
             this.songs = updatedSongs;
             this.songsUpdated.next([...this.songs]);
-            
+
+            this.notificationService.submitMessage("Song was deleted successfully");
         });
     }
 
