@@ -74,7 +74,6 @@ export class SongCreateComponent implements OnInit {
       this.selected_artists, // TODO: change to artist array
       0
     )
-    //! TODO add pop up saying song was  added succesfully
     form.resetForm();
   }
 
