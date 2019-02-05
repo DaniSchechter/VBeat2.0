@@ -28,6 +28,9 @@ import { HttpClientModule } from '@angular/common/http'
 import { SongToolBarComponent } from './song/song-tool-bar/song-tool-bar.component';
 import { SongCreateComponent } from './song/song-create/song-create.component';
 
+import {HeaderComponent} from './header/header.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +39,7 @@ import { SongCreateComponent } from './song/song-create/song-create.component';
     SongListComponent,
     SongToolBarComponent,
     SongCreateComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,6 +47,7 @@ import { SongCreateComponent } from './song/song-create/song-create.component';
     AppRoutingModule,
     BrowserAnimationsModule,
 
+    MatToolbarModule,
     ReactiveFormsModule,
     MatCardModule,
     MatButtonModule,

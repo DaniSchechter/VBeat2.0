@@ -22,4 +22,11 @@
                   thumb_up
         </mat-icon>  
     </button>
+    <!-- ! TODO change to normal padding -->
+    <a mat-mini-fab *ngIf="song" [routerLink]="['/edit', song.id]">
+      <mat-icon title="Edit">edit</mat-icon> 
+    </a>
+    <button mat-mini-fab (click)="onDelete()" color="warn">
+      <mat-icon title="Delete">delete</mat-icon>  
+    </button>
 </mat-card-actions>

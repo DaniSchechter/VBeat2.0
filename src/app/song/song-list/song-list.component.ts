@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { SongService } from '../songs.service';
 
 
+
 @Component({
   selector: 'app-song-list',
   templateUrl: './song-list.component.html',
@@ -24,6 +25,7 @@ export class SongListComponent implements OnInit {
     this.songSub = this.songsService.getSongsUpdateListener()
     .subscribe((songs: Song[]) => {
       this.songs = songs;
+      this.selectedSong = null;
     })
   }
 
@@ -31,9 +33,7 @@ export class SongListComponent implements OnInit {
     this.selectedSong = song;
   }
 
-  onDelete(songId: string){
-    this.songsService.deleteSong(songId);
-  }
+  
 
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
