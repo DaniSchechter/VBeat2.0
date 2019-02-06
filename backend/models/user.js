@@ -15,7 +15,7 @@ const app = require('../app');
 const User = null; // figure out how to initialize that
 
 
-app.put("/api/user", (req, res, next) => {
+app.post("/api/user", (req, res, next) => {
 	const user = new User({
 		username: req.body.username,
 		password: req.body.password, 
