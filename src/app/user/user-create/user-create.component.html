@@ -1,0 +1,102 @@
+<mat-card>
+  <form (submit)="onSubmit(newForm)" #newForm="ngForm">
+      <!-- username -->
+      <mat-form-field appearance = "legacy" color = "accent">
+          <input 
+            matInput 
+            placeholder = "Username"
+            name = "username"
+            ngModel
+            required
+            minlength = 6
+            #name="ngModel">
+          <mat-hint> At least 6 characters </mat-hint>
+          <mat-error *ngIf = "name.invalid"> Username is should be at least 6 characters long </mat-error>
+      </mat-form-field>
+
+      <!-- password -->
+      <mat-form-field appearance = "legacy" color = "accent">
+          <input 
+            matInput 
+            placeholder = "Password"
+            name = "password"
+            type = "password"
+            ngModel
+            required
+            minlength = 8
+            #name="ngModel">
+          <mat-hint> At least 8 characters </mat-hint>
+          <mat-error *ngIf = "name.invalid"> Username is should be at least 8 characters long </mat-error>
+      </mat-form-field>
+      
+    <!-- ROLE we'll see if we use it later -->
+    <!--   <mat-form-field appearance = "legacy" color = "accent">
+          <mat-select 
+              placeholder = "Role"
+              name = "role"
+              ngModel
+              required
+              #genre = "ngModel">
+              <mat-option
+                *ngFor = "let genre of genre_options" 
+                [value]="genre">
+                {{ genre }}
+              </mat-option>
+          </mat-select>
+          <mat-hint> Please select a genre </mat-hint>
+          <mat-error *ngIf = "genre.invalid"> Please select one genre </mat-error>
+      </mat-form-field> -->
+      
+     
+      <!-- IMAGE PATH -->
+      <mat-form-field appearance = "legacy" color = "accent">
+          <input 
+            matInput 
+            type = "url"
+            pattern="https?://\S+"
+            placeholder = "Profile Picture"
+            name = "profile_pic"
+            ngModel
+            required
+            #image="ngModel">
+          <!--TODO ???? maybe change to local file upload ?????????-->
+          <mat-hint> Please enter profile pic url to be uploaded </mat-hint> 
+          <mat-error *ngIf = "image.invalid"> Not a valid URL </mat-error>
+      </mat-form-field>
+
+        <!-- Display Name -->
+      <mat-form-field appearance = "legacy" color = "accent">
+          <input 
+            matInput 
+            placeholder = "Display Name"
+            name = "display_name"
+            ngModel
+            required
+            minlength = 6
+            #name="ngModel">
+          <mat-hint> At least 6 characters </mat-hint>
+          <mat-error *ngIf = "name.invalid"> Display name is should be at least 6 characters long </mat-error>
+      </mat-form-field>
+
+       <!-- Email -->
+      <mat-form-field appearance = "legacy" color = "accent">
+          <input 
+            matInput 
+            type = "email"
+            placeholder = "Email"
+            name = "email"
+            ngModel
+            required
+            minlength = 6
+            #name="ngModel">
+          <mat-hint> At least 6 characters </mat-hint>
+          <mat-error *ngIf = "name.invalid"> Email should be at least 6 characters long </mat-error>
+      </mat-form-field>
+
+      <button 
+        mat-mini-fab 
+        type="submit">
+          <mat-icon title="Add new song">save</mat-icon>  
+        </button>
+  </form>
+</mat-card>

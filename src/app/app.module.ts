@@ -27,6 +27,7 @@ import { HttpClientModule } from '@angular/common/http'
 
 import { SongToolBarComponent } from './song/song-tool-bar/song-tool-bar.component';
 import { SongCreateComponent } from './song/song-create/song-create.component';
+import { UserCreateComponent } from './user/user-create/user-create.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { SongCreateComponent } from './song/song-create/song-create.component';
     SongListComponent,
     SongToolBarComponent,
     SongCreateComponent,
+    UserCreateComponent,
   ],
   imports: [
     BrowserModule,
