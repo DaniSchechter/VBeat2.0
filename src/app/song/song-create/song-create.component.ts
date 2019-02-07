@@ -36,7 +36,7 @@ export class SongCreateComponent implements OnInit {
   filtered_artists: string[];
 
   constructor(private songService: SongService, /*public route: ActivatedRoute*/) {
-    // this.genre_options = Object.keys(Genre);
+    this.genre_options = Object.keys(Genre);
   }
 
   ngOnInit() {
@@ -88,16 +88,16 @@ export class SongCreateComponent implements OnInit {
       return; //! TODO - display popup message to correct 
     }
     // if(this.mode === 'create'){
-    // this.songService.addSong(
-    //   form.value.name,
-    //   form.value.genre,
-    //   form.value.song_path,
-    //   form.value.song_image,
-    //   form.value.release_date,
-    //   this.selected_artists, // TODO: change to artist array
-    //     0
-    //   )
-    //   form.resetForm();
+    this.songService.addSong(
+      form.value.name,
+      form.value.genre,
+      form.value.song_path,
+      form.value.song_image,
+      form.value.release_date,
+      this.selected_artists, // TODO: change to artist array
+        0
+      )
+      form.resetForm();
     // } else {
     //     this.songService.updateSong(this.songId, form.value.name,
     //       form.value.genre,
