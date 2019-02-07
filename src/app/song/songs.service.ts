@@ -3,7 +3,8 @@ import { map }  from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Song, Genre } from './song.model';
-import { NotificationPopupService } from '../notification-popup/notification-popup.service'
+import { NotificationPopupService } from '../notification/notification-popup.service'
+import { NotificationStatus, Notification } from '../notification/notification.model'
 
 @Injectable({providedIn: 'root'})
 export class SongService{
@@ -21,7 +22,7 @@ export class SongService{
     
     getSongs(){
         this.Http.get<{message: string; songs: any}>('http://localhost:3000/api/getSongs')
-        .pipe(map( songData => {
+        .pipe( map( songData => {
             return songData.songs.map(song => {
                 return {
                     name: song.name, 
@@ -35,11 +36,18 @@ export class SongService{
                 };
             });
         }))
-        .subscribe(songsAfterChange => {
-            this.songs = songsAfterChange;
-            this.songsUpdated.next([...this.songs]);
-            this.notificationService.submitMessage(songsAfterChange.message);
-        });
+        .subscribe(
+            (songsAfterChange) => {
+                this.songs = songsAfterChange;
+                this.songsUpdated.next([...this.songs]);
+                //! TODO think if diplay message on fetching
+                // this.notificationService.submitNotification(
+                //     new Notification(responseData.message,NotificationStatus.OK)
+                // )
+            },
+            //! TODO get error message from the server
+            error => this.notificationService.submitNotification(new Notification("ERROR",NotificationStatus.ERROR))
+        );
     }
 
     addSong(name: string, genre: Genre, song_path: string, image_path: string, release_date: Date,
@@ -56,23 +64,35 @@ export class SongService{
                 num_of_times_liked: num_of_times_liked
             };
         this.Http.post<{message: string, songId: string}>('http://localhost:3000/api/createSong', song)
-        .subscribe((responseData)=>{
-            const id = responseData.songId;
-            song.id = id;
-            this.songs.push(song);
-            this.songsUpdated.next([...this.songs]);
-            this.notificationService.submitMessage(responseData.message);
-        });
+        .subscribe(
+                (responseData)=>{
+                const id = responseData.songId;
+                song.id = id;
+                this.songs.push(song);
+                this.songsUpdated.next([...this.songs]);
+                this.notificationService.submitNotification(
+                    new Notification(responseData.message,NotificationStatus.OK)
+                )
+            },
+            //! TODO get error message from the server
+            error => this.notificationService.submitNotification(new Notification("ERROR",NotificationStatus.ERROR))
+        );
     }
 
     deleteSong(songId: string){
         this.Http.delete<{message: string}>('http://localhost:3000/api/songs/' + songId)
-        .subscribe((responseData) => {
-            const updatedSongs = this.songs.filter(song => songId !== songId);
-            this.songs = updatedSongs;
-            this.songsUpdated.next([...this.songs]);
-            this.notificationService.submitMessage(responseData.message);
-        });
+        .subscribe(
+            (responseData) => {
+                const updatedSongs = this.songs.filter(song => songId !== songId);
+                this.songs = updatedSongs;
+                this.songsUpdated.next([...this.songs]);
+                this.notificationService.submitNotification(
+                    new Notification(responseData.message,NotificationStatus.OK)
+                )
+            },
+             //! TODO get error message from the server
+            error => this.notificationService.submitNotification(new Notification("ERROR",NotificationStatus.ERROR))
+        );
     }
     
 
