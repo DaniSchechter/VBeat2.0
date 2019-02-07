@@ -68,28 +68,7 @@ export class SongService{
                 artists: artists, 
                 num_of_times_liked: num_of_times_liked
             };
-<<<<<<< HEAD
         this.Http.post<{message: string, songId: string}>(this.base_url + '/songs', song)
-        .subscribe((responseData)=>{
-            const id = responseData.songId;
-            song.id = id;
-            this.songs.push(song);
-            this.songsUpdated.next([...this.songs]);
-            this.notificationService.submitMessage("Song was added successfully");
-        });
-    }
-
-    deleteSong(songId: string){
-        this.Http.delete(this.base_url + '/songs/' + songId)
-        .subscribe(() => {
-            const updatedSongs = this.songs.filter(song => song.id !== songId);
-            this.songs = updatedSongs;
-            this.songsUpdated.next([...this.songs]);
-
-            this.notificationService.submitMessage("Song was deleted successfully");
-        });
-=======
-        this.Http.post<{message: string, songId: string}>('http://localhost:3000/api/createSong', song)
         .subscribe(
                 (responseData)=>{
                 const id = responseData.songId;
@@ -106,7 +85,7 @@ export class SongService{
     }
 
     deleteSong(songId: string){
-        this.Http.delete<{message: string}>('http://localhost:3000/api/songs/' + songId)
+        this.Http.delete<{message: string}>(this.base_url + '/songs/' + songId)
         .subscribe(
             (responseData) => {
                 const updatedSongs = this.songs.filter(song => songId !== songId);
@@ -119,7 +98,6 @@ export class SongService{
              //! TODO get error message from the server
             error => this.notificationService.submitNotification(new Notification("ERROR",NotificationStatus.ERROR))
         );
->>>>>>> 08a2578e2618cb3ac42101aa18194afcda95de24
     }
 
     updateSong(id: string, name: string, genre: Genre, song_path: string, image_path: string, release_date: Date,
@@ -136,8 +114,9 @@ export class SongService{
                 num_of_times_liked: num_of_times_liked
             };
             this.Http.put<{message: string}>(this.base_url + '/songs/' + id, song).subscribe(res => {
-                this.notificationService.submitMessage(res.message);
-            });
+                this.notificationService.submitNotification(
+                    new Notification(res.message,NotificationStatus.OK)
+                )            });
         }
     
 
