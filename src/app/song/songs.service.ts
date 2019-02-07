@@ -2,9 +2,9 @@ import { Subject } from 'rxjs';
 import { map }  from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Song } from './song.model';
-import { Genre } from './song.model'
-import { NotificationPopupService } from '../notification-popup/notification-popup.service'
+import { Song, Genre } from './song.model';
+import { NotificationPopupService } from '../notification/notification-popup.service'
+import { NotificationStatus, Notification } from '../notification/notification.model'
 
 @Injectable({providedIn: 'root'})
 export class SongService{
@@ -16,6 +16,11 @@ export class SongService{
     constructor(private Http: HttpClient,
                 private notificationService:NotificationPopupService){}
 
+    
+    getSongsUpdateListener(){
+        return this.songsUpdated.asObservable();
+    }
+    
     getSongs(){
         this.Http.get<{message: string; songs: any}>(this.base_url + '/songs')
         .pipe(map((songData) => {
@@ -32,14 +37,18 @@ export class SongService{
                 };
             });
         }))
-        .subscribe(songsAfterChange => {
-            this.songs = songsAfterChange;
-            this.songsUpdated.next([...this.songs]);
-        });
-    }
-
-    getSongsUpdateListener(){
-        return this.songsUpdated.asObservable();
+        .subscribe(
+            (songsAfterChange) => {
+                this.songs = songsAfterChange;
+                this.songsUpdated.next([...this.songs]);
+                //! TODO think if diplay message on fetching
+                // this.notificationService.submitNotification(
+                //     new Notification(responseData.message,NotificationStatus.OK)
+                // )
+            },
+            //! TODO get error message from the server
+            error => this.notificationService.submitNotification(new Notification("ERROR",NotificationStatus.ERROR))
+        );
     }
 
     getSong(id: string){
@@ -59,6 +68,7 @@ export class SongService{
                 artists: artists, 
                 num_of_times_liked: num_of_times_liked
             };
+<<<<<<< HEAD
         this.Http.post<{message: string, songId: string}>(this.base_url + '/songs', song)
         .subscribe((responseData)=>{
             const id = responseData.songId;
@@ -78,6 +88,38 @@ export class SongService{
 
             this.notificationService.submitMessage("Song was deleted successfully");
         });
+=======
+        this.Http.post<{message: string, songId: string}>('http://localhost:3000/api/createSong', song)
+        .subscribe(
+                (responseData)=>{
+                const id = responseData.songId;
+                song.id = id;
+                this.songs.push(song);
+                this.songsUpdated.next([...this.songs]);
+                this.notificationService.submitNotification(
+                    new Notification(responseData.message,NotificationStatus.OK)
+                )
+            },
+            //! TODO get error message from the server
+            error => this.notificationService.submitNotification(new Notification("ERROR",NotificationStatus.ERROR))
+        );
+    }
+
+    deleteSong(songId: string){
+        this.Http.delete<{message: string}>('http://localhost:3000/api/songs/' + songId)
+        .subscribe(
+            (responseData) => {
+                const updatedSongs = this.songs.filter(song => songId !== songId);
+                this.songs = updatedSongs;
+                this.songsUpdated.next([...this.songs]);
+                this.notificationService.submitNotification(
+                    new Notification(responseData.message,NotificationStatus.OK)
+                )
+            },
+             //! TODO get error message from the server
+            error => this.notificationService.submitNotification(new Notification("ERROR",NotificationStatus.ERROR))
+        );
+>>>>>>> 08a2578e2618cb3ac42101aa18194afcda95de24
     }
 
     updateSong(id: string, name: string, genre: Genre, song_path: string, image_path: string, release_date: Date,

@@ -19,11 +19,6 @@ export class SongToolBarComponent implements OnInit {
 
   ngOnInit() {
     this.songLiked = false;
-    // this.songsService.getSongs();
-    // this.songSub = this.songsService.getSongsUpdateListener()
-    // .subscribe((songs: Song[]) => {
-    //   this.songs = songs;
-    // })
   }
 
   
