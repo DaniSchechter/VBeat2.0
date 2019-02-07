@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Song, Genre } from '../song.model'
 import { NgForm } from '@angular/forms';
 import { SongService } from '../songs.service'
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-song-create',
@@ -9,6 +10,10 @@ import { SongService } from '../songs.service'
   styleUrls: ['./song-create.component.css']
 })
 export class SongCreateComponent implements OnInit {
+  // private mode = 'create';
+  private songId : string;
+  song : Song;
+  
   //For select optios of genre
   genre_options: string[];
   
@@ -30,7 +35,7 @@ export class SongCreateComponent implements OnInit {
   //Will represent temp artists that match filtering option
   filtered_artists: string[];
 
-  constructor(private songService: SongService) {
+  constructor(private songService: SongService, /*public route: ActivatedRoute*/) {
     this.genre_options = Object.keys(Genre);
   }
 
@@ -38,6 +43,12 @@ export class SongCreateComponent implements OnInit {
     this.selected_artists = [];
     this.filtered_artists = [];  //gets an actual value only from pre-defined length - see updates below
     this.name_length_to_query = 2;
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.artists.filter(artist  => artist.toLowerCase().includes(filterValue));
   }
 
   //TODO change to artist type not string
@@ -65,6 +76,7 @@ export class SongCreateComponent implements OnInit {
     if(!form.valid) {
       return; //! TODO - display popup message to correct 
     }
+    // if(this.mode === 'create'){
     this.songService.addSong(
       form.value.name,
       form.value.genre,
@@ -78,6 +90,7 @@ export class SongCreateComponent implements OnInit {
     this.clearFilteredrtists();
     this.selected_artists = [];
   }
+
 
   private clearFilteredrtists() {
     this.prefix = null;

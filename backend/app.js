@@ -21,11 +21,11 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept");
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
     next();
 });
 
-app.post("/api/createSong", (req, res, next) => {
+app.post("/api/songs", (req, res, next) => {
     const song = new Song({
         name: req.body.name,
         genre: req.body.genre,
@@ -43,7 +43,7 @@ app.post("/api/createSong", (req, res, next) => {
     });
 });
 
-app.get("/api/getSongs", (req, res, next) => {
+app.get("/api/songs", (req, res, next) => {
     Song.find().then(songsResult => {
         res.status(200).json({
             message: "Songs fetched successfully",
@@ -52,11 +52,29 @@ app.get("/api/getSongs", (req, res, next) => {
     });
 });
 
-app.delete("api/songs/:id", (req, res, next) => {
-    Song.deleteOne({_id: req.params.id});
-    res.status(200).json({
-        message: "Song deleted successfully"
+app.delete("/api/songs/:id", (req, res, next) => {
+    Song.deleteOne({_id: req.params.id}).then((result) => {
+        res.status(200).json({message : "post deleted"});
     });
+});
+
+app.put("/api/songs/:id", (req, res, next) => {
+    
+    const song = new Song({
+        _id: req.body.id,
+        name: req.body.name,
+        genre: req.body.genre,
+        song_path: req.body.song_path,
+        image_path: req.body.image_path,
+        release_date: req.body.release_date,
+        artists:  req.body.artists, // TODO: change to artist array
+        num_of_times_liked: req.body.num_of_times_liked
+    });
+    Song.updateOne({_id: req.params.id}, song).then(result => {
+        res.status(200).json({
+            message: "song updated"
+        });
+    })
 });
 
 module.exports = app;

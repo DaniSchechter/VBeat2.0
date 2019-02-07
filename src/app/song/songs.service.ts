@@ -8,6 +8,7 @@ import { NotificationStatus, Notification } from '../notification/notification.m
 
 @Injectable({providedIn: 'root'})
 export class SongService{
+    private base_url = 'http://localhost:3000/api';
 
     private songs: Song[] = [];
     private songsUpdated = new Subject<Song[]>();
@@ -21,8 +22,8 @@ export class SongService{
     }
     
     getSongs(){
-        this.Http.get<{message: string; songs: any}>('http://localhost:3000/api/getSongs')
-        .pipe( map( songData => {
+        this.Http.get<{message: string; songs: any}>(this.base_url + '/songs')
+        .pipe(map((songData) => {
             return songData.songs.map(song => {
                 return {
                     name: song.name, 
@@ -50,6 +51,10 @@ export class SongService{
         );
     }
 
+    getSong(id: string){
+        return {...this.songs.find(song => song.id === id)};
+    }
+
     addSong(name: string, genre: Genre, song_path: string, image_path: string, release_date: Date,
         artists: string[], //TODO: change to artist array
         num_of_times_liked: number){
@@ -63,7 +68,7 @@ export class SongService{
                 artists: artists, 
                 num_of_times_liked: num_of_times_liked
             };
-        this.Http.post<{message: string, songId: string}>('http://localhost:3000/api/createSong', song)
+        this.Http.post<{message: string, songId: string}>(this.base_url + '/songs', song)
         .subscribe(
                 (responseData)=>{
                 const id = responseData.songId;
@@ -80,7 +85,7 @@ export class SongService{
     }
 
     deleteSong(songId: string){
-        this.Http.delete<{message: string}>('http://localhost:3000/api/songs/' + songId)
+        this.Http.delete<{message: string}>(this.base_url + '/songs/' + songId)
         .subscribe(
             (responseData) => {
                 const updatedSongs = this.songs.filter(song => songId !== songId);
@@ -94,6 +99,25 @@ export class SongService{
             error => this.notificationService.submitNotification(new Notification("ERROR",NotificationStatus.ERROR))
         );
     }
+
+    updateSong(id: string, name: string, genre: Genre, song_path: string, image_path: string, release_date: Date,
+        artists: string[], //TODO: change to artist array
+        num_of_times_liked: number){
+            const song: Song = {
+                id: id, 
+                name: name, 
+                genre: genre, 
+                song_path: song_path, 
+                image_path: image_path, 
+                release_date: release_date,
+                artists: artists, 
+                num_of_times_liked: num_of_times_liked
+            };
+            this.Http.put<{message: string}>(this.base_url + '/songs/' + id, song).subscribe(res => {
+                this.notificationService.submitNotification(
+                    new Notification(res.message,NotificationStatus.OK)
+                )            });
+        }
     
 
 }

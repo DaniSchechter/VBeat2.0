@@ -28,6 +28,9 @@ import { SongToolBarComponent } from './song/song-tool-bar/song-tool-bar.compone
 import { SongCreateComponent } from './song/song-create/song-create.component';
 import { NotificationPopupComponent } from './notification/notification-popup/notification-popup.component';
 
+import { HeaderComponent } from './header/header.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +39,7 @@ import { NotificationPopupComponent } from './notification/notification-popup/no
     SongListComponent,
     SongToolBarComponent,
     SongCreateComponent,
+    HeaderComponent,
     NotificationPopupComponent,
   ],
   imports: [
@@ -44,6 +48,7 @@ import { NotificationPopupComponent } from './notification/notification-popup/no
     AppRoutingModule,
     BrowserAnimationsModule,
 
+    MatToolbarModule,
     ReactiveFormsModule,
     MatCardModule,
     MatButtonModule,

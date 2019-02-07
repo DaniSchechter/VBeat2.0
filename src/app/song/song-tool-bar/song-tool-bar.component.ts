@@ -1,6 +1,10 @@
+
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Song } from '../song.model';
 import { SongActionService } from '../song-action.sevice';
+import { SongService } from '../songs.service';
+import { RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-song-tool-bar',
@@ -13,7 +17,9 @@ export class SongToolBarComponent implements OnInit {
   
   songLiked: boolean;
 
-  constructor( private songActionService: SongActionService ) { }
+
+  constructor(private songsService : SongService,  
+              private songActionService: SongActionService) { }
 
   ngOnInit() {
     this.songLiked = false;
@@ -27,17 +33,22 @@ export class SongToolBarComponent implements OnInit {
 
   }
 
+  
+
   //TODO change to real action for the next 3 buttons 
   onAddToPlaylist() {alert("song "+ this.song.name +" added to playlist")}
   onPlay() {alert("song "+ this.song.name +" playnow")}
   onAddToQueue() {alert("song "+ this.song.name +" queue")}
   onLikeToggle() { 
-    console.log("clicked, current status: "+ this.songLiked);
     //If songLiked is true => click is to dislike => we want to decrease the num of likes
     if(this.songLiked)
       this.songActionService.updateSongLikeStatus(this.song, -1);
     else 
       this.songActionService.updateSongLikeStatus(this.song, 1);
     
+  }
+
+   onDelete() {
+    this.songsService.deleteSong(this.song.id);
   }
 }
