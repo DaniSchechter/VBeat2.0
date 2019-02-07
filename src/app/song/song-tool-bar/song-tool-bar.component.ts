@@ -33,8 +33,6 @@ export class SongToolBarComponent implements OnInit {
 
   }
 
-  
-
   //TODO change to real action for the next 3 buttons 
   onAddToPlaylist() {alert("song "+ this.song.name +" added to playlist")}
   onPlay() {alert("song "+ this.song.name +" playnow")}
