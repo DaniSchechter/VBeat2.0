@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material';
-import { NotificationPopupService } from './notification-popup.service';
+import { NotificationPopupService } from '../notification-popup.service';
+import { Notification, NotificationStatus } from '../notification.model'
 
 @Component({
   selector: 'app-notification-popup',
@@ -9,21 +10,21 @@ import { NotificationPopupService } from './notification-popup.service';
 })
 export class NotificationPopupComponent implements OnInit{
 
-  message:string;
+  notification: Notification;
 
   constructor(private popup:MatSnackBar, 
               private notificationService:NotificationPopupService) {}
 
   ngOnInit() {
-    this.notificationService.getMessageSubmittedListener()
-      .subscribe( (message: string) => {
-        this.message = message; 
+    this.notificationService.getNotificationSubmittedListener()
+      .subscribe( (notification: Notification) => {
+        this.notification = notification; 
         this.displayPopup();
       });
   }
 
   private displayPopup() {
-    this.popup.open(this.message, "info",{
+    this.popup.open(this.notification.message, this.notification.status, {
       duration: 1500,
       verticalPosition: 'top',
     });
