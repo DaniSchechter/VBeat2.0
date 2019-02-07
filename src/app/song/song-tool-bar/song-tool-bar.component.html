@@ -1,7 +1,6 @@
 <!--TODO on add to playlist - select from list of playlists-->
 
 <mat-card-actions>
-  <!-- ! TODO add service to connect between 2 song-tool-bars: in song details and it's equivalent in song-list-->
     <button mat-mini-fab (click)="onAddToQueue()">
         <mat-icon title="Add to queue">queue_music</mat-icon>  
     </button>
@@ -12,8 +11,6 @@
       <mat-icon title="Add to playlist">playlist_add</mat-icon>  
     </button>
     <!--TODO add to user list of songs he have liked-->
-    <!--TODO add the calss based on if userm liked or not-->
-    <!-- ! TODO add service to connect between 2 song-tool-bars: in song details and it's equivalent in song-list-->
     <button mat-mini-fab [class.liked]="songLiked" (click)="onLikeToggle()">
         <mat-icon *ngIf="song"
                   title="Like"
@@ -22,6 +19,7 @@
                   thumb_up
         </mat-icon>
     </button>
+
     <!-- ! TODO change to normal padding -->
     <a mat-mini-fab *ngIf="song" [routerLink]="['/edit_song', song.id]">
       <mat-icon title="Edit">edit</mat-icon> 
