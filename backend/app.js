@@ -35,7 +35,7 @@ app.post("/api/createSong", (req, res, next) => {
     });
     song.save().then(newSong => {
         res.status(201).json({
-            message: "Post addes successfully",
+            message: "Song was addes successfully",
             songId: newSong._id
         });
     });
