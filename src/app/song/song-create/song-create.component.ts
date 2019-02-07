@@ -75,6 +75,8 @@ export class SongCreateComponent implements OnInit {
       0
     )
     form.resetForm();
+    this.clearFilteredrtists();
+    this.selected_artists = [];
   }
 
   private clearFilteredrtists() {

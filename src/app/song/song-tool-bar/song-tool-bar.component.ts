@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
-
-import { Song } from '../song.model'
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Song } from '../song.model';
+import { SongActionService } from '../song-action.sevice';
 
 @Component({
   selector: 'app-song-tool-bar',
@@ -9,14 +9,22 @@ import { Song } from '../song.model'
 })
 export class SongToolBarComponent implements OnInit {
 
-  @Input()
-  song: Song;
+  @Input() song: Song;
+  
   songLiked: boolean;
 
-  constructor() { }
+  constructor( private songActionService: SongActionService ) { }
 
   ngOnInit() {
     this.songLiked = false;
+
+    this.songActionService.getSongUpdateListener()
+      .subscribe( (updatedSong: {song: Song, newNumOfLikes:number} ) => {
+        if(this.song.id == updatedSong.song.id) {
+          this.songLiked = !this.songLiked;
+        }
+      });
+
   }
 
   //TODO change to real action for the next 3 buttons 
@@ -24,15 +32,12 @@ export class SongToolBarComponent implements OnInit {
   onPlay() {alert("song "+ this.song.name +" playnow")}
   onAddToQueue() {alert("song "+ this.song.name +" queue")}
   onLikeToggle() { 
-    if( this.songLiked ) {
-      this.song.num_of_times_liked -= 1;
-    }
-    else {
-      this.song.num_of_times_liked += 1;
-    }
-    this.songLiked = !this.songLiked;
-    //TODO add notification for the server
-   }
-
-   
+    console.log("clicked, current status: "+ this.songLiked);
+    //If songLiked is true => click is to dislike => we want to decrease the num of likes
+    if(this.songLiked)
+      this.songActionService.updateSongLikeStatus(this.song, -1);
+    else 
+      this.songActionService.updateSongLikeStatus(this.song, 1);
+    
+  }
 }
