@@ -13,8 +13,10 @@ mongoose.connect("mongodb+srv://alex:nE7fHawuXIMUmwlX@cluster0-k5m05.mongodb.net
     console.log("connection failed!");
 });
 
+//Boby parameter parsing
 app.use(bodyParser.json());
 
+//Setting Headers
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Headers",
@@ -35,7 +37,7 @@ app.post("/api/createSong", (req, res, next) => {
     });
     song.save().then(newSong => {
         res.status(201).json({
-            message: "Song was addes successfully",
+            message: "Song added successfully",
             songId: newSong._id
         });
     });
@@ -44,7 +46,7 @@ app.post("/api/createSong", (req, res, next) => {
 app.get("/api/getSongs", (req, res, next) => {
     Song.find().then(songsResult => {
         res.status(200).json({
-            message: "songs fetched successfully",
+            message: "Songs fetched successfully",
             songs: songsResult
         });
     });
@@ -52,7 +54,9 @@ app.get("/api/getSongs", (req, res, next) => {
 
 app.delete("api/songs/:id", (req, res, next) => {
     Song.deleteOne({_id: req.params.id});
-    res.status(200);
+    res.status(200).json({
+        message: "Song deleted successfully"
+    });
 });
 
 module.exports = app;
