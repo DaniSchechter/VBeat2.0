@@ -8,6 +8,7 @@ import { NotificationPopupService } from '../notification-popup/notification-pop
 
 @Injectable({providedIn: 'root'})
 export class SongService{
+    private base_url = 'http://localhost:3000/api';
 
     private songs: Song[] = [];
     private songsUpdated = new Subject<Song[]>();
@@ -16,7 +17,7 @@ export class SongService{
                 private notificationService:NotificationPopupService){}
 
     getSongs(){
-        this.Http.get<{message: string; songs: any}>('http://localhost:3000/api/songs')
+        this.Http.get<{message: string; songs: any}>(this.base_url + '/songs')
         .pipe(map((songData) => {
             return songData.songs.map(song => {
                 return {
@@ -58,7 +59,7 @@ export class SongService{
                 artists: artists, 
                 num_of_times_liked: num_of_times_liked
             };
-        this.Http.post<{message: string, songId: string}>('http://localhost:3000/api/songs', song)
+        this.Http.post<{message: string, songId: string}>(this.base_url + '/songs', song)
         .subscribe((responseData)=>{
             const id = responseData.songId;
             song.id = id;
@@ -69,8 +70,7 @@ export class SongService{
     }
 
     deleteSong(songId: string){
-        console.log("deleted");
-        this.Http.delete('http://localhost:3000/api/songs/' + songId)
+        this.Http.delete(this.base_url + '/songs/' + songId)
         .subscribe(() => {
             const updatedSongs = this.songs.filter(song => song.id !== songId);
             this.songs = updatedSongs;
@@ -93,8 +93,8 @@ export class SongService{
                 artists: artists, 
                 num_of_times_liked: num_of_times_liked
             };
-            this.Http.put("http://localhost:3000/api/songs/" + id, song).subscribe(res => {
-                console.log(res);
+            this.Http.put<{message: string}>(this.base_url + '/songs/' + id, song).subscribe(res => {
+                this.notificationService.submitMessage(res.message);
             });
         }
     

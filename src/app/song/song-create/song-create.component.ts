@@ -10,7 +10,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
   styleUrls: ['./song-create.component.css']
 })
 export class SongCreateComponent implements OnInit {
-  private mode = 'create';
+  // private mode = 'create';
   private songId : string;
   song : Song;
   
@@ -35,8 +35,8 @@ export class SongCreateComponent implements OnInit {
   //Will represent temp artists that match filtering option
   filtered_artists: string[];
 
-  constructor(private songService: SongService, public route: ActivatedRoute) {
-    this.genre_options = Object.keys(Genre);
+  constructor(private songService: SongService, /*public route: ActivatedRoute*/) {
+    // this.genre_options = Object.keys(Genre);
   }
 
   ngOnInit() {
@@ -44,16 +44,16 @@ export class SongCreateComponent implements OnInit {
     this.filtered_artists = [];  //gets an actual value only from pre-defined length - see updates below
     this.name_length_to_query = 2;
     //check if we in edit or create mode
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
-        if (paramMap.has('id')){
-            this.mode = 'edit';
-            this.songId = paramMap.get('id');
-            this.song = this.songService.getSong(this.songId);
-        }else{
-          this.mode = 'create';
-          this.songId = null;
-        }
-    });
+    // this.route.paramMap.subscribe((paramMap: ParamMap) => {
+    //     if (paramMap.has('id')){
+    //         this.mode = 'edit';
+    //         this.songId = paramMap.get('id');
+    //         this.song = this.songService.getSong(this.songId);
+    //     }else{
+    //       this.mode = 'create';
+    //       this.songId = null;
+    //     }
+    // });
   }
 
   private _filter(value: string): string[] {
@@ -87,34 +87,29 @@ export class SongCreateComponent implements OnInit {
     if(!form.valid) {
       return; //! TODO - display popup message to correct 
     }
-    if(this.mode === 'create'){
-    this.songService.addSong(
-      form.value.name,
-      form.value.genre,
-      form.value.song_path,
-      form.value.song_image,
-      form.value.release_date,
-      this.selected_artists, // TODO: change to artist array
-<<<<<<< HEAD
-      0);
-    } else {
-        this.songService.updateSong(this.songId, form.value.name,
-          form.value.genre,
-          form.value.song_path,
-          form.value.song_image,
-          form.value.release_date,
-          this.selected_artists, // TODO: change to artist array
-          this.song.num_of_times_liked);
+    // if(this.mode === 'create'){
+    // this.songService.addSong(
+    //   form.value.name,
+    //   form.value.genre,
+    //   form.value.song_path,
+    //   form.value.song_image,
+    //   form.value.release_date,
+    //   this.selected_artists, // TODO: change to artist array
+    //     0
+    //   )
+    //   form.resetForm();
+    // } else {
+    //     this.songService.updateSong(this.songId, form.value.name,
+    //       form.value.genre,
+    //       form.value.song_path,
+    //       form.value.song_image,
+    //       form.value.release_date,
+    //       this.selected_artists, // TODO: change to artist array
+    //       this.song.num_of_times_liked);
     }
-=======
-      0
-    )
-    form.resetForm();
-  }
 
   private clearFilteredrtists() {
     this.prefix = null;
     this.filtered_artists = [];
->>>>>>> 927d794b3403244efc36a5c747ea02e6ea90bc95
   }
 }

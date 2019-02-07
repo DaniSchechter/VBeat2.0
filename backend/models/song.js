@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-// const genre =  require('.../song/module');
 
 const songSchema = mongoose.Schema({
     name: {type: String, require:true},

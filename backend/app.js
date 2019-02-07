@@ -24,7 +24,6 @@ app.use((req, res, next) => {
 });
 
 app.post("/api/songs", (req, res, next) => {
-    console.log(req.body.release_date)
     const song = new Song({
         name: req.body.name,
         genre: req.body.genre,
@@ -70,7 +69,9 @@ app.put("/api/songs/:id", (req, res, next) => {
         num_of_times_liked: req.body.num_of_times_liked
     });
     Song.updateOne({_id: req.params.id}, song).then(result => {
-        res.status(200);
+        res.status(200).json({
+            message: "song updated"
+        });
     })
 });
 

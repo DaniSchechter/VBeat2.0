@@ -28,8 +28,8 @@ import { SongToolBarComponent } from './song/song-tool-bar/song-tool-bar.compone
 import { SongCreateComponent } from './song/song-create/song-create.component';
 import { NotificationPopupComponent } from './notification-popup/notification-popup.component';
 
-import {HeaderComponent} from './header/header.component';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { HeaderComponent } from './header/header.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [
