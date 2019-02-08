@@ -3,17 +3,20 @@ import { Song, Genre } from '../song.model'
 import { NgForm } from '@angular/forms';
 import { SongService } from '../songs.service'
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Subscription } from 'rxjs';
+
 
 @Component({
-  selector: 'app-song-create',
-  templateUrl: './song-create.component.html',
-  styleUrls: ['./song-create.component.css']
+  selector: 'app-song-edit',
+  templateUrl: './song-edit.component.html',
+  styleUrls: ['./song-edit.component.css']
 })
-export class SongCreateComponent implements OnInit {
-  // private mode = 'create';
+export class SongEditComponent implements OnInit {
   private songId : string;
+  private songSub: Subscription;
   song : Song;
-  
+  songs: Song[];
+  a = 3;
   //For select optios of genre
   genre_options: string[];
   
@@ -35,20 +38,29 @@ export class SongCreateComponent implements OnInit {
   //Will represent temp artists that match filtering option
   filtered_artists: string[];
 
-  constructor(private songService: SongService, /*public route: ActivatedRoute*/) {
+  constructor(private songService: SongService, public route: ActivatedRoute) {
     this.genre_options = Object.keys(Genre);
   }
 
+  // !!!! TODO change to load only one song and not the entire songs
   ngOnInit() {
     this.selected_artists = [];
     this.filtered_artists = [];  //gets an actual value only from pre-defined length - see updates below
     this.name_length_to_query = 2;
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.artists.filter(artist  => artist.toLowerCase().includes(filterValue));
+    this.song = this.songService.getSong(this.songs, this.songId);
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+        if (paramMap.has('id')){
+            this.songId = paramMap.get('id');
+            this.songService.getSong(this.songs, this.songId);
+            this.songService.getSongs();
+            this.songSub = this.songService.getSongsUpdateListener()
+              .subscribe((songs: Song[]) => {
+                this.songs = songs;
+                this.song = this.songService.getSong(this.songs, this.songId);
+                this.selected_artists = this.song.artists;
+              });
+        }
+    });
   }
 
   //TODO change to artist type not string
@@ -76,18 +88,18 @@ export class SongCreateComponent implements OnInit {
     if(!form.valid) {
       return; //! TODO - display popup message to correct 
     }
-    // if(this.mode === 'create'){
-    this.songService.addSong(
-      form.value.name,
-      form.value.genre,
-      form.value.song_path,
-      form.value.song_image,
-      form.value.release_date,
-      this.selected_artists, // TODO: change to artist array
-        0
+      this.songService.updateSong(
+        this.songId, 
+        form.value.name,
+        form.value.genre,
+        form.value.song_path,
+        form.value.song_image,
+        form.value.release_date,
+        this.selected_artists, // TODO: change to artist array
+        this.song.num_of_times_liked
       )
       form.resetForm();
-  }
+    }
 
   private clearFilteredrtists() {
     this.prefix = null;

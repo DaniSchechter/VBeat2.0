@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf="song">
   <form (submit)="onSubmit(newForm)" #newForm="ngForm">
       <!-- ! TODO fix to when edit song the image path and the artist list will also bing to the text boxes -->
       <!-- ! TODO fix the create new song to work -->
@@ -8,7 +8,7 @@
             matInput 
             placeholder = "Name"
             name = "name"
-            ngModel
+            [ngModel] = "song.name"
             required
             minlength = 4
             #name = "ngModel">
@@ -21,7 +21,7 @@
           <mat-select 
               placeholder = "Genre"
               name = "genre"
-              ngModel
+              [ngModel] = "song.genre"
               required
               #genre = "ngModel">
               <mat-option
@@ -42,7 +42,7 @@
             pattern="https?://\S+"
             placeholder = "Song path"
             name = "song_path"
-            ngModel
+            [ngModel] = "song.song_path"
             required
             #path = "ngModel">
           <!--TODO ???? maybe change to local file upload ?????????-->
@@ -58,7 +58,7 @@
             pattern="https?://\S+"
             placeholder = "Song image path"
             name = "song_image"
-            ngModel
+            [ngModel] = "song.image_path"
             required
             #image="ngModel">
           <!--TODO ???? maybe change to local file upload ?????????-->
@@ -74,7 +74,7 @@
             [matDatepicker] = "picker" 
             placeholder = "Choose release date"
             name = "release_date"
-            ngModel
+            [ngModel] = "song.release_date"
             required
             #release_date="ngModel">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
