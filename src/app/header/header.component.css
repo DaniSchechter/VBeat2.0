@@ -4,6 +4,12 @@ ul{
     margin: 0;
 }
 
-.rightSide{
-    flex: 1, 1, auto;
+#rightSide{
+    list-style: none;
+    right: 20px;
+    position: absolute;
+}
+
+.link{
+    color: white;
 }
