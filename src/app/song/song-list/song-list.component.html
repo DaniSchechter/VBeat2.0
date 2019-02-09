@@ -19,9 +19,14 @@
         {{ song.release_date | date}}
     </p>
 
-    <app-song-tool-bar [song]="selectedSong"></app-song-tool-bar>
+    <app-song-tool-bar [song]="song"></app-song-tool-bar>
 
   </mat-expansion-panel>
 </mat-accordion>
 
-<app-song-details [song]="selectedSong" [class.col-sm-7]="song" ></app-song-details>
+<div [class.col-sm-5]="song">
+  <div *ngFor="let song of songs" >
+    <app-song-details [hidden]="song !== selectedSong" [song]="song"></app-song-details>
+  </div>
+</div>
+
