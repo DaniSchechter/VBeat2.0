@@ -1,8 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
 
-import { Song } from '../song.model'
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Song } from '../song.model';
+import { SongActionService } from '../song-action.sevice';
 import { SongService } from '../songs.service';
 import { RouterLink } from '@angular/router';
+
 
 @Component({
   selector: 'app-song-tool-bar',
@@ -11,36 +13,40 @@ import { RouterLink } from '@angular/router';
 })
 export class SongToolBarComponent implements OnInit {
 
-  @Input()
-  song: Song;
+  @Input() song: Song;
+  
   songLiked: boolean;
 
-  constructor(public songsService : SongService) { }
+
+  constructor(private songsService : SongService,  
+              private songActionService: SongActionService) { }
 
   ngOnInit() {
     this.songLiked = false;
-  }
 
-  
+    this.songActionService.getSongUpdateListener()
+      .subscribe( (updatedSong: {song: Song, newNumOfLikes:number} ) => {
+        if(this.song.id == updatedSong.song.id) {
+          this.songLiked = !this.songLiked;
+        }
+      });
+
+  }
 
   //TODO change to real action for the next 3 buttons 
   onAddToPlaylist() {alert("song "+ this.song.name +" added to playlist")}
   onPlay() {alert("song "+ this.song.name +" playnow")}
   onAddToQueue() {alert("song "+ this.song.name +" queue")}
   onLikeToggle() { 
-    if( this.songLiked ) {
-      this.song.id
-      this.song.num_of_times_liked -= 1;
-    }
-    else {
-      this.song.num_of_times_liked += 1;
-    }
-    this.songLiked = !this.songLiked;
-    //TODO add notification for the server
-   }
+    //If songLiked is true => click is to dislike => we want to decrease the num of likes
+    if(this.songLiked)
+      this.songActionService.unlike(this.song);
+    else 
+      this.songActionService.like(this.song);
+    
+  }
 
-   onDelete(){
+   onDelete() {
     this.songsService.deleteSong(this.song.id);
   }
-   
 }

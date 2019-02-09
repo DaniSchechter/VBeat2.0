@@ -14,10 +14,6 @@ export class NotificationPopupService {
 
     constructor(){}
 
-    getNotification(){
-        return {...this.notification};
-    }
-
     getNotificationSubmittedListener(){
         return this.notificationSubmitted.asObservable();
     }

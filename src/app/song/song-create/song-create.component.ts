@@ -43,17 +43,6 @@ export class SongCreateComponent implements OnInit {
     this.selected_artists = [];
     this.filtered_artists = [];  //gets an actual value only from pre-defined length - see updates below
     this.name_length_to_query = 2;
-    //check if we in edit or create mode
-    // this.route.paramMap.subscribe((paramMap: ParamMap) => {
-    //     if (paramMap.has('id')){
-    //         this.mode = 'edit';
-    //         this.songId = paramMap.get('id');
-    //         this.song = this.songService.getSong(this.songId);
-    //     }else{
-    //       this.mode = 'create';
-    //       this.songId = null;
-    //     }
-    // });
   }
 
   private _filter(value: string): string[] {
@@ -95,18 +84,13 @@ export class SongCreateComponent implements OnInit {
       form.value.song_image,
       form.value.release_date,
       this.selected_artists, // TODO: change to artist array
-        0
-      )
-      form.resetForm();
-    // } else {
-    //     this.songService.updateSong(this.songId, form.value.name,
-    //       form.value.genre,
-    //       form.value.song_path,
-    //       form.value.song_image,
-    //       form.value.release_date,
-    //       this.selected_artists, // TODO: change to artist array
-    //       this.song.num_of_times_liked);
-    }
+      0
+    )
+    form.resetForm();
+    this.clearFilteredrtists();
+    this.selected_artists = [];
+  }
+
 
   private clearFilteredrtists() {
     this.prefix = null;

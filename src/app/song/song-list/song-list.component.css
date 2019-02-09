@@ -4,5 +4,5 @@ mat-panel-title, mat-panel-description p{
 mat-accordion {
     display: block;
     padding: 0;
-    margin: 10px;
+    margin: 0 10px 10px 10px;
 }
