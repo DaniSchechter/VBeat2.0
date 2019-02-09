@@ -81,7 +81,6 @@ const User = require('./models/user');
 
 /* USER HANDLERS */
 
-
 app.post("/api/user", (req, res, next) => {
     const user = new User({
         username: req.body.username,
@@ -92,7 +91,15 @@ app.post("/api/user", (req, res, next) => {
         email: req.body.email
     });
 
-    user.save().then(newUser => {
+    user.save(
+            // handle errors
+            function(err) {
+                res.status(500).json({
+                    message: "unable to save user model",
+                    reason: err
+                });
+            }
+        ).then(newUser => {
         res.status(201).json({
             message: "user created",
             userId: newUser._id

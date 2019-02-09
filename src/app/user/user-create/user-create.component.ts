@@ -14,6 +14,7 @@ export class UserCreateComponent implements OnInit {
   ngOnInit() {
   }
 
+  // submit user creation form
   onSubmit(form: NgForm) {
     if (!form.valid) {
       return;
