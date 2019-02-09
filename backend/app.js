@@ -108,16 +108,14 @@ app.post("/api/user", (req, res, next) => {
     });
 });
 
+// user login
+app.post("/api/user/login", (req, res, next) => {
+    User.find
+});
+
 // get users
 app.get("/api/user", (req, res, next) => {
     User.find(
-            // handle errors
-            function(err) {
-                res.status(500).json({
-                    message: "unable to get users",
-                    reason: err
-                });
-            }
         ).then(userResult => {
         res.status(200).json({
             message: "ok",
@@ -129,12 +127,6 @@ app.get("/api/user", (req, res, next) => {
 // get certain user by id
 app.get("/api/user/:id", (req, res, next) => {
     User.find(
-            function(err) {
-                res.status(500).json({
-                    message: "unable to obtain user",
-                    reason: err
-                })
-            }
         ).then(userResult => {
         if(userResult == null || userResult == undefined) {
             res.status(404).json({
@@ -156,6 +148,6 @@ app.delete("api/user/:id", (req, res, next) => {
     res.status(200);
 });
 
-
+/* END OF USER HANDLERS */
 
 module.exports = app;
