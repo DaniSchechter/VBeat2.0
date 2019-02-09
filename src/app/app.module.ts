@@ -26,6 +26,9 @@ import { HttpClientModule } from '@angular/common/http'
 
 import { SongToolBarComponent } from './song/song-tool-bar/song-tool-bar.component';
 import { SongCreateComponent } from './song/song-create/song-create.component';
+
+import { UserCreateComponent } from './user/user-create/user-create.component';
+
 import { NotificationPopupComponent } from './notification/notification-popup/notification-popup.component';
 
 import { HeaderComponent } from './header/header.component';
@@ -39,6 +42,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     SongListComponent,
     SongToolBarComponent,
     SongCreateComponent,
+    UserCreateComponent,
     HeaderComponent,
     NotificationPopupComponent,
   ],
