@@ -110,7 +110,20 @@ app.post("/api/user", (req, res, next) => {
 
 // user login
 app.post("/api/user/login", (req, res, next) => {
-    User.find
+    User.findOne({username: req.body.username, password: req.body.password})
+    .exec(
+            function(err, docs) {
+                if(err != null && error != undefined)  {
+                    console.log(docs);
+                }
+                if(docs.length == 0) {
+                    res.status(401).json({
+                        message: "failed to authenticate"
+                    });
+                }
+            }
+        );
+
 });
 
 // get users
