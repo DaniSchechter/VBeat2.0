@@ -17,6 +17,7 @@ mongoose.connect("mongodb+srv://alex:nE7fHawuXIMUmwlX@cluster0-k5m05.mongodb.net
 
 //Boby parameter parsing
 app.use(bodyParser.json());
+app.use(session({secret: 'donttellthistonobodyitssupposedtobeasecret'}))
 
 //Setting Headers
 app.use((req, res, next) => {
@@ -116,11 +117,11 @@ app.post("/api/user/login", (req, res, next) => {
     User.find({username: req.body.username, password: req.body.password})
     .then(resultData => {
         // console.log(resultData)
-        if(resultData != undefined && resultData.length != 0) {
+        if(resultData != undefined && resultData.length == 1) {
+            req.session = resultData[0]._id;
             // create session
             res.status(200).json({
                 message: "ok",
-
             });
 
         } else {
