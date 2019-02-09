@@ -75,7 +75,7 @@
             minlength = {{minAttributeLength}}
             #name="ngModel">
           <mat-hint> At least {{minAttributeLength}} characters </mat-hint>
-          <mat-error *ngIf = "name.invalid"> Display name is should be at least 6 characters long </mat-error>
+          <mat-error *ngIf = "name.invalid"> Display name is should be at least {{minAttributeLength}} characters long </mat-error>
       </mat-form-field>
 
        <!-- Email -->
