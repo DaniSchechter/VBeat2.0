@@ -28,6 +28,4 @@ export class UserCreateComponent implements OnInit {
     );
     form.resetForm();
   }
-
-
 }

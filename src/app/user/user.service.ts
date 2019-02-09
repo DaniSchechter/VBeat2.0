@@ -13,24 +13,14 @@ export class UserService {
 	constructor(private Http: HttpClient,
 				private notificationService: NotificationPopupService) { }
 
-	/*
-	message: "user created",
-			userId: newUser._id
-	*/
+	/* this function sends the information to the server
+	   and submits a notification regarding the response*/
 	addUser(username: string, 
 			password: string,
 			profile_pic: string,
 			display_name: string,
 			email: string
 		){
-
-/*
-	addUser(username: String, 
-			password: String,
-			profilePic: String,
-			displayName: String,
-			email: String
-			*/
 		const user: User = {
 			id: null,
 			username: username,
