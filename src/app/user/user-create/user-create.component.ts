@@ -9,7 +9,7 @@ import { NgForm } from '@angular/forms';
 })
 export class UserCreateComponent implements OnInit {
   minAttributeLength = 6
-  
+
   constructor(private userService: UserService) {
   }
 
@@ -18,6 +18,7 @@ export class UserCreateComponent implements OnInit {
 
   // submit user creation form
   onSubmit(form: NgForm) {
+    // TODO show popup
     if (!form.valid) {
       return;
     }

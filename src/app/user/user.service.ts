@@ -9,7 +9,7 @@ import { User } from './user.model'
   providedIn: 'root'
 })
 export class UserService {
-	private base_url = 'http://localhost:3000/api'; /* need to move this out */ 
+	private base_url = 'http://localhost:3000/api'; /* TODO need to move this out */ 
 	constructor(private Http: HttpClient,
 				private notificationService: NotificationPopupService) { }
 
