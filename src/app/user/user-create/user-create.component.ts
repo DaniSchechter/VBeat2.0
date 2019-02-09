@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../user.service'
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-user-create',
@@ -6,10 +8,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-create.component.css']
 })
 export class UserCreateComponent implements OnInit {
-
-  constructor() { }
+  constructor(private userService: UserService) {
+  }
 
   ngOnInit() {
   }
+
+  onSubmit(form: NgForm) {
+    if (!form.valid) {
+      return;
+    }
+
+    this.userService.addUser(
+      form.value.username,
+      form.value.password,
+      form.value.profile_pic,
+      form.value.display_name,
+      form.value.email,
+    );
+    form.resetForm();
+  }
+
 
 }
