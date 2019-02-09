@@ -1,5 +1,7 @@
 <mat-card>
   <form (submit)="onSubmit(newForm)" #newForm="ngForm">
+      <!-- ! TODO fix to when edit song the image path and the artist list will also bing to the text boxes -->
+      <!-- ! TODO fix the create new song to work -->
       <!-- NAME -->
       <mat-form-field appearance = "legacy" color = "accent">
           <input 
@@ -82,40 +84,46 @@
       </mat-form-field>
 
       <!-- ARTISTS -->
-      <!--TODO connect to artists/users list by auto complete: -->
+      <!--! TODO validation think of rules -->
       <!--TODO Steps: (1)first two letters -> (2)db query-> (3)auto complete: propagate with naswer form db query -->
-      
       <mat-form-field appearance = "legacy" color = "accent">
           <!--TODO display loading gif on db querying - if need add async pipe after onSearchArtistChange func -->
-          <!-- ! TODO clear the input when selecting-->
-          <!-- ! TODO select not only on click but also on enter in the keyboard-->
           <input 
             type="text" 
             placeholder="Artists" 
             matInput 
             [matAutocomplete]="auto"
-            #prefix
-            (keydown)="onSearchArtistChange(prefix.value)">
+            [(ngModel)]="prefix"
+            name="filter_artist"
+            (ngModelChange) = "onSearchArtistChange()">
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option 
               *ngFor="let artist of filtered_artists" 
-              [value]="artist"
-              (click)="onSelectArtist(artist)">
+              [value] = "artist"
+              (click) = "onSelectArtist(artist)">
               {{ artist }}
             </mat-option>
           </mat-autocomplete>
+          <mat-hint> 
+            Enter {{ name_length_to_query }} 
+            letter<span *ngIf="name_length_to_query">s</span>
+            for auto complete
+          </mat-hint> 
       </mat-form-field>
       <!--List displaying the selected artists -->
       <!-- TODO add option to delete selected artist - add icon of delete-->
       <mat-list role="list">
           <mat-list-item role="listitem" *ngFor="let artist of selected_artists">
-            {{ artist }}
+              <button mat-mini-fab >
+                  <mat-icon title="remove this artist from this song" (click)="onDeleteSelectedArtist(artist)">delete</mat-icon>
+                </button>
+              <p>{{ artist }} </p> 
           </mat-list-item>
       </mat-list>
       <button 
         mat-mini-fab 
         type="submit">
           <mat-icon title="Add new song">save</mat-icon>  
-        </button>
+      </button>
   </form>
 </mat-card>

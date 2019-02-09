@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import { Song } from '../song.model'
+import { SongService } from '../songs.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-song-tool-bar',
@@ -13,16 +15,13 @@ export class SongToolBarComponent implements OnInit {
   song: Song;
   songLiked: boolean;
 
-  constructor() { }
+  constructor(public songsService : SongService) { }
 
   ngOnInit() {
     this.songLiked = false;
-    // this.songsService.getSongs();
-    // this.songSub = this.songsService.getSongsUpdateListener()
-    // .subscribe((songs: Song[]) => {
-    //   this.songs = songs;
-    // })
   }
+
+  
 
   //TODO change to real action for the next 3 buttons 
   onAddToPlaylist() {alert("song "+ this.song.name +" added to playlist")}
@@ -30,6 +29,7 @@ export class SongToolBarComponent implements OnInit {
   onAddToQueue() {alert("song "+ this.song.name +" queue")}
   onLikeToggle() { 
     if( this.songLiked ) {
+      this.song.id
       this.song.num_of_times_liked -= 1;
     }
     else {
@@ -39,5 +39,8 @@ export class SongToolBarComponent implements OnInit {
     //TODO add notification for the server
    }
 
+   onDelete(){
+    this.songsService.deleteSong(this.song.id);
+  }
    
 }

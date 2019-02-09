@@ -10,9 +10,10 @@ const userSchema = mongoose.Schema({
 });
 
 
+module.exports = mongoose.model('User', userSchema);
 
 const app = require('../app');
-const User = null; // figure out how to initialize that
+const User = require('./user');
 
 
 app.post("/api/user", (req, res, next) => {
@@ -64,4 +65,3 @@ app.delete("api/user/:id", (req, res, next) => {
     res.status(200);
 });
 
-module.exports = mongoose.model('User', userSchema);
