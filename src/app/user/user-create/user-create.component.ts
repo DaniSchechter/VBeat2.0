@@ -8,6 +8,8 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./user-create.component.css']
 })
 export class UserCreateComponent implements OnInit {
+  minAttributeLength = 6
+  
   constructor(private userService: UserService) {
   }
 
@@ -30,3 +32,4 @@ export class UserCreateComponent implements OnInit {
     form.resetForm();
   }
 }
+

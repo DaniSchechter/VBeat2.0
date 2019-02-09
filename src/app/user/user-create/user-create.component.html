@@ -8,10 +8,10 @@
             name = "username"
             ngModel
             required
-            minlength = 6
+            minlength = {{minAttributeLength}}
             #name="ngModel">
-          <mat-hint> At least 6 characters </mat-hint>
-          <mat-error *ngIf = "name.invalid"> Username is should be at least 6 characters long </mat-error>
+          <mat-hint> At least {{minAttributeLength}} characters </mat-hint>
+          <mat-error *ngIf = "name.invalid"> Username is should be at least {{minAttributeLength}} characters long </mat-error>
       </mat-form-field>
 
       <!-- password -->
@@ -23,10 +23,10 @@
             type = "password"
             ngModel
             required
-            minlength = 8
+            minlength = {{minAttributeLength}}
             #name="ngModel">
           <mat-hint> At least 8 characters </mat-hint>
-          <mat-error *ngIf = "name.invalid"> Password is should be at least 8 characters long </mat-error>
+          <mat-error *ngIf = "name.invalid"> Password is should be at least {{minAttributeLength}} characters long </mat-error>
       </mat-form-field>
       
     <!-- ROLE we'll see if we use it later -->
@@ -72,9 +72,9 @@
             name = "display_name"
             ngModel
             required
-            minlength = 6
+            minlength = {{minAttributeLength}}
             #name="ngModel">
-          <mat-hint> At least 6 characters </mat-hint>
+          <mat-hint> At least {{minAttributeLength}} characters </mat-hint>
           <mat-error *ngIf = "name.invalid"> Display name is should be at least 6 characters long </mat-error>
       </mat-form-field>
 
@@ -87,7 +87,7 @@
             ngModel
             required
             email
-            minlength = 6
+            minlength = {{minAttributeLength}}
             #name="ngModel">
           <mat-hint> Your email </mat-hint>
           <mat-error *ngIf = "name.invalid"> Nice try, that's not an email </mat-error>
