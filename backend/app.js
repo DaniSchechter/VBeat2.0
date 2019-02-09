@@ -1,6 +1,8 @@
 const express = require("express");
+const session = require("express-session")
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
+
 
 const Song = require('./models/song');
 
@@ -110,20 +112,23 @@ app.post("/api/user", (req, res, next) => {
 
 // user login
 app.post("/api/user/login", (req, res, next) => {
-    User.findOne({username: req.body.username, password: req.body.password})
-    .exec(
-            function(err, docs) {
-                if(err != null && error != undefined)  {
-                    console.log(docs);
-                }
-                if(docs.length == 0) {
-                    res.status(401).json({
-                        message: "failed to authenticate"
-                    });
-                }
-            }
-        );
+    // console.log(req.body.username);
+    User.find({username: req.body.username, password: req.body.password})
+    .then(resultData => {
+        // console.log(resultData)
+        if(resultData != undefined && resultData.length != 0) {
+            // create session
+            res.status(200).json({
+                message: "ok",
 
+            });
+
+        } else {
+            res.status(401).json({
+                message:"failed"
+            });
+        }
+    });
 });
 
 // get users
