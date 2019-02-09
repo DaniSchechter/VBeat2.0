@@ -17,13 +17,19 @@ export class SongActionService{
 
     getSongUpdateListener() { return this.songLiked.asObservable(); }
 
-    //likesAction is 1 if liked, -1 if disliked
-    updateSongLikeStatus(song: Song, likeAction: number) {
+    like(song: Song) {
         this.song = song;
-        let newNumOfLikes: number = this.song.num_of_times_liked + likeAction;;
+        let newNumOfLikes: number = this.song.num_of_times_liked + 1;
         this.song.num_of_times_liked = newNumOfLikes;;
         // ! TODO call API - update num of likes with newNumOfLikes .
         this.songLiked.next( {song, newNumOfLikes} );
     }
 
+    unlike(song: Song) {
+        this.song = song;
+        let newNumOfLikes: number = this.song.num_of_times_liked - 1;
+        this.song.num_of_times_liked = newNumOfLikes;;
+        // ! TODO call API - update num of likes with newNumOfLikes .
+        this.songLiked.next( {song, newNumOfLikes} );
+    }
 }

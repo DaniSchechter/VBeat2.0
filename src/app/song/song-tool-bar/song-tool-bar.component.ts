@@ -40,9 +40,9 @@ export class SongToolBarComponent implements OnInit {
   onLikeToggle() { 
     //If songLiked is true => click is to dislike => we want to decrease the num of likes
     if(this.songLiked)
-      this.songActionService.updateSongLikeStatus(this.song, -1);
+      this.songActionService.unlike(this.song);
     else 
-      this.songActionService.updateSongLikeStatus(this.song, 1);
+      this.songActionService.like(this.song);
     
   }
 
