@@ -97,7 +97,7 @@ export class SongService{
         this.Http.delete<{message: string}>(this.base_url + '/songs/' + songId)
         .subscribe(
             (responseData) => {
-                const updatedSongs = this.songs.filter(song => songId !== songId);
+                const updatedSongs = this.songs.filter(song => song.id !== songId);
                 this.songs = updatedSongs;
                 this.songsUpdated.next([...this.songs]);
                 this.notificationService.submitNotification(
