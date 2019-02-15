@@ -7,6 +7,7 @@ import { NotificationPopupService } from '../notification/notification-popup.ser
 import { NotificationStatus, Notification } from '../notification/notification.model'
 import { elementEnd } from '@angular/core/src/render3';
 import { visitValue } from '@angular/compiler/src/util';
+import { Router } from '@angular/router';
 
 @Injectable({providedIn: 'root'})
 export class SongService{
@@ -18,7 +19,7 @@ export class SongService{
     private songUpdated = new Subject<Song>();
 
     constructor(private Http: HttpClient,
-                private notificationService:NotificationPopupService){}
+                private notificationService:NotificationPopupService, private router:Router){}
 
     
     getSongsUpdateListener(){
@@ -87,9 +88,11 @@ export class SongService{
                 this.notificationService.submitNotification(
                     new Notification(responseData.message,NotificationStatus.OK)
                 )
+                this.router.navigate(["/"])
             },
             //! TODO get error message from the server
             error => this.notificationService.submitNotification(new Notification("ERROR",NotificationStatus.ERROR))
+
         );
     }
 
@@ -125,7 +128,9 @@ export class SongService{
             this.Http.put<{message: string}>(this.base_url + '/songs/' + id, song).subscribe(res => {
                 this.notificationService.submitNotification(
                     new Notification(res.message,NotificationStatus.OK)
-                )            });
+                )
+                this.router.navigate(["/"])            
+            });
         }
     
 
