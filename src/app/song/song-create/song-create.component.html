@@ -1,7 +1,5 @@
 <mat-card>
   <form (submit)="onSubmit(newForm)" #newForm="ngForm">
-      <!-- ! TODO fix to when edit song the image path and the artist list will also bing to the text boxes -->
-      <!-- ! TODO fix the create new song to work -->
       <!-- NAME -->
       <mat-form-field appearance = "legacy" color = "accent">
           <input 
@@ -15,7 +13,8 @@
           <mat-hint> At least 4 characters </mat-hint>
           <mat-error *ngIf = "name.invalid"> Name is should be at least 4 characters long </mat-error>
       </mat-form-field>
-      
+      <!-- END -->
+
       <!-- GENRE -->
       <mat-form-field appearance = "legacy" color = "accent">
           <mat-select 
@@ -33,6 +32,7 @@
           <mat-hint> Please select a genre </mat-hint>
           <mat-error *ngIf = "genre.invalid"> Please select one genre </mat-error>
       </mat-form-field>
+      <!-- END -->
       
       <!-- SONG PATH -->
       <mat-form-field appearance = "legacy" color = "accent">
@@ -49,6 +49,7 @@
           <mat-hint>Please enter song url to be uploaded</mat-hint> 
           <mat-error *ngIf="path.invalid">Not a valid URL</mat-error>
       </mat-form-field>
+      <!-- END -->
      
       <!-- IMAGE PATH -->
       <mat-form-field appearance = "legacy" color = "accent">
@@ -65,6 +66,7 @@
           <mat-hint> Please enter image url to be uploaded </mat-hint> 
           <mat-error *ngIf = "image.invalid"> Not a valid URL </mat-error>
       </mat-form-field>
+      <!-- END -->
 
       <!-- RELEASE DATE -->
       <!-- TODO add validation for future date-->
@@ -82,10 +84,13 @@
           <mat-hint> Please choose the date the song was released on (MM/DD/YYYY) </mat-hint> 
           <mat-error *ngIf = "release_date.invalid"> Not a valid date </mat-error>
       </mat-form-field>
+      <!-- END -->
 
       <!-- ARTISTS -->
-      <!--! TODO validation think of rules -->
+      <!--! TODO validation think of rules - make sure artist doesnt get picked twice -->
       <!--TODO Steps: (1)first two letters -> (2)db query-> (3)auto complete: propagate with naswer form db query -->
+      
+      <!-- INPUT AND AUTO-COMPLETE TO SELECT ARTISTST-->
       <mat-form-field appearance = "legacy" color = "accent">
           <!--TODO display loading gif on db querying - if need add async pipe after onSearchArtistChange func -->
           <input 
@@ -119,10 +124,13 @@
               <p>{{ artist }} </p> 
           </mat-list-item>
       </mat-list>
+      <!-- END -->
+      
       <button 
         mat-mini-fab 
         type="submit">
           <mat-icon title="Add new song">save</mat-icon>  
       </button>
+
   </form>
 </mat-card>

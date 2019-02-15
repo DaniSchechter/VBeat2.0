@@ -84,11 +84,13 @@ export class SongCreateComponent implements OnInit {
       form.value.song_image,
       form.value.release_date,
       this.selected_artists, // TODO: change to artist array
-        0
-      )
-      form.resetForm();
+      0
+    )
+    form.resetForm();
+    this.clearFilteredrtists();
+    this.selected_artists = [];
   }
-
+  
   private clearFilteredrtists() {
     this.prefix = null;
     this.filtered_artists = [];
