@@ -55,6 +55,16 @@ app.get("/api/songs", (req, res, next) => {
     });
 });
 
+app.get("/api/song/:id", (req, res, next) => {
+    Song.find({ _id: req.params.id}).then((songResult) => {
+        console.log("result from backend: " + songResult);
+        console.log("------------------------")
+        res.status(200).json({
+            song: songResult
+        });
+    });
+});
+
 app.delete("/api/songs/:id", (req, res, next) => {
     Song.deleteOne({_id: req.params.id}).then((result) => {
         res.status(200).json({message : "post deleted"});

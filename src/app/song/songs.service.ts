@@ -5,13 +5,17 @@ import { HttpClient } from '@angular/common/http';
 import { Song, Genre } from './song.model';
 import { NotificationPopupService } from '../notification/notification-popup.service'
 import { NotificationStatus, Notification } from '../notification/notification.model'
+import { elementEnd } from '@angular/core/src/render3';
+import { visitValue } from '@angular/compiler/src/util';
 
 @Injectable({providedIn: 'root'})
 export class SongService{
     private base_url = 'http://localhost:3000/api';
 
     private songs: Song[] = [];
+    private song: Song;
     private songsUpdated = new Subject<Song[]>();
+    private songUpdated = new Subject<Song>();
 
     constructor(private Http: HttpClient,
                 private notificationService:NotificationPopupService){}
@@ -51,9 +55,14 @@ export class SongService{
         );
     }
 
-    getSong(id: string){
-        return {...this.songs.find(song => song.id === id)};
+    getSongUpdateListener(){
+        return this.songUpdated.asObservable();
     }
+
+    getSong(songs: Song[], songId: string){
+        return {...this.songs.find(song => song.id === songId)};
+    }
+
 
     addSong(name: string, genre: Genre, song_path: string, image_path: string, release_date: Date,
         artists: string[], //TODO: change to artist array

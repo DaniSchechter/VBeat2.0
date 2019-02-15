@@ -33,6 +33,7 @@ import { NotificationPopupComponent } from './notification/notification-popup/no
 
 import { HeaderComponent } from './header/header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { SongEditComponent } from './song/song-edit/song-edit.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     UserCreateComponent,
     HeaderComponent,
     NotificationPopupComponent,
+    SongEditComponent,
   ],
   imports: [
     BrowserModule,
