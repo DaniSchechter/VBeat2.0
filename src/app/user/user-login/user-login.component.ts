@@ -8,6 +8,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./user-login.component.css']
 })
 export class UserLoginComponent implements OnInit {
+  minAttributeLength = 6;
 
   constructor( private userService:UserService ) { }
 
