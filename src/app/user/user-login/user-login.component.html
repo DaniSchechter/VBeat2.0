@@ -24,7 +24,7 @@
             ngModel
             required
             minlength = {{minAttributeLength}}
-            #name="ngModel">
+            #password="ngModel">
           <mat-hint> At least {{minAttributeLength}} characters </mat-hint>
           <mat-error *ngIf = "name.invalid"> Password is should be at least {{minAttributeLength}} characters long </mat-error>
       </mat-form-field>
