@@ -17,6 +17,7 @@ import { MatNativeDateModule } from '@angular/material';
 import { MatListModule } from '@angular/material/list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBarModule } from '@angular/material';
+import { MatPaginatorModule } from "@angular/material";
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -34,6 +35,7 @@ import { NotificationPopupComponent } from './notification/notification-popup/no
 import { HeaderComponent } from './header/header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { SongEditComponent } from './song/song-edit/song-edit.component';
+
 
 @NgModule({
   declarations: [
@@ -70,7 +72,8 @@ import { SongEditComponent } from './song/song-edit/song-edit.component';
     MatNativeDateModule,
     MatListModule,
     MatAutocompleteModule,
-    MatSnackBarModule
+    MatPaginatorModule,
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

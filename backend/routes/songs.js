@@ -23,11 +23,23 @@ app.post("", (req, res, next) => {
 });
 
 app.get("", (req, res, next) => {
-    Song.find().then(songsResult => {
+    const pageSize = +req.query.pageSize;
+    const currPage = +req.query.page;
+    let fetchedSongs;
+    const songQuery = Song.find();
+    if (pageSize && currPage){
+        songQuery.skip(pageSize * (currPage - 1)).limit(pageSize);
+    }
+    songQuery.then(songsResult => {
+        fetchedSongs = songsResult;
+        return Song.count();
+    })
+    .then(count => {
         res.status(200).json({
-            message: "Songs fetched successfully",
-            songs: songsResult
-        });
+                message: "Songs fetched successfully",
+                songs: fetchedSongs,
+                totalSongs: count
+            });
     });
 });
 
