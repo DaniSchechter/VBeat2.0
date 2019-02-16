@@ -16,9 +16,6 @@ import { SongListComponent } from "../song-list/song-list.component"
 export class SongEditComponent implements OnInit {
   private songId : string;
   private songSub: Subscription;
-  totalSongs = 0;
-  songsPerPage = 10;
-  currentPage = 1;
   song : Song;
   songs: Song[];
   a = 3;
@@ -57,10 +54,9 @@ export class SongEditComponent implements OnInit {
         if (paramMap.has('id')){
             this.songId = paramMap.get('id');
             this.songService.getSong(this.songs, this.songId);
-            this.songService.getSongs(this.songsPerPage, this.currentPage);
+            this.songService.getSongs();
             this.songSub = this.songService.getSongsUpdateListener()
             .subscribe((songData: {songs: Song[], totalSongs: number}) => {
-                this.totalSongs = songData.totalSongs;
                 this.songs = songData.songs;
                 this.song = this.songService.getSong(this.songs, this.songId);
                 this.selected_artists = this.song.artists;

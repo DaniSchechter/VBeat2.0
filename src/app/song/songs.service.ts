@@ -15,6 +15,7 @@ export class SongService{
 
     private songs: Song[] = [];
     private song: Song;
+    private songsCount = 0;
     private songsUpdated = new Subject<{songs: Song[], totalSongs: number}>();
     private songUpdated = new Subject<Song>();
 
@@ -26,7 +27,7 @@ export class SongService{
         return this.songsUpdated.asObservable();
     }
     
-    getSongs(songsPerPage: number, currentPage: number){
+    getSongs(songsPerPage = 10, currentPage = 1){
         const queryParams = `?pageSize=${songsPerPage}&page=${currentPage}`;
         this.Http.get<{message: string; songs: any, totalSongs: number}>(this.base_url + '/songs' + queryParams)
         .pipe(
@@ -46,6 +47,7 @@ export class SongService{
         }))
         .subscribe(
             (songsAfterChange) => {
+                this.songsCount = songsAfterChange.totalSongs;
                 this.songs = songsAfterChange.songs;
                 this.songsUpdated.next({
                     songs: [...this.songs], 
@@ -99,15 +101,19 @@ export class SongService{
 
     deleteSong(songId: string){
         return this.Http.delete<{message: string}>(this.base_url + '/songs/' + songId)
-        // .subscribe(
-        //     (responseData) => {
-        //         this.notificationService.submitNotification(
-        //             new Notification(responseData.message,NotificationStatus.OK)
-        //         )
-        //     },
-        //      //! TODO get error message from the server
-        //     error => this.notificationService.submitNotification(new Notification("ERROR",NotificationStatus.ERROR))
-        // );
+        .subscribe(
+            (responseData) => {
+                const updatedSongs = this.songs.filter(song => song.id !== songId);
+                this.songs = updatedSongs;
+                this.songsCount --;
+                this.songsUpdated.next({songs: [...this.songs], totalSongs: this.songsCount});
+                this.notificationService.submitNotification(
+                    new Notification(responseData.message,NotificationStatus.OK)
+                )
+            },
+             //! TODO get error message from the server
+            error => this.notificationService.submitNotification(new Notification("ERROR",NotificationStatus.ERROR))
+        );
     }
 
     updateSong(id: string, name: string, genre: Genre, song_path: string, image_path: string, release_date: Date,

@@ -15,9 +15,9 @@ import { SongService } from '../songs.service';
 export class SongListComponent implements OnInit {
   selectedSong: Song;
   songs: Song[];
-  totalSongs = 0;
-  songsPerPage = 10;
-  currentPage = 1;
+  totalSongs:number = 0;
+  songsPerPage:number = 10;
+  currentPage:number = 1;
   // pageSizeOptions = [3,4,10];
   private songSub: Subscription;
 

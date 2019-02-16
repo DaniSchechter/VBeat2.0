@@ -14,8 +14,6 @@ import { RouterLink } from '@angular/router';
 export class SongToolBarComponent implements OnInit {
 
   @Input() song: Song;
-  songsPerPage = 10;
-  currentPage = 1;
   songLiked: boolean;
 
 
@@ -48,8 +46,6 @@ export class SongToolBarComponent implements OnInit {
   }
 
    onDelete() {
-    this.songsService.deleteSong(this.song.id).subscribe(() => {
-      this.songsService.getSongs(this.songsPerPage, this.currentPage);
-    });
+    this.songsService.deleteSong(this.song.id)
   }
 }
