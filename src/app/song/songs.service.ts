@@ -58,8 +58,7 @@ export class SongService{
                 //     new Notification(responseData.message,NotificationStatus.OK)
                 // )
             },
-            //! TODO get error message from the server
-            error => this.notificationService.submitNotification(new Notification("ERROR",NotificationStatus.ERROR))
+            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
         );
     }
 
@@ -93,8 +92,7 @@ export class SongService{
                 )
                 this.router.navigate(["/"])
             },
-            //! TODO get error message from the server
-            error => this.notificationService.submitNotification(new Notification("ERROR",NotificationStatus.ERROR))
+            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
 
         );
     }
@@ -111,8 +109,7 @@ export class SongService{
                     new Notification(responseData.message,NotificationStatus.OK)
                 )
             },
-             //! TODO get error message from the server
-            error => this.notificationService.submitNotification(new Notification("ERROR",NotificationStatus.ERROR))
+            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
         );
     }
 
@@ -134,7 +131,9 @@ export class SongService{
                     new Notification(res.message,NotificationStatus.OK)
                 )
                 this.router.navigate(["/"])            
-            });
+            }, 
+            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+            );
         }
     
 

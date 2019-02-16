@@ -37,7 +37,7 @@ export class UserService {
 						new Notification(responseData.message, NotificationStatus.OK)
 				);
 			},
-			error => this.notificationService.submitNotification(new Notification(error, NotificationStatus.ERROR))
+			error => this.notificationService.submitNotification(new Notification(error.message, NotificationStatus.ERROR))
 		);
 	}
 
@@ -69,7 +69,7 @@ export class UserService {
 					},
 					(error) => {
 						this.notificationService.submitNotification(
-								new Notification(error, NotificationStatus.ERROR)
+								new Notification(error.message, NotificationStatus.ERROR)
 							);
 						onFailure();
 					}

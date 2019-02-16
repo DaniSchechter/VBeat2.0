@@ -19,6 +19,11 @@ app.post("", (req, res, next) => {
             message: "Song added successfully",
             songId: newSong._id
         });
+    }).catch(error => {
+        console.log(error.message);
+        res.status(500).json({
+            message: error.message
+        });
     });
 });
 
@@ -40,12 +45,25 @@ app.get("", (req, res, next) => {
                 songs: fetchedSongs,
                 totalSongs: count
             });
+    }).catch(error => {
+        console.log(error.message);
+        res.status(500).json({
+            message: error.message
+        });
     });
 });
 
 app.delete("/:id", (req, res, next) => {
-    Song.deleteOne({_id: req.params.id}).then((result) => {
-        res.status(200).json({message : "post deleted"});
+    Song.deleteOne({_id: req.params.id})
+    .then(result => {
+        res.status(200).json({
+            message : "Song deleted"
+        });
+    }).catch(error => {
+        console.log(error.message);
+        res.status(400).json({
+            message: error.message
+        });
     });
 });
 
@@ -65,7 +83,11 @@ app.put("/:id", (req, res, next) => {
         res.status(200).json({
             message: "song updated"
         });
-    })
+    }).catch(error => {
+        res.status(400).json({
+            message: error.message
+        });
+    });
 });
 
 module.exports = app;

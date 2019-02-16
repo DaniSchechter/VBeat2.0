@@ -82,8 +82,17 @@ app.get("/:id", (req, res, next) => {
 
 // delete certain user
 app.delete("/:id", (req, res, next) => {
-    User.deleteOne({_id: req.params.id});
-    res.status(200);
+    User.deleteOne({_id: req.params.id})
+    .then(result => {
+        res.status(200).json({
+            message : "User deleted"
+        });
+    }).catch(error => {
+        console.log(error.message);
+        res.status(400).json({
+            message: error.message
+        });
+    });
 });
 
 module.exports = app;
