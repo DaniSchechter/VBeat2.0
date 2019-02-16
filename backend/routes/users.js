@@ -1,6 +1,6 @@
 const express = require("express");
 
-const Use = require('../models/user');
+const User = require('../models/user');
 const app = express.Router();
 
 // create user

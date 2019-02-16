@@ -41,4 +41,40 @@ export class UserService {
 		);
 	}
 
+	login(username: string,
+		password: string,
+		onSuccess: Function,
+		onFailure: Function) {
+		const user: User = {
+			id: null,
+			username: username,
+			password: password,
+			profile_pic: null,
+			display_name: null,
+			email: null
+		}
+
+		this.Http.post<{message: string}>(this.base_url + '/user/login', user)
+			.subscribe(
+					(responseData) => {
+						this.notificationService.submitNotification(
+								new Notification(responseData.message, NotificationStatus.OK)
+						);
+						if(responseData.message == "ok") {
+							onSuccess();
+						} else {
+							onFailure();
+						}
+
+					},
+					(error) => {
+						this.notificationService.submitNotification(
+								new Notification(error, NotificationStatus.ERROR)
+							);
+						onFailure();
+					}
+				);
+
+	}
+
 }
