@@ -46,6 +46,6 @@ export class SongToolBarComponent implements OnInit {
   }
 
    onDelete() {
-    this.songsService.deleteSong(this.song.id)
+    this.songsService.deleteSong(this.song.id);
   }
 }
