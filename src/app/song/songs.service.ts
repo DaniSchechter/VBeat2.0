@@ -15,7 +15,8 @@ export class SongService{
 
     private songs: Song[] = [];
     private song: Song;
-    private songsUpdated = new Subject<Song[]>();
+    private songsCount = 0;
+    private songsUpdated = new Subject<{songs: Song[], totalSongs: number}>();
     private songUpdated = new Subject<Song>();
 
     constructor(private Http: HttpClient,
@@ -26,10 +27,12 @@ export class SongService{
         return this.songsUpdated.asObservable();
     }
     
-    getSongs(){
-        this.Http.get<{message: string; songs: any}>(this.base_url + '/songs')
-        .pipe(map((songData) => {
-            return songData.songs.map(song => {
+    getSongs(songsPerPage = 10, currentPage = 1){
+        const queryParams = `?pageSize=${songsPerPage}&page=${currentPage}`;
+        this.Http.get<{message: string; songs: any, totalSongs: number}>(this.base_url + '/songs' + queryParams)
+        .pipe(
+            map(songData => {
+            return {songs: songData.songs.map(song => {
                 return {
                     name: song.name, 
                     genre: song.genre, 
@@ -40,13 +43,17 @@ export class SongService{
                     num_of_times_liked: song.num_of_times_liked, 
                     id: song._id
                 };
-            });
+            }), totalSongs: songData.totalSongs};
         }))
         .subscribe(
             (songsAfterChange) => {
-                this.songs = songsAfterChange;
-                this.songsUpdated.next([...this.songs]);
-                //! TODO think if diplay message on fetching
+                this.songsCount = songsAfterChange.totalSongs;
+                this.songs = songsAfterChange.songs;
+                this.songsUpdated.next({
+                    songs: [...this.songs], 
+                    totalSongs: songsAfterChange.totalSongs
+                });
+                    //! TODO think if diplay message on fetching
                 // this.notificationService.submitNotification(
                 //     new Notification(responseData.message,NotificationStatus.OK)
                 // )
@@ -80,11 +87,7 @@ export class SongService{
             };
         this.Http.post<{message: string, songId: string}>(this.base_url + '/songs', song)
         .subscribe(
-                (responseData)=>{
-                const id = responseData.songId;
-                song.id = id;
-                this.songs.push(song);
-                this.songsUpdated.next([...this.songs]);
+                responseData => {
                 this.notificationService.submitNotification(
                     new Notification(responseData.message,NotificationStatus.OK)
                 )
@@ -97,12 +100,13 @@ export class SongService{
     }
 
     deleteSong(songId: string){
-        this.Http.delete<{message: string}>(this.base_url + '/songs/' + songId)
+        return this.Http.delete<{message: string}>(this.base_url + '/songs/' + songId)
         .subscribe(
             (responseData) => {
                 const updatedSongs = this.songs.filter(song => song.id !== songId);
                 this.songs = updatedSongs;
-                this.songsUpdated.next([...this.songs]);
+                this.songsCount --;
+                this.songsUpdated.next({songs: [...this.songs], totalSongs: this.songsCount});
                 this.notificationService.submitNotification(
                     new Notification(responseData.message,NotificationStatus.OK)
                 )

@@ -14,7 +14,6 @@ import { RouterLink } from '@angular/router';
 export class SongToolBarComponent implements OnInit {
 
   @Input() song: Song;
-  
   songLiked: boolean;
 
 

@@ -6,3 +6,7 @@ mat-accordion {
     padding: 0;
     margin: 0 10px 10px 10px;
 }
+
+mat-paginator{
+    margin-top: 1rem;
+}

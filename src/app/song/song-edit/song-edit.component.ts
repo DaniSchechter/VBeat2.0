@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { SongService } from '../songs.service'
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { SongListComponent } from "../song-list/song-list.component"
 
 
 @Component({
@@ -55,8 +56,8 @@ export class SongEditComponent implements OnInit {
             this.songService.getSong(this.songs, this.songId);
             this.songService.getSongs();
             this.songSub = this.songService.getSongsUpdateListener()
-              .subscribe((songs: Song[]) => {
-                this.songs = songs;
+            .subscribe((songData: {songs: Song[], totalSongs: number}) => {
+                this.songs = songData.songs;
                 this.song = this.songService.getSong(this.songs, this.songId);
                 this.selected_artists = this.song.artists;
               });
