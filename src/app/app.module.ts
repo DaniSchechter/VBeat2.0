@@ -36,6 +36,7 @@ import { HeaderComponent } from './header/header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { SongEditComponent } from './song/song-edit/song-edit.component';
 import { UserLoginComponent } from './user/user-login/user-login.component';
+import { UserSignupComponent } from './user/user-signup/user-signup.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { UserLoginComponent } from './user/user-login/user-login.component';
     NotificationPopupComponent,
     SongEditComponent,
     UserLoginComponent,
+    UserSignupComponent,
   ],
   imports: [
     BrowserModule,

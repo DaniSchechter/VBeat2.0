@@ -29,7 +29,6 @@ export class UserService {
 			display_name: display_name,
 			email: email
 		};
-
 		this.Http.post<{message: string, userId: string}>(this.base_url + '/user',user)
 		.subscribe(
 			(responseData) => {
