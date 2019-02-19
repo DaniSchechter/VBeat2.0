@@ -36,7 +36,9 @@ export class UserService {
 						new Notification(responseData.message, NotificationStatus.OK)
 				);
 			},
-			error => this.notificationService.submitNotification(new Notification(error.message, NotificationStatus.ERROR))
+			error => this.notificationService.submitNotification(
+				new Notification(error.message, NotificationStatus.ERROR)
+				)
 		);
 	}
 
