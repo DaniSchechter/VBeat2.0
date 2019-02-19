@@ -37,7 +37,7 @@ app.get("", (req, res, next) => {
     }
     songQuery.then(songsResult => {
         fetchedSongs = songsResult;
-        return Song.count();
+        return Song.countDocuments();
     })
     .then(count => {
         res.status(200).json({

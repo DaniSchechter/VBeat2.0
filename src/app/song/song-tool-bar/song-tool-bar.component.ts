@@ -1,9 +1,9 @@
 
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Song } from '../song.model';
 import { SongActionService } from '../song-action.sevice';
 import { SongService } from '../songs.service';
-import { RouterLink } from '@angular/router';
+import { Subject } from 'rxjs';
 
 
 @Component({
@@ -15,21 +15,33 @@ export class SongToolBarComponent implements OnInit {
 
   @Input() song: Song;
   songLiked: boolean;
+  // Not initializing in c'tor because of Singelton pattern
+  songActionService: SongActionService;
 
-
-  constructor(private songsService : SongService,  
-              private songActionService: SongActionService) { }
+  constructor(
+    private songsService : SongService)
+  {
+    this.songActionService = SongActionService.getInstance();
+  }
 
   ngOnInit() {
     this.songLiked = false;
-
-    this.songActionService.getSongUpdateListener()
-      .subscribe( (updatedSong: {song: Song, newNumOfLikes:number} ) => {
-        if(this.song.id == updatedSong.song.id) {
+    // Listen for updates in num of likes through web sockets
+    this.songActionService.getSongUpdatedSubject().subscribe( 
+      (updatedSong: Song) => {
+        if(this.song.id == updatedSong.id) {
+          this.song.num_of_times_liked = updatedSong.num_of_times_liked;
+        }
+      }
+    );
+    // Synchronize like-button color, locally for each user
+    this.songActionService.getLocalSongUpdateListener().subscribe(
+      (updatedSong: Song) => {
+        if(this.song.id == updatedSong.id) {
           this.songLiked = !this.songLiked;
         }
-      });
-
+      }
+    );
   }
 
   //TODO change to real action for the next 3 buttons 
@@ -45,7 +57,7 @@ export class SongToolBarComponent implements OnInit {
     
   }
 
-   onDelete() {
+  onDelete() {
     this.songsService.deleteSong(this.song.id);
   }
 }

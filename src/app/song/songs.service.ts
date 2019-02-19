@@ -135,7 +135,5 @@ export class SongService{
                 error => this.notificationService.submitNotification(
                     new Notification(error.message,NotificationStatus.ERROR))
             );
-        }
-    
-
+    }
 }
