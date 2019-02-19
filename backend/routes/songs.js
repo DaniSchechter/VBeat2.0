@@ -31,6 +31,7 @@ app.get("", (req, res, next) => {
     const pageSize = +req.query.pageSize;
     const currPage = +req.query.page;
     let fetchedSongs;
+    console.log("songs session.userId " + req.session.userId);
     const songQuery = Song.find();
     if (pageSize && currPage){
         songQuery.skip(pageSize * (currPage - 1)).limit(pageSize);

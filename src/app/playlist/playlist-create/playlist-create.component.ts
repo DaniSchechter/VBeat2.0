@@ -11,9 +11,6 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class PlaylistCreateComponent implements OnInit {
   
-  //! TODO - get the user id of the current user
-  private user_id : string;
-
   constructor(private playlistService: PlaylistService) { }
 
   ngOnInit() {  }
@@ -24,7 +21,6 @@ export class PlaylistCreateComponent implements OnInit {
     }
     this.playlistService.addPlaylist(
       form.value.name,
-      this.user_id,
       [],
     )
     form.resetForm();

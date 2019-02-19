@@ -16,7 +16,6 @@ export class PlaylistEditComponent implements OnInit {
   private playlistSub: Subscription;
   
   //! TODO - get the user id of the current user
-  private user_id: string;
   playlist : Playlist;
   playlists: Playlist[];
 
@@ -91,7 +90,6 @@ export class PlaylistEditComponent implements OnInit {
       this.playlistService.updatePlaylist(
         this.playlistId, 
         form.value.name,
-        this.user_id,
         this.selected_songs, // TODO: change to song array
       )
       form.resetForm();

@@ -27,7 +27,7 @@ export class PlaylistService{
     
     getPlaylists(playlistsPerPage = 10, currentPage = 1){
         const queryParams = `?pageSize=${playlistsPerPage}&page=${currentPage}`;
-        this.Http.get<{message: string; playlists: any, totalPlaylists: number}>(this.base_url + '/playlists' + queryParams)
+        this.Http.get<{message: string; playlists: any, totalPlaylists: number}>(this.base_url + '/playlist' + queryParams)
         .pipe(
             map(playlistData => {
             return {playlists: playlistData.playlists.map(playlist => {
@@ -65,14 +65,14 @@ export class PlaylistService{
     }
 
 
-    addPlaylist(name: string, user_id: string, song_list: string[]){
+    addPlaylist(name: string, song_list: string[]){
             const playlist: Playlist = {
                 id: null, 
                 name: name, 
-                user_id: user_id, 
+                user_id: null, 
                 song_list: song_list
             };
-        this.Http.post<{message: string, playlistId: string}>(this.base_url + '/playlists', playlist)
+        this.Http.post<{message: string, playlistId: string}>(this.base_url + '/playlist', playlist)
         .subscribe(
                 responseData => {
                 this.notificationService.submitNotification(
@@ -86,7 +86,7 @@ export class PlaylistService{
     }
 
     deletePlaylist(playlistId: string){
-        return this.Http.delete<{message: string}>(this.base_url + '/playlists/' + playlistId)
+        return this.Http.delete<{message: string}>(this.base_url + '/playlist/' + playlistId)
         .subscribe(
             (responseData) => {
                 const updatedPlaylists = this.playlists.filter(playlist => playlist.id !== playlistId);
@@ -101,14 +101,14 @@ export class PlaylistService{
         );
     }
 
-    updatePlaylist(id: string, name: string, user_id: string, song_list: string[]){
+    updatePlaylist(id: string, name: string, song_list: string[]){
             const playlist: Playlist = {
                 id: id, 
                 name: name, 
-                user_id: user_id, 
+                user_id: null, 
                 song_list: song_list
             };
-            this.Http.put<{message: string}>(this.base_url + '/playlists/' + id, playlist).subscribe(res => {
+            this.Http.put<{message: string}>(this.base_url + '/playlist/' + id, playlist).subscribe(res => {
                 this.notificationService.submitNotification(
                     new Notification(res.message,NotificationStatus.OK)
                 )

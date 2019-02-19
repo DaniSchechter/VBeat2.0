@@ -28,6 +28,7 @@ export class PlaylistListComponent implements OnInit {
     .subscribe((playlistData: {playlists: Playlist[], totalPlaylists: number}) => {
       this.totalPlaylists = playlistData.totalPlaylists;
       this.playlists = playlistData.playlists;
+      console.log(this.playlists);
       this.selectedPlaylist = null;
     })
   }

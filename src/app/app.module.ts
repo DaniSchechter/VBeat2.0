@@ -32,6 +32,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { UserCreateComponent } from './user/user-create/user-create.component';
 import { UserLoginComponent } from './user/user-login/user-login.component';
+import { UserSignupComponent } from './user/user-signup/user-signup.component';
 
 import { NotificationPopupComponent } from './notification/notification-popup/notification-popup.component';
 
@@ -42,7 +43,6 @@ import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-cre
 import { PlaylistEditComponent } from './playlist/playlist-edit/playlist-edit.component';
 import { PlaylistListComponent } from './playlist/playlist-list/playlist-list.component';
 import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-details.component';
-
 
 @NgModule({
   declarations: [
@@ -56,6 +56,7 @@ import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-d
     NotificationPopupComponent,
     SongEditComponent,
     UserLoginComponent,
+    UserSignupComponent,
     PlaylistCreateComponent,
     PlaylistEditComponent,
     PlaylistListComponent,
