@@ -47,7 +47,9 @@ app.post("/login", (req, res, next) => {
     .then(resultData => {
         // console.log(resultData)
         if(resultData != undefined && resultData.length == 1) {
+	    console.log(resultData);
             req.session.userId = resultData[0]._id;
+	    console.log(req.session.userId);
 
 	    // notify browser counter, fix and uncomment
 	    // browserCounter.onLogin(req.headers['User-Agent']);
@@ -67,6 +69,7 @@ app.post("/login", (req, res, next) => {
 
 // get users
 app.get("", (req, res, next) => {
+    console.log(req.session.userId);
     User.find(
         ).then(userResult => {
         res.status(200).json({
