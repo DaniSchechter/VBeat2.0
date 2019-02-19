@@ -90,4 +90,28 @@ app.put("/:id", (req, res, next) => {
     });
 });
 
+
+app.put("/likes/:id", (req, res, next) => {
+    const song = new Song({
+        _id: req.body.id,
+        name: req.body.name,
+        genre: req.body.genre,
+        song_path: req.body.song_path,
+        image_path: req.body.image_path,
+        release_date: req.body.release_date,
+        artists:  req.body.artists, // TODO: change to artist array
+        num_of_times_liked: req.body.num_of_times_liked
+    });
+    console.log(song);
+    Song.updateOne({_id: req.params.id}, song).then(result => {
+        res.status(200).json({
+            message: "likes updated"
+        });
+    }).catch(error => {
+        res.status(400).json({
+            message: error.message
+        });
+    });
+});
+
 module.exports = app;
