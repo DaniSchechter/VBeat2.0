@@ -4,7 +4,7 @@ import { Song } from '../song.model';
 import { SongActionService } from '../song-action.sevice';
 import { SongService } from '../songs.service';
 import { Subject } from 'rxjs';
-
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-song-tool-bar',
@@ -19,9 +19,10 @@ export class SongToolBarComponent implements OnInit {
   songActionService: SongActionService;
 
   constructor(
-    private songsService : SongService)
+    private songsService : SongService,
+    private http: HttpClient)
   {
-    this.songActionService = SongActionService.getInstance();
+    this.songActionService = SongActionService.getInstance(http);
   }
 
   ngOnInit() {

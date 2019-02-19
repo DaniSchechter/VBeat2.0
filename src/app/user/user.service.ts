@@ -29,7 +29,6 @@ export class UserService {
 			display_name: display_name,
 			email: email
 		};
-
 		this.Http.post<{message: string, userId: string}>(this.base_url + '/user',user)
 		.subscribe(
 			(responseData) => {
@@ -37,7 +36,9 @@ export class UserService {
 						new Notification(responseData.message, NotificationStatus.OK)
 				);
 			},
-			error => this.notificationService.submitNotification(new Notification(error.message, NotificationStatus.ERROR))
+			error => this.notificationService.submitNotification(
+				new Notification(error.message, NotificationStatus.ERROR)
+				)
 		);
 	}
 

@@ -2,10 +2,14 @@ import * as io  from 'socket.io-client';
 import { Observable, Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Song } from './song.model';
+import { HttpClient } from '@angular/common/http';
+import { NotificationPopupService } from '../notification/notification-popup.service';
+import { NotificationStatus, Notification } from '../notification/notification.model';
 
 @Injectable({providedIn: 'root'})
 export class SongActionService{
 
+    private base_url = 'http://localhost:3000/api';
     private song: Song;
     private socket;
 
@@ -18,14 +22,19 @@ export class SongActionService{
 
 
     // Force only one Socket per client
-    private constructor() {
+    private constructor( 
+        private http: HttpClient,
+        private notificationService: NotificationPopupService) 
+    {
         this.socket = io("http://localhost:3000/");
         this.songUpdatedSubject = this.createSongUpdatedSubject();
     }
 
-    static getInstance(): SongActionService {
+    // TODO think of a way without getting Httpclient as paramater
+    // TODO then remove also from song-tool-bar.component.ts
+    static getInstance(http:HttpClient ): SongActionService {
         if(!SongActionService.instance) {
-            SongActionService.instance = new SongActionService();
+            SongActionService.instance = new SongActionService(http, new NotificationPopupService());
         }
         return SongActionService.instance;
     }
@@ -69,20 +78,36 @@ export class SongActionService{
     like(song: Song) {
         this.song = song;
         this.song.num_of_times_liked ++;
-        // ! TODO call API - update num of likes with newNumOfLikes .
         // Inform for global change
         this.songUpdatedSubject.next(this.song);
         // Inform for local change
         this.localSongUpdated.next(song);
+        // Update in DB
+        this.http.put<{message: string}>(this.base_url + '/songs/likes/' + song.id, song).subscribe(
+            res => {
+            this.notificationService.submitNotification(
+                new Notification(res.message,NotificationStatus.OK)
+            )}, 
+            error => this.notificationService.submitNotification(
+                new Notification(error.message,NotificationStatus.ERROR))
+        );
     }
 
     unlike(song: Song) {
         this.song = song;
         this.song.num_of_times_liked --;
-        // ! TODO call API - update num of likes with newNumOfLikes .
         // Inform for global change
         this.songUpdatedSubject.next(this.song);
         // Inform for local change
         this.localSongUpdated.next(song);
+        // Update in DB
+        this.http.put<{message: string}>(this.base_url + '/songs/likes/' + song.id, song).subscribe(
+            res => {
+            this.notificationService.submitNotification(
+                new Notification(res.message,NotificationStatus.OK)
+            )}, 
+            error => this.notificationService.submitNotification(
+                new Notification(error.message,NotificationStatus.ERROR))
+        );
     }
 }

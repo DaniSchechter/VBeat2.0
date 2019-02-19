@@ -13,19 +13,15 @@ app.post("", (req, res, next) => {
         display_name: req.body.display_name, 
         email: req.body.email
     });
-
-    user.save(
-            // handle errors
-            function(err) {
-                res.status(500).json({
-                    message: "unable to save user model",
-                    reason: err
-                });
-            }
-        ).then(newUser => {
+    user.save()
+    .then(newUser => {
         res.status(201).json({
             message: "user created",
             userId: newUser._id
+        });
+    }).catch(error => {
+        res.status(500).json({
+            message: error.message
         });
     });
 });
@@ -96,3 +92,4 @@ app.delete("/:id", (req, res, next) => {
 });
 
 module.exports = app;
+
