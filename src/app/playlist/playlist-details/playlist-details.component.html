@@ -1,0 +1,13 @@
+<mat-card *ngIf="playlist">
+  <mat-card-header>
+    <mat-card-title >{{ playlist.name }}</mat-card-title>
+    <mat-card-subtitle mat-display-4>
+      <span class="mat-h3"> 
+        By: 
+      </span>
+      <span class="mat-h3" *ngFor="let song of playlist.song_list">
+        {{ song | uppercase }}, 
+      </span>
+    </mat-card-subtitle>
+  </mat-card-header>
+</mat-card> 

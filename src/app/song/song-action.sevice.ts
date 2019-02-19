@@ -24,7 +24,6 @@ export class SongActionService{
         let newNumOfLikes: number = this.song.num_of_times_liked + 1;
         this.song.num_of_times_liked = newNumOfLikes;
         let id = song.id;
-        // ! TODO call API - update num of likes with newNumOfLikes .
         this.Http.put<{message: string}>(this.base_url + '/songs/likes/' + id, song).subscribe(
             res => {
             this.notificationService.submitNotification(
@@ -41,7 +40,6 @@ export class SongActionService{
         let newNumOfLikes: number = this.song.num_of_times_liked - 1;
         this.song.num_of_times_liked = newNumOfLikes;
         let id = song.id;
-        // ! TODO call API - update num of likes with newNumOfLikes .
         this.Http.put<{message: string}>(this.base_url + '/songs/likes/' + id, song).subscribe(
             res => {
             this.notificationService.submitNotification(

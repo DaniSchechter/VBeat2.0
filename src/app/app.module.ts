@@ -21,28 +21,33 @@ import { MatPaginatorModule } from "@angular/material";
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { SongDetailsComponent } from './song/song-details/song-details.component';
-import { SongListComponent } from './song/song-list/song-list.component'
-import { HttpClientModule } from '@angular/common/http'
 
+import { SongEditComponent } from './song/song-edit/song-edit.component';
+import { SongDetailsComponent } from './song/song-details/song-details.component';
+import { SongListComponent } from './song/song-list/song-list.component';
 import { SongToolBarComponent } from './song/song-tool-bar/song-tool-bar.component';
 import { SongCreateComponent } from './song/song-create/song-create.component';
 
+import { HttpClientModule } from '@angular/common/http';
+
 import { UserCreateComponent } from './user/user-create/user-create.component';
+import { UserLoginComponent } from './user/user-login/user-login.component';
 
 import { NotificationPopupComponent } from './notification/notification-popup/notification-popup.component';
 
 import { HeaderComponent } from './header/header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { SongEditComponent } from './song/song-edit/song-edit.component';
-import { UserLoginComponent } from './user/user-login/user-login.component';
+
+import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-create.component';
+import { PlaylistEditComponent } from './playlist/playlist-edit/playlist-edit.component';
+import { PlaylistListComponent } from './playlist/playlist-list/playlist-list.component';
+import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-details.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     SongDetailsComponent,
-
     SongListComponent,
     SongToolBarComponent,
     SongCreateComponent,
@@ -51,6 +56,10 @@ import { UserLoginComponent } from './user/user-login/user-login.component';
     NotificationPopupComponent,
     SongEditComponent,
     UserLoginComponent,
+    PlaylistCreateComponent,
+    PlaylistEditComponent,
+    PlaylistListComponent,
+    PlaylistDetailsComponent,
   ],
   imports: [
     BrowserModule,

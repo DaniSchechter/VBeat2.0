@@ -1,0 +1,25 @@
+<mat-card>
+  <form (submit)="onSubmit(newForm)" #newForm="ngForm">
+      <!-- NAME -->
+      <mat-form-field appearance = "legacy" color = "accent">
+          <input 
+            matInput 
+            placeholder = "Name"
+            name = "name"
+            ngModel
+            required
+            minlength = 4
+            #name = "ngModel">
+          <mat-hint> At least 4 characters </mat-hint>
+          <mat-error *ngIf = "name.invalid"> Name is should be at least 4 characters long </mat-error>
+      </mat-form-field>
+      <!-- END -->
+      
+      <button 
+        mat-mini-fab 
+        type="submit">
+          <mat-icon title="Add new playlist">save</mat-icon>  
+      </button>
+
+  </form>
+</mat-card>

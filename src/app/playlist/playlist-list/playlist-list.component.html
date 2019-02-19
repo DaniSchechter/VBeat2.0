@@ -1,0 +1,24 @@
+<mat-accordion [class.col-sm-7]="selectedPlaylist">
+  
+  <mat-expansion-panel *ngFor="let playlist of playlists" (click)="onSelectPlaylist(playlist)">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="mat-h2">
+          {{ playlist.name }}
+      </mat-panel-title>
+      <mat-panel-description>
+        <p class="mat-h3" *ngFor="let song of playlist.songs">
+          {{ song }}
+        </p>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+  </mat-expansion-panel>
+</mat-accordion>
+
+<div [class.col-sm-5]="playlist">
+  <div *ngFor="let playlist of playlists" >
+    <app-playlist-details [hidden]="playlist !== selectedPlaylist" [playlist]="playlist"></app-playlist-details>
+  </div>
+</div>
+
+<mat-paginator [length]="totalPlaylists" [pageSize]="playlistsPerPage" (page)="onChangePage($event)"></mat-paginator>
