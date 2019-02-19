@@ -1,6 +1,5 @@
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Song, Genre } from './song.model';
 import { NotificationPopupService } from '../notification/notification-popup.service'
@@ -16,7 +15,7 @@ export class SongActionService{
     private songLiked = new Subject<{song:Song, newNumOfLikes:number}>();
 
     constructor(private Http: HttpClient,
-                private notificationService:NotificationPopupService, private router:Router){}
+                private notificationService:NotificationPopupService){}
 
     getSongUpdateListener() { return this.songLiked.asObservable(); }
 
