@@ -1,8 +1,13 @@
+// Built in Modules and components
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http'
 
+import { AppComponent } from './app.component';
+
+// Angular Material Modules
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,22 +23,18 @@ import { MatListModule } from '@angular/material/list';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBarModule } from '@angular/material';
 import { MatPaginatorModule } from "@angular/material";
-
-import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
-import { SongDetailsComponent } from './song/song-details/song-details.component';
-import { SongListComponent } from './song/song-list/song-list.component'
-import { HttpClientModule } from '@angular/common/http'
-
-import { SongToolBarComponent } from './song/song-tool-bar/song-tool-bar.component';
-import { SongCreateComponent } from './song/song-create/song-create.component';
-
-import { UserCreateComponent } from './user/user-create/user-create.component';
-
-import { NotificationPopupComponent } from './notification/notification-popup/notification-popup.component';
-
-import { HeaderComponent } from './header/header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
+
+// Custom Modules and components
+import { AppRoutingModule } from './app-routing.module';
+
+import { SongDetailsComponent } from './song/song-details/song-details.component';
+import { SongListComponent } from './song/song-list/song-list.component';
+import { SongToolBarComponent } from "./song/song-tool-bar/song-tool-bar.component";
+import { SongCreateComponent } from './song/song-create/song-create.component';
+import { UserCreateComponent } from './user/user-create/user-create.component';
+import { NotificationPopupComponent } from './notification/notification-popup/notification-popup.component';
+import { HeaderComponent } from './header/header.component';
 import { SongEditComponent } from './song/song-edit/song-edit.component';
 import { UserLoginComponent } from './user/user-login/user-login.component';
 import { UserSignupComponent } from './user/user-signup/user-signup.component';
