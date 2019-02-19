@@ -8,7 +8,7 @@ app.post("/:userId", (req, res, next) => {
     const playlist = new Playlist({
         name: req.body.name,
         user_id: req.params.userId,
-        playlist_list: req.body.playlist_list,
+        song_list: req.body.song_list,
     });
     playlist.save()
     .then(newPlaylist => {
