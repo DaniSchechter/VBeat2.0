@@ -26,13 +26,13 @@ export class SongActionService{
         this.song.num_of_times_liked = newNumOfLikes;
         let id = song.id;
         // ! TODO call API - update num of likes with newNumOfLikes .
-        this.Http.put<{message: string}>(this.base_url + '/songs/likes/' + id, song).subscribe(res => {
+        this.Http.put<{message: string}>(this.base_url + '/songs/likes/' + id, song).subscribe(
+            res => {
             this.notificationService.submitNotification(
                 new Notification(res.message,NotificationStatus.OK)
-            )
-            this.router.navigate(["/"])            
-        }, 
-        error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+            )}, 
+            error => this.notificationService.submitNotification(
+                new Notification(error.message,NotificationStatus.ERROR))
         );
         this.songLiked.next( {song, newNumOfLikes} );
     }
@@ -43,13 +43,13 @@ export class SongActionService{
         this.song.num_of_times_liked = newNumOfLikes;
         let id = song.id;
         // ! TODO call API - update num of likes with newNumOfLikes .
-        this.Http.put<{message: string}>(this.base_url + '/songs/likes/' + id, song).subscribe(res => {
+        this.Http.put<{message: string}>(this.base_url + '/songs/likes/' + id, song).subscribe(
+            res => {
             this.notificationService.submitNotification(
                 new Notification(res.message,NotificationStatus.OK)
-            )
-            this.router.navigate(["/"])            
-        }, 
-        error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+            )}, 
+            error => this.notificationService.submitNotification(
+                new Notification(error.message,NotificationStatus.ERROR))
         );
         this.songLiked.next( {song, newNumOfLikes} );
     }
