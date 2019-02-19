@@ -21,7 +21,6 @@ var secretCookie = 'donttellthistonobodyitssupposedtobeasecret'
 app.use(bodyParser.json());
 
 app.use(session({secret: secretCookie}));
-app.use(cookieParser(secretCookie));
 
 
 //Setting Headers
