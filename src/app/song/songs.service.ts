@@ -46,7 +46,7 @@ export class SongService{
             }), totalSongs: songData.totalSongs};
         }))
         .subscribe(
-            (songsAfterChange) => {
+            songsAfterChange => {
                 this.songsCount = songsAfterChange.totalSongs;
                 this.songs = songsAfterChange.songs;
                 this.songsUpdated.next({
@@ -58,7 +58,8 @@ export class SongService{
                 //     new Notification(responseData.message,NotificationStatus.OK)
                 // )
             },
-            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+            error => this.notificationService.submitNotification(
+                new Notification(error.message,NotificationStatus.ERROR))
         );
     }
 
@@ -86,13 +87,14 @@ export class SongService{
             };
         this.Http.post<{message: string, songId: string}>(this.base_url + '/songs', song)
         .subscribe(
-                responseData => {
+            responseData => {
                 this.notificationService.submitNotification(
                     new Notification(responseData.message,NotificationStatus.OK)
                 )
                 this.router.navigate(["/"])
             },
-            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+            error => this.notificationService.submitNotification(
+                new Notification(error.message,NotificationStatus.ERROR))
 
         );
     }
@@ -100,7 +102,7 @@ export class SongService{
     deleteSong(songId: string){
         return this.Http.delete<{message: string}>(this.base_url + '/songs/' + songId)
         .subscribe(
-            (responseData) => {
+            responseData => {
                 const updatedSongs = this.songs.filter(song => song.id !== songId);
                 this.songs = updatedSongs;
                 this.songsCount --;
@@ -109,7 +111,8 @@ export class SongService{
                     new Notification(responseData.message,NotificationStatus.OK)
                 )
             },
-            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+            error => this.notificationService.submitNotification(
+                new Notification(error.message,NotificationStatus.ERROR))
         );
     }
 
@@ -126,13 +129,15 @@ export class SongService{
                 artists: artists, 
                 num_of_times_liked: num_of_times_liked
             };
-            this.Http.put<{message: string}>(this.base_url + '/songs/' + id, song).subscribe(res => {
-                this.notificationService.submitNotification(
-                    new Notification(res.message,NotificationStatus.OK)
-                )
-                this.router.navigate(["/"])            
-            }, 
-            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+            this.Http.put<{message: string}>(this.base_url + '/songs/' + id, song).subscribe(
+                res => {
+                    this.notificationService.submitNotification(
+                        new Notification(res.message,NotificationStatus.OK)
+                    )
+                    this.router.navigate(["/"])            
+                }, 
+                error => this.notificationService.submitNotification(
+                    new Notification(error.message,NotificationStatus.ERROR))
             );
         }
     
