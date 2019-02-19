@@ -53,10 +53,6 @@ export class SongService{
                     songs: [...this.songs], 
                     totalSongs: songsAfterChange.totalSongs
                 });
-                    //! TODO think if diplay message on fetching
-                // this.notificationService.submitNotification(
-                //     new Notification(responseData.message,NotificationStatus.OK)
-                // )
             },
             error => this.notificationService.submitNotification(
                 new Notification(error.message,NotificationStatus.ERROR))
