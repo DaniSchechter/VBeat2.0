@@ -17,15 +17,14 @@ export class SongCreateComponent implements OnInit {
   //For select optios of genre
   genre_options: string[];
   
-  //TODO change to artists array not string array
-  //TODO add the singed-in user as artist for this song - and disable his delete option 
   //Temp array for the selected artists, send to server only on submit
   selected_artists: string[];
 
   //Temp string for current prefix filter
   prefix: string;
 
-  //TODO - remove the hard-coded artists and send real db queries as explained in the html - leave the list as empty list
+  //! TODO add the singed-in user as artist for this song inside the list - and disable his delete option 
+  //! TODO when diplaying artist list, dont display yourself
   artists: string[]= ['CardiB','Catey','CICI','Pink','Pupi','Marshmelo','Melo','Khalid','Kuki','Bruno M'];  
 
   //Only when the name's prefix of this length, query the db
@@ -52,6 +51,7 @@ export class SongCreateComponent implements OnInit {
   }
 
   //TODO change to artist type not string
+  //! TODO when selecting artist from the list, remove it from there, on delete bring back
   // Adds an artist that was selected to song's artists lis
   onSelectArtist(artist: string) {
     this.selected_artists.push(artist);

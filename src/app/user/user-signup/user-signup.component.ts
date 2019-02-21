@@ -24,6 +24,7 @@ export class UserSignupComponent implements OnInit {
   		return;
   	}
 
+    // ! TODO alex use form.value.role
     this.userService.addUser(form.value.username, form.value.password, form.value.profile_pic, form.value.display_name, form.value.email);
     
     form.resetForm();
