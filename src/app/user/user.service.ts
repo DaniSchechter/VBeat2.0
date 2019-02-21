@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NotificationPopupService } from '../notification/notification-popup.service'
 import { NotificationStatus, Notification } from '../notification/notification.model'
-import { User } from './user.model'
+import { User, UserRole } from './user.model'
 
 
 @Injectable({
@@ -17,6 +17,7 @@ export class UserService {
 	   and submits a notification regarding the response*/
 	addUser(username: string, 
 			password: string,
+			role: UserRole,
 			profile_pic: string,
 			display_name: string,
 			email: string
@@ -24,6 +25,7 @@ export class UserService {
 		const user: User = {
 			id: null,
 			username: username,
+			role: role,
 			password: password, 
 			profile_pic: profile_pic,
 			display_name: display_name,
@@ -49,6 +51,7 @@ export class UserService {
 		const user: User = {
 			id: null,
 			username: username,
+			role: null,
 			password: password,
 			profile_pic: null,
 			display_name: null,
