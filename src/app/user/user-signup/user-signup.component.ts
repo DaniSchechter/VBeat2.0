@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UserService } from '../user.service';
-
+import { UserConfig, UserRole } from '../user.model'; 
 
 @Component({
   selector: 'app-user-signup',
@@ -10,12 +10,13 @@ import { UserService } from '../user.service';
 })
 export class UserSignupComponent implements OnInit {
 
-  role_options: string[]= ['User', 'Artist'];  
-  minAttributeLength = 6;
+  userConfig: UserConfig = new UserConfig();
+  userRoleOptions: string[];
 
   constructor( private userService:UserService ) { }
 
   ngOnInit() {
+    this.userRoleOptions  = Object.keys(UserRole);
   }
 
   // handler for login
@@ -24,7 +25,7 @@ export class UserSignupComponent implements OnInit {
   		return;
   	}
 
-    this.userService.addUser(form.value.username, form.value.password, form.value.profile_pic, form.value.display_name, form.value.email);
+    this.userService.addUser(form.value.username, form.value.password, form.value.role, form.value.profile_pic, form.value.display_name, form.value.email);
     
     form.resetForm();
 

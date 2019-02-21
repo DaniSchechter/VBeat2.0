@@ -32,7 +32,6 @@ import { SongDetailsComponent } from './song/song-details/song-details.component
 import { SongListComponent } from './song/song-list/song-list.component';
 import { SongToolBarComponent } from "./song/song-tool-bar/song-tool-bar.component";
 import { SongCreateComponent } from './song/song-create/song-create.component';
-import { UserCreateComponent } from './user/user-create/user-create.component';
 import { NotificationPopupComponent } from './notification/notification-popup/notification-popup.component';
 import { HeaderComponent } from './header/header.component';
 import { SongEditComponent } from './song/song-edit/song-edit.component';
@@ -48,7 +47,6 @@ import { UserSignupComponent } from './user/user-signup/user-signup.component';
     SongListComponent,
     SongToolBarComponent,
     SongCreateComponent,
-    UserCreateComponent,
     HeaderComponent,
     NotificationPopupComponent,
     SongEditComponent,
