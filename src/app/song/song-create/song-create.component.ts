@@ -12,10 +12,9 @@ import { UserService } from '../../user/user.service';
 })
 export class SongCreateComponent implements OnInit {
 
-  private songId : string;
   song : Song;
   
-  //For select optios of genre - populated from Genre option ENUM
+  //For select_optios of genre - populated from Genre option ENUM
   genre_options: string[];
   
   //Temp array for the selected artists, send to server only on submit
@@ -42,6 +41,8 @@ export class SongCreateComponent implements OnInit {
     this.filtered_artists = [];  //gets an actual value only from pre-defined length - see updates below
     this.name_length_to_query = 2;
     this.genre_options = Object.keys(Genre);
+
+    // Update local artist list when called by listening for changes
     this.userService.getArtistsUpdateListener().subscribe(
       (artists: User[]) => { 
 

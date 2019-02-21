@@ -9,5 +9,5 @@ mat-accordion {
 }
 
 mat-paginator{
-    margin-top: 1rem;
+    margin: 10px;
 }
