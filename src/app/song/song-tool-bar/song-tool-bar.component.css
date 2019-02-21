@@ -5,3 +5,7 @@ button, a {
 button.liked {
     background-color: rgb(0, 132, 255);
 }
+
+mat-card{
+    font: 500 20px/32px Roboto,"Helvetica Neue",sans-serif;
+}

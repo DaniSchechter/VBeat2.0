@@ -6,6 +6,7 @@ import { Playlist } from './playlist.model';
 import { NotificationPopupService } from '../notification/notification-popup.service'
 import { NotificationStatus, Notification } from '../notification/notification.model'
 import { Router } from '@angular/router';
+import {Song } from "../song/song.model";
 
 @Injectable({providedIn: 'root'})
 export class PlaylistService{
@@ -33,8 +34,8 @@ export class PlaylistService{
             return {playlists: playlistData.playlists.map(playlist => {
                 return {
                     name: playlist.name, 
-                    user_id: playlist.user_id, 
-                    song_list: playlist.song_list,
+                    UserId: playlist.UserId, 
+                    songList: playlist.songList,
                     id: playlist._id
                 };
             }), totalPlaylists: playlistData.totalPlaylists};
@@ -65,12 +66,12 @@ export class PlaylistService{
     }
 
 
-    addPlaylist(name: string, song_list: string[]){
+    addPlaylist(name: string, songList: Song[]){
             const playlist: Playlist = {
                 id: null, 
                 name: name, 
-                user_id: null, 
-                song_list: song_list
+                UserId: null, 
+                songList: songList
             };
         this.Http.post<{message: string, playlistId: string}>(this.base_url + '/playlist', playlist)
         .subscribe(
@@ -101,12 +102,12 @@ export class PlaylistService{
         );
     }
 
-    updatePlaylist(id: string, name: string, song_list: string[]){
+    updatePlaylist(id: string, name: string, songList: Song[]){
             const playlist: Playlist = {
                 id: id, 
                 name: name, 
-                user_id: null, 
-                song_list: song_list
+                UserId: null, 
+                songList: songList
             };
             this.Http.put<{message: string}>(this.base_url + '/playlist/' + id, playlist).subscribe(res => {
                 this.notificationService.submitNotification(
@@ -117,6 +118,7 @@ export class PlaylistService{
             error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
             );
         }
+    
     
 
 }

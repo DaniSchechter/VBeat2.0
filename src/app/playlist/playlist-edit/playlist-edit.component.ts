@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Playlist } from '../playlist.model'
+import { Playlist } from '../playlist.model';
+import { Song } from '../../song/song.model';
 import { NgForm } from '@angular/forms';
-import { PlaylistService } from '../playlist.service'
+import { PlaylistService } from '../playlist.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -23,7 +24,7 @@ export class PlaylistEditComponent implements OnInit {
   //TODO change to songs array not string array
   //TODO add the singed-in user as song for this playlist - and disable his delete option 
   //Temp array for the selected songs, send to server only on submit
-  selected_songs: string[];
+  selected_songs: Song[];
 
   //Temp string for current prefix filter
   prefix: string;
@@ -56,7 +57,7 @@ export class PlaylistEditComponent implements OnInit {
             .subscribe((playlistData: {playlists: Playlist[], totalPlaylists: number}) => {
                 this.playlists = playlistData.playlists;
                 this.playlist = this.playlistService.getPlaylist(this.playlists, this.playlistId);
-                this.selected_songs = this.playlist.song_list;
+                this.selected_songs = this.playlist.songList;
               });
         }
     });
@@ -64,7 +65,7 @@ export class PlaylistEditComponent implements OnInit {
 
   //TODO change to song type not string
   // Adds an song that was selected to playlist's songs list
-  onSelectSong(song: string) {
+  onSelectSong(song: Song) {
     this.selected_songs.push(song);
     this.clearFilteredrtists();
   }
@@ -80,7 +81,7 @@ export class PlaylistEditComponent implements OnInit {
   }
   //TODO change to song type not string
   onDeleteSelectedSong(song_to_delete: string) {
-    this.selected_songs = this.selected_songs.filter( song => song != song_to_delete);
+    this.selected_songs = this.selected_songs.filter( song => song.id != song_to_delete);
   }
 
   onSubmit(form: NgForm){

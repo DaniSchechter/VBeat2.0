@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
+const Song = require('./song');
 
 const playlistSchema = mongoose.Schema({
     name: {type: String, require:true},
-    user_id: {type: String, require:true},
-    song_list: String
+    UserId: {type: String, require:true},
+    songList: [Song.schema]
 });
 
 module.exports = mongoose.model('Playlist', playlistSchema);

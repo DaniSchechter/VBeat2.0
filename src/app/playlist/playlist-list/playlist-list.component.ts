@@ -25,6 +25,7 @@ export class PlaylistListComponent implements OnInit {
   ngOnInit() {
     // this.playlistLiked = false;
     this.playlistsService.getPlaylists(this.playlistsPerPage, 1);
+
     this.playlistSub = this.playlistsService.getPlaylistsUpdateListener()
     .subscribe((playlistData: {playlists: Playlist[], totalPlaylists: number}) => {
       this.totalPlaylists = playlistData.totalPlaylists;

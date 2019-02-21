@@ -1,15 +1,14 @@
 const express = require("express");
 
-
 const Playlist = require('../models/playlist');
 const app = express.Router();
 
 app.post("", (req, res, next) => {
-    req.session.userId = "5c5ec3d17f4c0f5ea9269e41";
+    req.session.userId = "5c6ea4605634786140479038";
     const playlist = new Playlist({
         name: req.body.name,
-        user_id: req.session.userId,
-        song_list: req.body.song_list,
+        UserId: req.session.userId,
+        songList: req.body.songList,
     });
     playlist.save()
     .then(newPlaylist => {
@@ -28,9 +27,9 @@ app.get("", (req, res, next) => {
     const pageSize = +req.query.pageSize;
     const currPage = +req.query.page;
     let fetchedPlaylists;
-    req.session.userId = "5c5ec3d17f4c0f5ea9269e41";
+    req.session.userId = "5c6ea4605634786140479038";
     console.log("playlist session.userId: " + req.session.userId);
-    const playlistQuery = Playlist.find({user_id: req.session.userId });
+    const playlistQuery = Playlist.find({UserId: req.session.userId });
     if (pageSize && currPage){
         playlistQuery.skip(pageSize * (currPage - 1)).limit(pageSize);
     }
@@ -71,8 +70,8 @@ app.put("/:id", (req, res, next) => {
     const playlist = new Playlist({
         _id: req.body.id,
         name: req.body.name,
-        user_id: req.session.userId,
-        song_list:  req.body.song_list
+        UserId: req.session.userId,
+        songList:  req.body.songList
     });
     Playlist.updateOne({_id: req.params.id}, playlist)
     .then(result => {
@@ -86,4 +85,5 @@ app.put("/:id", (req, res, next) => {
     });
 });
 
+app.put("")
 module.exports = app;
