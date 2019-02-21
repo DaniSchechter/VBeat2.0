@@ -5,6 +5,7 @@ const Playlist = require('../models/playlist');
 const app = express.Router();
 
 app.post("", (req, res, next) => {
+    req.session.userId = "5c5ec3d17f4c0f5ea9269e41";
     const playlist = new Playlist({
         name: req.body.name,
         user_id: req.session.userId,
@@ -27,6 +28,7 @@ app.get("", (req, res, next) => {
     const pageSize = +req.query.pageSize;
     const currPage = +req.query.page;
     let fetchedPlaylists;
+    req.session.userId = "5c5ec3d17f4c0f5ea9269e41";
     console.log("playlist session.userId: " + req.session.userId);
     const playlistQuery = Playlist.find({user_id: req.session.userId });
     if (pageSize && currPage){

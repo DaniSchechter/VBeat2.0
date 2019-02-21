@@ -2,6 +2,7 @@ const express = require("express");
 
 const User = require('../models/user');
 const app = express.Router();
+const browserCounter = require('../algo/count-user-agent');
 
 // create user
 app.post("", (req, res, next) => {
@@ -37,8 +38,13 @@ app.post("/login", (req, res, next) => {
             console.log("user id: " + resultData[0]._id);
             console.log("req.session.userId " + req.session.userId);
             console.log(req.session);
+
+	    // notify browser counter
+	    // browserCounter.onLogin(req.headers['User-Agent']);
+
             // create session
             res.status(200).json({
+                userId: resultData[0]._id, 
                 message: "ok",
             });
 
@@ -73,7 +79,6 @@ app.get("/:id", (req, res, next) => {
         } else {
             res.status(200).json({
                 message: "ok",
-                users: userResult
             });
         }
     });

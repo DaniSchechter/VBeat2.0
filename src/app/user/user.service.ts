@@ -10,6 +10,9 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class UserService {
+
+	userId
+
 	private base_url = 'http://localhost:3000/api'; /* TODO need to move this out */ 
 	constructor(private Http: HttpClient,
 				private notificationService: NotificationPopupService, private router:Router) { }
@@ -68,7 +71,6 @@ export class UserService {
 						} else {
 							onFailure();
 						}
-
 					},
 					(error) => {
 						this.notificationService.submitNotification(

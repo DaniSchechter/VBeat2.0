@@ -36,7 +36,7 @@
               name = "role"
               ngModel
               required
-              #role_options = "ngModel">
+              #role_option = "ngModel">
               <mat-option
                 *ngFor = "let role of role_options" 
                 [value]="role">
@@ -44,7 +44,7 @@
               </mat-option>
           </mat-select>
           <mat-hint> Please select a role </mat-hint>
-          <mat-error *ngIf = "role_options.invalid"> Please select one role </mat-error>
+          <mat-error *ngIf = "role_option.invalid"> Please select one role </mat-error>
       </mat-form-field>
 
       <!-- profile pic -->

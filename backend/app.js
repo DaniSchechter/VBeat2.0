@@ -1,5 +1,6 @@
 const express = require("express");
-const session = require("express-session")
+const session = require("express-session");
+const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 
@@ -17,8 +18,13 @@ mongoose.connect("mongodb+srv://alex:nE7fHawuXIMUmwlX@cluster0-k5m05.mongodb.net
 });
 
 //Boby parameter parsing
+var secretCookie = 'donttellthistonobodyitssupposedtobeasecret'
+
 app.use(bodyParser.json());
-app.use(session({secret: 'donttellthistonobodyitssupposedtobeasecret'}));
+
+app.use(session({secret: secretCookie}));
+app.use(cookieParser(secretCookie));
+
 
 //Setting Headers
 app.use((req, res, next) => {

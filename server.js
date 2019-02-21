@@ -1,6 +1,7 @@
 const app = require("./backend/app");
 const debug = require("debug")("node-angular");
 const http = require("http");
+const socket = require("socket.io");
 
 const normalizaPort = val => {
     var port = parseInt(val, 10);
@@ -48,3 +49,20 @@ const server = http.createServer(app);
 server.on("error", onError);
 server.on("listening", onListening);
 server.listen(port);
+
+/* 
+    Server side socket.io Initialization 
+*/
+
+// Setup the socket to work with our server
+const io = socket(server);
+
+// Listen for client's browser connection
+io.on("connection", socket => {
+    let date = new Date();
+    console.log(`${ date.getHours() }:${ date.getMinutes() }:${ date.getSeconds() }, Client connected: ${ socket.id }`);
+
+    socket.on("songLikeAction", song => {
+        io.emit("songLikeAction", song);
+    });
+});

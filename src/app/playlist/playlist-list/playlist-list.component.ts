@@ -23,12 +23,12 @@ export class PlaylistListComponent implements OnInit {
   constructor(public playlistsService : PlaylistService) { }
 
   ngOnInit() {
+    // this.playlistLiked = false;
     this.playlistsService.getPlaylists(this.playlistsPerPage, 1);
     this.playlistSub = this.playlistsService.getPlaylistsUpdateListener()
     .subscribe((playlistData: {playlists: Playlist[], totalPlaylists: number}) => {
       this.totalPlaylists = playlistData.totalPlaylists;
       this.playlists = playlistData.playlists;
-      console.log(this.playlists);
       this.selectedPlaylist = null;
     })
   }
