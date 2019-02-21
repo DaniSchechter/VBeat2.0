@@ -5,10 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { Song, Genre } from './song.model';
 import { NotificationPopupService } from '../notification/notification-popup.service'
 import { NotificationStatus, Notification } from '../notification/notification.model'
-import { elementEnd } from '@angular/core/src/render3';
-import { visitValue } from '@angular/compiler/src/util';
 import { Router } from '@angular/router';
-
+import { User } from '../user/user.model';
 @Injectable({providedIn: 'root'})
 export class SongService{
     private base_url = 'http://localhost:3000/api';
@@ -39,7 +37,7 @@ export class SongService{
                     song_path: song.song_path, 
                     image_path: song.image_path, 
                     release_date: song.release_date,
-                    artists: song.artists, //TODO: change to artist array
+                    artists: song.artists,
                     num_of_times_liked: song.num_of_times_liked, 
                     id: song._id
                 };
@@ -69,8 +67,8 @@ export class SongService{
 
 
     addSong(name: string, genre: Genre, song_path: string, image_path: string, release_date: Date,
-        artists: string[], //TODO: change to artist array
-        num_of_times_liked: number){
+        artists: User[], num_of_times_liked: number)
+        {
             const song: Song = {
                 id: null, 
                 name: name, 
@@ -81,6 +79,7 @@ export class SongService{
                 artists: artists, 
                 num_of_times_liked: num_of_times_liked
             };
+
         this.Http.post<{message: string, songId: string}>(this.base_url + '/songs', song)
         .subscribe(
             responseData => {
@@ -113,8 +112,8 @@ export class SongService{
     }
 
     updateSong(id: string, name: string, genre: Genre, song_path: string, image_path: string, release_date: Date,
-        artists: string[], //TODO: change to artist array
-        num_of_times_liked: number){
+        artists: User[], num_of_times_liked: number)
+        {
             const song: Song = {
                 id: id, 
                 name: name, 

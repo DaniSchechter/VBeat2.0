@@ -3,7 +3,7 @@ const express = require("express");
 const User = require('../models/user');
 const app = express.Router();
 
-// create user
+// create user - SIGN UP
 app.post("", (req, res, next) => {
     const user = new User({
         username: req.body.username,
@@ -16,7 +16,7 @@ app.post("", (req, res, next) => {
     user.save()
     .then(newUser => {
         res.status(201).json({
-            message: "user created",
+            message: "User created successfully",
             userId: newUser._id
         });
     }).catch(error => {
@@ -28,20 +28,36 @@ app.post("", (req, res, next) => {
 
 // user login
 app.post("/login", (req, res, next) => {
-    // console.log(req.body.username);
     User.find({username: req.body.username, password: req.body.password})
     .then(resultData => {
-        // console.log(resultData)
         if(resultData != undefined && resultData.length == 1) {
             req.session.userId = resultData[0]._id;
             // create session
             res.status(200).json({
-                message: "ok",
+                message: "Loged in successfully",
             });
 
         } else {
             res.status(401).json({
-                message:"failed"
+                message:"Failed to log in"
+            });
+        }
+    });
+});
+
+// get all artists ( roll = "Artist" )
+app.get("/artists", (req, res, next) => {
+    User.find({ role: "ARTIST" })
+    .then(artists => {
+        if(artists == null || artists == undefined) {
+            res.status(404).json({
+                message: "Not found",
+                artists: [],
+            });
+        } else {
+            res.status(200).json({
+                message: "Fetched artists successfully",
+                artists: artists
             });
         }
     });
@@ -65,7 +81,7 @@ app.get("/:id", (req, res, next) => {
         if(userResult == null || userResult == undefined) {
             res.status(404).json({
                 message: "not found",
-                code: 404
+                users: []
             });
         } else {
             res.status(200).json({
