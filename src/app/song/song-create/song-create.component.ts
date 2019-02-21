@@ -11,7 +11,7 @@ import { UserService } from '../../user/user.service';
   styleUrls: ['./song-create.component.css']
 })
 export class SongCreateComponent implements OnInit {
-  // private mode = 'create';
+
   private songId : string;
   song : Song;
   
@@ -44,17 +44,28 @@ export class SongCreateComponent implements OnInit {
     this.genre_options = Object.keys(Genre);
     this.userService.getArtistsUpdateListener().subscribe(
       (artists: User[]) => { 
-        this.artists = artists;
+
+        // Filter the artists array from selected artists so they wont be selected again
+        this.artists = [];
+        artists.forEach( artist => {
+          if( !this.selected_artists.some( selectedArtist => artist.id == selectedArtist.id ))
+            this.artists.push(artist);
+        });
+
         this.filterArtists();
       }
     );
   }
 
-  //! TODO when selecting artist from the list, remove it from there, on delete bring back
-  // Adds an artist that was selected to song's artists lis
+  // Adds an artist that was selected to song's artists list
   onSelectArtist(artist: User) {
     this.selected_artists.push(artist);
-    this.clearFilteredrtists();
+    this.clearFilteredrtists();          
+  }
+
+  // Removes an artist from song's artists list
+  onDeleteSelectedArtist(artist_to_delete: User) {
+    this.selected_artists = this.selected_artists.filter( artist => artist.id != artist_to_delete.id);
   }
 
   onSearchArtistChange() {
@@ -62,7 +73,7 @@ export class SongCreateComponent implements OnInit {
       this.clearFilteredrtists();
     }
 
-    else if( this.prefix.length == this.name_length_to_query ) {
+    else if( this.prefix.length >= this.name_length_to_query ) {
       if( this.prefix.length == this.name_length_to_query ) {
         this.userService.getArtists();
       }
@@ -75,10 +86,6 @@ export class SongCreateComponent implements OnInit {
   filterArtists() {
     this.filtered_artists = this.artists.filter( 
         artist => artist.display_name.toLowerCase().startsWith(this.prefix.toLowerCase())); 
-  }
-
-  onDeleteSelectedArtist(artist_to_delete: User) {
-    this.selected_artists = this.selected_artists.filter( artist => artist.id != artist_to_delete.id);
   }
 
   onSubmit(form: NgForm){

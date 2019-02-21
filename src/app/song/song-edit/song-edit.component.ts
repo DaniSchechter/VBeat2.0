@@ -42,7 +42,7 @@ export class SongEditComponent implements OnInit {
   //   this.genre_options = Object.keys(Genre);
   // }
 
-  // // !!!! TODO change to load only one song and not the entire songs
+  // !!!! TODO change to load only one song and not the entire songs
   ngOnInit() {
     // this.selected_artists = [];
     // this.filtered_artists = [];  //gets an actual value only from pre-defined length - see updates below
