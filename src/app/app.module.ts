@@ -39,6 +39,7 @@ import { SongEditComponent } from './song/song-edit/song-edit.component';
 import { UserLoginComponent } from './user/user-login/user-login.component';
 import { UserSignupComponent } from './user/user-signup/user-signup.component';
 import { BrowserStatsComponent } from './stats/browser-stats/browser-stats.component';
+import { BrowserPipe } from './stats/browser.pipe';
 
 
 @NgModule({
@@ -56,6 +57,7 @@ import { BrowserStatsComponent } from './stats/browser-stats/browser-stats.compo
     UserLoginComponent,
     UserSignupComponent,
     BrowserStatsComponent,
+    BrowserPipe,
   ],
   imports: [
     BrowserModule,

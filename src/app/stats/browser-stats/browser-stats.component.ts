@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { StatsService } from '../stats.service';
 
 @Component({
@@ -7,9 +7,10 @@ import { StatsService } from '../stats.service';
   styleUrls: ['./browser-stats.component.css']
 })
 export class BrowserStatsComponent implements OnInit {
-  browserData = null;
+  browserData = {};
  
-  constructor(private statService: StatsService) { }
+  constructor(private statService: StatsService,
+    private zone:NgZone) { }
 
   ngOnInit() {
   	this.statService.getBrowserData(this.onBrowserDataReceived.bind(this));
@@ -20,8 +21,10 @@ export class BrowserStatsComponent implements OnInit {
   		console.error('unable to receive browser data', error);
   		return;
   	}
-  	this.browserData = data;
-  	console.log('received browser data => ', data);
+    this.zone.run(() => {
+      this.browserData = data; 
+      console.log('received browser data => ', data);
+    });
   }
 
 }
