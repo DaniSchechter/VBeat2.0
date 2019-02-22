@@ -5,16 +5,22 @@ ul{
     display: flex;
 }
 
-#rightSide{
+a:hover{
+    text-decoration: none;
+    background-color: olivedrab;
+}
+
+div#rightSide{
     list-style: none;
     right: 20px;
     position: absolute;
+}
+
+div#rightSide ul li a {
+    margin-left: 10px;
 }
 
 .link{
     color: white;
 }
 
-li{
-    flex: 1 1 auto;
-}
