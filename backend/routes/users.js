@@ -33,9 +33,6 @@ app.post("/login", (req, res, next) => {
     .then(resultData => {
         if(resultData != undefined && resultData.length == 1) {
             req.session.userId = resultData[0]._id;
-            console.log("user id: " + resultData[0]._id);
-            console.log("req.session.userId " + req.session.userId);
-            console.log(req.session);
 
 	    // notify browser counter
 	    // browserCounter.onLogin(req.headers['User-Agent']);

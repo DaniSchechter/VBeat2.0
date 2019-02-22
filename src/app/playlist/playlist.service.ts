@@ -70,10 +70,6 @@ export class PlaylistService{
                     playlists: [...this.playlists], 
                     totalPlaylists: playlistsAfterChange.totalPlaylists
                 });
-                    //! TODO think if diplay message on fetching
-                // this.notificationService.submitNotification(
-                //     new Notification(responseData.message,NotificationStatus.OK)
-                // )
             },
             error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
         );
@@ -150,6 +146,7 @@ export class PlaylistService{
                             id : responseData.playlistId,
                             songList : [song],
                             name : "LIKED SONGS",
+                            // !!! TODO ge tthe userId from the session
                             UserId: "5c6ea4605634786140479038",
                         };
                         this.favoritePlaylist.id = responseData.playlistId;

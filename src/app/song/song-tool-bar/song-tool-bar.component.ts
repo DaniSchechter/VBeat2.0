@@ -7,6 +7,10 @@ import { PlaylistService } from '../../playlist/playlist.service'
 import { SongService } from '../songs.service';
 import { Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { NotificationPopupService } from '../../notification/notification-popup.service';
+import { NotificationStatus, Notification } from '../../notification/notification.model';
+
+
 
 @Component({
   selector: 'app-song-tool-bar',
@@ -22,6 +26,8 @@ export class SongToolBarComponent implements OnInit {
   playlists: Playlist[];
   playlistId: string;
   selectedPlaylists: Playlist[] = [];
+  private notificationService: NotificationPopupService;
+
 
   constructor(
     private songsService : SongService,
@@ -78,7 +84,6 @@ export class SongToolBarComponent implements OnInit {
   onPlay() {alert("song "+ this.song.name +" playnow")}
   onAddToQueue() {alert("song "+ this.song.name +" queue")}
   onLikeToggle() { 
-    console.log({"liked":this.songLiked});
     //If songLiked is true => click is to dislike => we want to decrease the num of likes
     if(this.songLiked) {
       //  deactivate the like button
@@ -100,7 +105,8 @@ export class SongToolBarComponent implements OnInit {
 
   saveToPlaylists(song: Song){
     if (!this.selectedPlaylists || this.selectedPlaylists.length == 0){
-      alert("You didnt enter any songs");
+      this.notificationService.submitNotification(
+        new Notification("no selected song",NotificationStatus.OK))
     }
     else{
     this.selectedPlaylists.forEach(Playlist => {

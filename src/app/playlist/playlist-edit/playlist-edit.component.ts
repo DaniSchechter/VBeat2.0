@@ -26,11 +26,6 @@ export class PlaylistEditComponent implements OnInit {
   selected_songs: Song[];
 
 
-  //TODO - remove the hard-coded songs and send real db queries as explained in the html - leave the list as empty list
-  songs: string[]= ['CardiB','Catey','CICI','Pink','Pupi','Marshmelo','Melo','Khalid','Kuki','Bruno M'];  
-
-
-
   constructor(private playlistService: PlaylistService, public route: ActivatedRoute) {
   }
 
@@ -45,8 +40,11 @@ export class PlaylistEditComponent implements OnInit {
             this.playlistService.getPlaylists();
             this.playlistSub = this.playlistService.getPlaylistsUpdateListener()
             .subscribe((playlistData: {playlists: Playlist[], totalPlaylists: number}) => {
+              // get all playlists
                 this.playlists = playlistData.playlists;
+                // the the edited playlist
                 this.playlist = this.playlistService.getPlaylist(this.playlists, this.playlistId);
+                // get the song list og the edited playlist
                 this.selected_songs = this.playlist.songList;
               });
         }

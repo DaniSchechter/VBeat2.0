@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Playlist } from '../playlist.model'
 import { NgForm } from '@angular/forms';
 import { PlaylistService } from '../playlist.service'
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { NotificationPopupService } from '../../notification/notification-popup.service';
+import { NotificationStatus, Notification } from '../../notification/notification.model';
 
 @Component({
   selector: 'app-playlist-create',
@@ -10,8 +10,8 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
   styleUrls: ['./playlist-create.component.css']
 })
 export class PlaylistCreateComponent implements OnInit {
-  
-  constructor(private playlistService: PlaylistService) { }
+
+  constructor(private playlistService: PlaylistService,  private notificationService: NotificationPopupService) { }
 
   ngOnInit() {  }
 
@@ -19,10 +19,16 @@ export class PlaylistCreateComponent implements OnInit {
     if(!form.valid) {
       return; //! TODO - display popup message to correct 
     }
-    this.playlistService.addPlaylist(
-      form.value.name,
-      [],
-    )
+    if(form.value.name == "LIKED SONGS"){
+      this.notificationService.submitNotification(
+        new Notification("This name cannot be used",NotificationStatus.ERROR))
+    }
+    else{
+      this.playlistService.addPlaylist(
+        form.value.name,
+        [],
+      )
+    }
     form.resetForm();
   }
 }
