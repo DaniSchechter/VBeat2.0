@@ -4,7 +4,6 @@ const User = require('../models/user');
 const app = express.Router();
 const browserCounter = require('../algo/count-user-agent');
 
-// create user - SIGN UP
 app.post("", (req, res, next) => {
     const user = new User({
         username: req.body.username,
@@ -34,7 +33,7 @@ app.post("/login", (req, res, next) => {
         if(resultData != undefined && resultData.length == 1) {
             req.session.userId = resultData[0]._id;
 
-	    // notify browser counter
+	    // notify browser counter, fix and uncomment
 	    // browserCounter.onLogin(req.headers['User-Agent']);
 
             // create session
@@ -111,6 +110,9 @@ app.delete("/:id", (req, res, next) => {
         });
     });
 });
+
+
+
 
 module.exports = app;
 

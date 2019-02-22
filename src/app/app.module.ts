@@ -37,6 +37,10 @@ import { SongCreateComponent } from './song/song-create/song-create.component';
 import { UserLoginComponent } from './user/user-login/user-login.component';
 import { UserSignupComponent } from './user/user-signup/user-signup.component';
 
+// interceptor related imports
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CookieInterceptor } from './cookie-interceptor';
+// end of interceptors 
 import { NotificationPopupComponent } from './notification/notification-popup/notification-popup.component';
 import { HeaderComponent } from './header/header.component';
 
@@ -87,7 +91,14 @@ import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-d
     MatPaginatorModule,
     MatSnackBarModule,
   ],
-  providers: [],
+  providers: [
+  	{
+		// include cookies in all of the requests
+		provide: HTTP_INTERCEPTORS,
+		useClass: CookieInterceptor,
+		multi: true
+	}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
