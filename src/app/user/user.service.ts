@@ -17,7 +17,6 @@ export class UserService {
 	private base_url = 'http://localhost:3000/api'; /* TODO need to move this out */ 
 	artists: User[];
 	artistsUpdated = new Subject<User[]>();
-	userIdUpdated = new Subject<string>();
 
 	constructor(private Http: HttpClient,
 				private notificationService: NotificationPopupService, private router:Router) { }
@@ -26,10 +25,6 @@ export class UserService {
 		return this.artistsUpdated.asObservable();
 	}
 
-
-	// getNewUserUpdateListener(){
-	// 	return this.userIdUpdated.asObservable();
-	// }
 	/* this function sends the information to the server
 	   and submits a notification regarding the response*/
 	addUser(
@@ -90,7 +85,7 @@ export class UserService {
 						this.notificationService.submitNotification(
 								new Notification(responseData.message, NotificationStatus.OK)
 						);
-            this.router.navigate(["/"]);
+            		this.router.navigate(["/"]);
 					},
 					error => {
 						this.notificationService.submitNotification(
