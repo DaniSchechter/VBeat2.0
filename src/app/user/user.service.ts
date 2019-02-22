@@ -61,8 +61,6 @@ export class UserService {
 	login(
 		username: string,
 		password: string,
-		onSuccess: Function,
-		onFailure: Function
 	) 
 	{
 		const user: User = {
@@ -81,11 +79,12 @@ export class UserService {
 						this.notificationService.submitNotification(
 								new Notification(responseData.message, NotificationStatus.OK)
 						);
-						if(responseData.message == "ok") {
-							onSuccess();
+						if(responseData.message == "Loged in successfully") {
 							this.router.navigate(["/"])
-						} else {
-							onFailure();
+						} 
+						else{
+							this.notificationService.submitNotification(
+								new Notification(responseData.message, NotificationStatus.ERROR))
 						}
 
 					},
@@ -93,7 +92,6 @@ export class UserService {
 						this.notificationService.submitNotification(
 								new Notification(error.message, NotificationStatus.ERROR)
 						);
-						onFailure();
 					}
 			);
 	}
