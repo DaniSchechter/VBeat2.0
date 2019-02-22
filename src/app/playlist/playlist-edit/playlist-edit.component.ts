@@ -21,23 +21,15 @@ export class PlaylistEditComponent implements OnInit {
   playlists: Playlist[];
 
   
-  //TODO change to songs array not string array
   //TODO add the singed-in user as song for this playlist - and disable his delete option 
   //Temp array for the selected songs, send to server only on submit
   selected_songs: Song[];
 
-  //Temp string for current prefix filter
-  prefix: string;
 
   //TODO - remove the hard-coded songs and send real db queries as explained in the html - leave the list as empty list
   songs: string[]= ['CardiB','Catey','CICI','Pink','Pupi','Marshmelo','Melo','Khalid','Kuki','Bruno M'];  
 
-  //Only when the name's prefix of this length, query the db
-  name_length_to_query: number;
 
-  //TODO change to song type not string
-  //Will represent temp songs that match filtering option
-  filtered_songs: string[];
 
   constructor(private playlistService: PlaylistService, public route: ActivatedRoute) {
   }
@@ -45,8 +37,6 @@ export class PlaylistEditComponent implements OnInit {
   // !!!! TODO change to load only one playlist and not the entire playlists
   ngOnInit() {
     this.selected_songs = [];
-    this.filtered_songs = [];  //gets an actual value only from pre-defined length - see updates below
-    this.name_length_to_query = 2;
     this.playlist = this.playlistService.getPlaylist(this.playlists, this.playlistId);
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
         if (paramMap.has('id')){
@@ -66,7 +56,6 @@ export class PlaylistEditComponent implements OnInit {
   // Adds an song that was selected to playlist's songs list
   onSelectSong(song: Song) {
     this.selected_songs.push(song);
-    this.clearFilteredrtists();
   }
 
   // delete this song from the selected song list
@@ -81,13 +70,8 @@ export class PlaylistEditComponent implements OnInit {
       this.playlistService.updatePlaylist(
         this.playlistId, 
         form.value.name,
-        this.selected_songs, // TODO: change to song array
+        this.selected_songs,
       )
       form.resetForm();
     }
-
-  private clearFilteredrtists() {
-    this.prefix = null;
-    this.filtered_songs = [];
-  }
 }
