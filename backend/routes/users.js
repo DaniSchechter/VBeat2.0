@@ -22,7 +22,6 @@ app.post("", (req, res, next) => {
             message: "User created successfully",
         });
     }).catch(error => {
-        console.log("error user");
         res.status(500).json({
             message: error.message
         });

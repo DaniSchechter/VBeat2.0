@@ -68,7 +68,6 @@ export class PlaylistService{
         .pipe(
             map(playlistData => {
                 if(playlistData.playlist){
-                    console.log("!");
                     let songs = playlistData.playlist.songList.map( song => {
                         return {
                             id: song._id,
@@ -92,7 +91,6 @@ export class PlaylistService{
         ))
         .subscribe(
             playlistsAfterChange => {
-                console.log({"Favplaylist" : playlistsAfterChange});
                 this.favoritePlaylist = playlistsAfterChange;
                 this.favoritePlaylistUpdated.next(this.favoritePlaylist);
             },
