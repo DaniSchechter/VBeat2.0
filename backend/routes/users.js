@@ -31,9 +31,7 @@ app.post("/login", (req, res, next) => {
     User.find({username: req.body.username, password: req.body.password})
     .then(resultData => {
         if(resultData != undefined && resultData.length == 1) {
-	    console.log(resultData);
             req.session.userId = resultData[0]._id;
-	    console.log(req.session.userId);
 
 	    // notify browser counter, fix and uncomment
 	    // browserCounter.onLogin(req.headers['User-Agent']);
