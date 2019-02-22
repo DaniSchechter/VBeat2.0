@@ -18,6 +18,7 @@ app.post("", (req, res, next) => {
             playlistId: newPlaylist._id
         });
     }).catch(error => {
+        console.log("error playlist");
         res.status(500).json({
             message: error.message
         });
@@ -26,8 +27,10 @@ app.post("", (req, res, next) => {
 
 // Get playlist by name
 app.get("/:name", (req, res, next) => {
-    Playlist.findOne({_id:req.session.userId,  name: req.params.name})
+    console.log(req.session.userId);
+    Playlist.findOne({UserId:req.session.userId,  name: req.params.name})
     .then(result => {
+        console.log(result);
         res.status(200).json({
                 message: "favorite songs playlist fetchet successfully",
                 playlist: result,

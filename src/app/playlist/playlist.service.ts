@@ -68,6 +68,7 @@ export class PlaylistService{
         .pipe(
             map(playlistData => {
                 if(playlistData.playlist){
+                    console.log("!");
                     let songs = playlistData.playlist.songList.map( song => {
                         return {
                             id: song._id,
@@ -91,6 +92,7 @@ export class PlaylistService{
         ))
         .subscribe(
             playlistsAfterChange => {
+                console.log({"Favplaylist" : playlistsAfterChange});
                 this.favoritePlaylist = playlistsAfterChange;
                 this.favoritePlaylistUpdated.next(this.favoritePlaylist);
             },
@@ -108,16 +110,15 @@ export class PlaylistService{
             const playlist: Playlist = {
                 id: null, 
                 name: name, 
-                UserId: null, 
+                UserId: null,
                 songList: songList
             };
         this.Http.post<{message: string, playlistId: string}>(this.base_url + '/playlist', playlist)
         .subscribe(
-                responseData => {
-                this.notificationService.submitNotification(
-                    new Notification(responseData.message,NotificationStatus.OK)
-                )
-                this.router.navigate(["/"])
+            responseData => {
+                    this.notificationService.submitNotification(
+                        new Notification(responseData.message,NotificationStatus.OK))
+                    this.router.navigate(["/"])
             },
             error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
 

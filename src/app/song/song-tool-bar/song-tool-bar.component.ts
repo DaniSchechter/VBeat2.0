@@ -37,6 +37,7 @@ export class SongToolBarComponent implements OnInit {
   ngOnInit() {
     // Diaplay each song as liked or not as it appears in DB
     this.playlistService.getFavPlaylistUpdateListener().subscribe( likedSongsPlaylist => {
+      console.log({"toolbar":likedSongsPlaylist});
       this.songLiked = likedSongsPlaylist.songList.some( (song:Song) => song.id == this.song.id );
     });
     this.playlistService.getFavPlaylist();
