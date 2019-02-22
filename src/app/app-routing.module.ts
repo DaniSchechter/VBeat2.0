@@ -5,6 +5,7 @@ import { SongEditComponent } from './song/song-edit/song-edit.component';
 import { SongCreateComponent } from './song/song-create/song-create.component';
 import { UserLoginComponent } from './user/user-login/user-login.component';
 import { UserSignupComponent } from './user/user-signup/user-signup.component';
+import { BrowserStatsComponent } from './stats/browser-stats/browser-stats.component';
 
 const routes: Routes = [
   {path: '', component: SongListComponent},
@@ -12,6 +13,7 @@ const routes: Routes = [
   {path: 'edit_song/:id', component: SongEditComponent},
   {path: 'login', component: UserLoginComponent},
   {path: 'signup', component: UserSignupComponent},
+  {path: 'stats', component: BrowserStatsComponent }
 ];
 
 @NgModule({
