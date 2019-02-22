@@ -3,6 +3,8 @@ const express = require("express");
 const Playlist = require('../models/playlist');
 const app = express.Router();
 
+
+//create a new playlist
 app.post("", (req, res, next) => {
     req.session.userId = "5c6ea4605634786140479038";
     const playlist = new Playlist({
@@ -23,6 +25,7 @@ app.post("", (req, res, next) => {
     });
 });
 
+// Get playlist by name
 app.get("/:name", (req, res, next) => {
     req.session.userId = "5c6ea4605634786140479038";
     const playlistQuery = Playlist.findOne({ name: req.params.name})
@@ -38,6 +41,7 @@ app.get("/:name", (req, res, next) => {
     });
 });
 
+// get all playlists
 app.get("", (req, res, next) => {
     const pageSize = +req.query.pageSize;
     const currPage = +req.query.page;
@@ -67,6 +71,7 @@ app.get("", (req, res, next) => {
     });
 });
 
+// delete playlist
 app.delete("/:id", (req, res, next) => {
     Playlist.deleteOne({_id: req.params.id})
     .then(result => {
@@ -81,6 +86,7 @@ app.delete("/:id", (req, res, next) => {
     });
 });
 
+// update playlist
 app.put("/:id", (req, res, next) => {
     const playlist = new Playlist({
         _id: req.body.id,

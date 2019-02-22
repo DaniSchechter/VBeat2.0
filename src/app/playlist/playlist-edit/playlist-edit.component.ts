@@ -63,23 +63,13 @@ export class PlaylistEditComponent implements OnInit {
     });
   }
 
-  //TODO change to song type not string
   // Adds an song that was selected to playlist's songs list
   onSelectSong(song: Song) {
     this.selected_songs.push(song);
     this.clearFilteredrtists();
   }
 
-  onSearchSongChange() {
-    if(this.prefix == null || this.prefix.length == 0) {
-      this.clearFilteredrtists();
-    }
-    //TODO - not filter the array - send query to db for songs which their name starts with prerfix
-    else if( this.prefix.length >= this.name_length_to_query ) {
-      this.filtered_songs = this.songs.filter( song => song.toLowerCase().startsWith(this.prefix.toLowerCase()));
-    }
-  }
-  //TODO change to song type not string
+  // delete this song from the selected song list
   onDeleteSelectedSong(song_to_delete: string) {
     this.selected_songs = this.selected_songs.filter( song => song.id != song_to_delete);
   }
