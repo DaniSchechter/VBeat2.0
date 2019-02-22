@@ -23,6 +23,21 @@ app.post("", (req, res, next) => {
     });
 });
 
+app.get("/:name", (req, res, next) => {
+    req.session.userId = "5c6ea4605634786140479038";
+    const playlistQuery = Playlist.findOne({ name: req.params.name})
+    .then(result => {
+        res.status(200).json({
+                message: "favorite songs playlist fetchet successfully",
+                playlist: result,
+            });
+    }).catch(error => {
+        res.status(500).json({
+            message: error.message
+        });
+    });
+});
+
 app.get("", (req, res, next) => {
     const pageSize = +req.query.pageSize;
     const currPage = +req.query.page;
@@ -84,6 +99,8 @@ app.put("/:id", (req, res, next) => {
         });
     });
 });
+
+
 
 app.put("")
 module.exports = app;

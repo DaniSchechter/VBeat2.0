@@ -20,8 +20,8 @@ export class SongToolBarComponent implements OnInit {
   // Not initializing in c'tor because of Singelton pattern
   songActionService: SongActionService;
   playlists: Playlist[];
+  playlistId: string;
   selectedPlaylists: Playlist[] = [];
-  private playlistSub: Subscription;
 
   constructor(
     private songsService : SongService,
@@ -62,15 +62,14 @@ export class SongToolBarComponent implements OnInit {
     else {
       this.selectedPlaylists.push(playlist_action);
     }
-    console.log(this.selectedPlaylists);
   }
 
   onAddToPlaylist() {
     this.playlistService.getPlaylists();
-    this.playlistSub = this.playlistService.getPlaylistsUpdateListener()
-    .subscribe((playlistData: {playlists: Playlist[], totalPlaylists: number}) => {
-      this.playlists = playlistData.playlists;
-      this.selectedPlaylists = null;
+    this.playlistService.getPlaylistsUpdateListener().subscribe(
+      (playlistData: {playlists: Playlist[], totalPlaylists: number}) => {
+        this.playlists = playlistData.playlists;
+        this.selectedPlaylists = null;
     })
   }
 
@@ -79,12 +78,20 @@ export class SongToolBarComponent implements OnInit {
   onPlay() {alert("song "+ this.song.name +" playnow")}
   onAddToQueue() {alert("song "+ this.song.name +" queue")}
   onLikeToggle() { 
+    console.log({"liked":this.songLiked});
     //If songLiked is true => click is to dislike => we want to decrease the num of likes
-    if(this.songLiked)
+    if(this.songLiked) {
+      //  deactivate the like button
       this.songActionService.unlike(this.song);
-    else 
+      //remove the song from the favorite playlist
+      this.playlistService.removeSongFromFavoritePlaylist(this.song);
+    }
+    else {
+      // activate the like button
       this.songActionService.like(this.song);
-    
+      // create or update favorite playlist
+      this.playlistService.addSongToFavoritePlaylist(this.song);  
+    }
   }
 
   onDelete() {
@@ -92,10 +99,15 @@ export class SongToolBarComponent implements OnInit {
   }
 
   saveToPlaylists(song: Song){
+    if (!this.selectedPlaylists || this.selectedPlaylists.length == 0){
+      alert("You didnt enter any songs");
+    }
+    else{
     this.selectedPlaylists.forEach(Playlist => {
       Playlist.songList.push(song);
       this.playlistService.updatePlaylist(Playlist.id, Playlist.name, Playlist.songList);
     });
     this.selectedPlaylists = [];
+    }
   }
 }

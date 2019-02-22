@@ -13,13 +13,33 @@ export class PlaylistService{
     private base_url = 'http://localhost:3000/api';
 
     private playlists: Playlist[] = [];
-    private playlist: Playlist;
+    private favoritePlaylist: Playlist;
     private playlistsCount = 0;
+    private playlistsByNameUpdated = new Subject<Playlist>();
     private playlistsUpdated = new Subject<{playlists: Playlist[], totalPlaylists: number}>();
     private playlistUpdated = new Subject<Playlist>();
 
     constructor(private Http: HttpClient,
-                private notificationService:NotificationPopupService, private router:Router){}
+                private notificationService:NotificationPopupService, private router:Router){
+                    this.Http.get<{message: string; playlist: any}>(this.base_url + '/playlist/' + "LIKED SONGS")
+                    .pipe(
+                        map(playlistData => {
+                            if(playlistData.playlist){
+                                return {
+                                    name: playlistData.playlist.name, 
+                                    UserId: playlistData.playlist.UserId, 
+                                    songList: playlistData.playlist.songList,
+                                    id: playlistData.playlist._id
+                                };
+                        }
+                    }))
+                    .subscribe(
+                        playlistsAfterChange => {
+                            this.favoritePlaylist = playlistsAfterChange;
+                        },
+                        error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+                    );
+    }
 
     
     getPlaylistsUpdateListener(){
@@ -102,23 +122,71 @@ export class PlaylistService{
         );
     }
 
-    updatePlaylist(id: string, name: string, songList: Song[]){
+    addSongToFavoritePlaylist(song: Song){
+        // var for showing different massege
+        var isLikedPlaylist = true;
+        // If there is a favorite playlist
+        if (this.favoritePlaylist){
+            this.favoritePlaylist.songList.push(song)
+            this.updatePlaylist(this.favoritePlaylist.id, this.favoritePlaylist.name, this.favoritePlaylist.songList, isLikedPlaylist);
+        }
+        // Need to create a new favorite playlist
+        else{
+            const playlist: Playlist = {
+                id: null, 
+                name: "LIKED SONGS", 
+                UserId: null, 
+                songList: [song]
+            };
+        this.Http.post<{message: string, playlistId: string}>(this.base_url + '/playlist', playlist)
+        .subscribe(
+                responseData => {
+                    this.favoritePlaylist = {
+                        id : responseData.playlistId,
+                        songList : [song],
+                        name : "LIKED SONGS",
+                        UserId: "5c6ea4605634786140479038",
+                    };
+                    this.favoritePlaylist.id = responseData.playlistId;
+                    this.favoritePlaylist.songList = [song];
+                    this.favoritePlaylist.name = "LIKED SONGS";
+                    this.notificationService.submitNotification(
+                        new Notification("Added to liked songs playlist",NotificationStatus.OK)
+                    )
+            },
+            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+
+        );
+        }
+    }
+
+    removeSongFromFavoritePlaylist(songToRemove: Song){
+        this.favoritePlaylist.songList = this.favoritePlaylist.songList.filter(song => song.id != songToRemove.id);
+        this.updatePlaylist(this.favoritePlaylist.id, this.favoritePlaylist.name, this.favoritePlaylist.songList);
+    }
+
+    updatePlaylist(id: string, name: string, songList: Song[], isLikedPlaylist=false){
             const playlist: Playlist = {
                 id: id, 
                 name: name, 
-                UserId: null, 
+                UserId: null,
                 songList: songList
             };
             this.Http.put<{message: string}>(this.base_url + '/playlist/' + id, playlist).subscribe(res => {
-                this.notificationService.submitNotification(
-                    new Notification(res.message,NotificationStatus.OK)
-                )
+                if (isLikedPlaylist){
+                    this.notificationService.submitNotification(
+                        new Notification("Added to liked songs playlist",NotificationStatus.OK)
+                    )
+                }
+                else{
+                    this.notificationService.submitNotification(
+                        new Notification(res.message,NotificationStatus.OK)
+                    )
+                }
                 this.router.navigate(["/"])            
             }, 
             error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
             );
-        }
-    
-    
+    }
 
 }

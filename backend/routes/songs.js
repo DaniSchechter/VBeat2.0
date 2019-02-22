@@ -105,6 +105,7 @@ app.put("/likes/:id", (req, res, next) => {
         artists:  req.body.artists, // TODO: change to artist array
         num_of_times_liked: req.body.num_of_times_liked
     });
+    
     Song.updateOne({_id: req.params.id}, song)
     .then(
         result => {
