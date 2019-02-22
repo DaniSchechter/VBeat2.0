@@ -28,7 +28,6 @@ app.post("", (req, res, next) => {
 });
 
 app.get("", (req, res, next) => {
-    console.log(req.session.userId);
     const pageSize = +req.query.pageSize;
     const currPage = +req.query.page;
     let fetchedSongs;
