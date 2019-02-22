@@ -15,7 +15,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input' 
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
@@ -37,6 +37,7 @@ import { HeaderComponent } from './header/header.component';
 import { SongEditComponent } from './song/song-edit/song-edit.component';
 import { UserLoginComponent } from './user/user-login/user-login.component';
 import { UserSignupComponent } from './user/user-signup/user-signup.component';
+import { SongSearchComponent } from './song/song-search/song-search.component';
 
 
 @NgModule({
@@ -52,6 +53,7 @@ import { UserSignupComponent } from './user/user-signup/user-signup.component';
     SongEditComponent,
     UserLoginComponent,
     UserSignupComponent,
+    SongSearchComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,7 +66,7 @@ import { UserSignupComponent } from './user/user-signup/user-signup.component';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatExpansionModule, 
+    MatExpansionModule,
     HttpClientModule,
     MatButtonToggleModule,
     MatBadgeModule,
