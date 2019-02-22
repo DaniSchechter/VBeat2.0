@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { NgForm } from '@angular/forms';
+import { UserConfig } from '../user.model'; 
 
 @Component({
   selector: 'app-user-login',
@@ -8,8 +9,8 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./user-login.component.css']
 })
 export class UserLoginComponent implements OnInit {
-  minAttributeLength = 6;
-  userId;
+ 
+  userConfig: UserConfig;
 
   constructor( private userService:UserService ) { }
 
