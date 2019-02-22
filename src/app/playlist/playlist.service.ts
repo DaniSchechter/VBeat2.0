@@ -154,7 +154,7 @@ export class PlaylistService{
         else{
             const playlist: Playlist = {
                 id: null, 
-                name: "LIKED SONGS", 
+                name: "LIKED SONGS",
                 UserId: null, 
                 songList: [song]
             };
@@ -165,8 +165,7 @@ export class PlaylistService{
                             id : responseData.playlistId,
                             songList : [song],
                             name : "LIKED SONGS",
-                            // !!! TODO ge tthe userId from the session
-                            UserId: "5c6ea4605634786140479038",
+                            UserId: null,
                         };
                         this.favoritePlaylist.id = responseData.playlistId;
                         this.favoritePlaylist.songList = [song];
