@@ -79,14 +79,7 @@ export class UserService {
 						this.notificationService.submitNotification(
 								new Notification(responseData.message, NotificationStatus.OK)
 						);
-						if(responseData.message == "Loged in successfully") {
-							this.router.navigate(["/"])
-						} 
-						else{
-							this.notificationService.submitNotification(
-								new Notification(responseData.message, NotificationStatus.ERROR))
-						}
-
+            this.router.navigate(["/"]);
 					},
 					error => {
 						this.notificationService.submitNotification(
