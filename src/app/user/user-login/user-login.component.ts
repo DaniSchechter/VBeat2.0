@@ -23,7 +23,7 @@ export class UserLoginComponent implements OnInit {
   		return;
   	}
 
-  	this.userService.login(form.value.username, form.value.password, this.handleSuccessfulLogin, this.handleFailedLogin);
+    this.userService.login(form.value.username, form.value.password, this.handleSuccessfulLogin, this.handleFailedLogin);
   }
 
   handleSuccessfulLogin(){

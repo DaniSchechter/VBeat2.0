@@ -5,6 +5,7 @@ import { Song } from './song.model';
 import { HttpClient } from '@angular/common/http';
 import { NotificationPopupService } from '../notification/notification-popup.service';
 import { NotificationStatus, Notification } from '../notification/notification.model';
+import { PlaylistService } from '../playlist/playlist.service';
 
 @Injectable({providedIn: 'root'})
 export class SongActionService{
@@ -77,6 +78,7 @@ export class SongActionService{
 
     like(song: Song) {
         this.song = song;
+
         this.song.num_of_times_liked ++;
         // Inform for global change
         this.songUpdatedSubject.next(this.song);
@@ -95,6 +97,7 @@ export class SongActionService{
 
     unlike(song: Song) {
         this.song = song;
+
         this.song.num_of_times_liked --;
         // Inform for global change
         this.songUpdatedSubject.next(this.song);

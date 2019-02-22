@@ -1,10 +1,12 @@
 const express = require("express");
 const session = require("express-session");
+const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 
 const songsRoutes = require("./routes/songs");
 const usersRoutes = require("./routes/users");
+const playlistRoutes = require("./routes/playlists");
 
 const app = express();
 
@@ -40,6 +42,7 @@ app.use((req, res, next) => {
 
 app.use("/api/songs", songsRoutes);
 app.use("/api/user", usersRoutes);
+app.use("/api/playlist", playlistRoutes);
 
 
 module.exports = app;

@@ -101,7 +101,7 @@
               *ngFor="let artist of filtered_artists" 
               [value] = "artist"
               (click) = "onSelectArtist(artist)">
-              {{ artist }}
+              {{ artist.display_name }}
             </mat-option>
           </mat-autocomplete>
           <mat-hint> 
@@ -116,7 +116,7 @@
               <button mat-mini-fab >
                   <mat-icon title="remove this artist from this song" (click)="onDeleteSelectedArtist(artist)">delete</mat-icon>
                 </button>
-              <p>{{ artist }} </p> 
+              <p>{{ artist.display_name }} </p> 
           </mat-list-item>
       </mat-list>
       <button 

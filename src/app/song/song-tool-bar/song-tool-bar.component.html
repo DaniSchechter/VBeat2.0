@@ -27,3 +27,14 @@
       <mat-icon title="Delete">delete</mat-icon>  
     </button>
 </mat-card-actions>
+
+<mat-card *ngIf="playlists" >
+  <mat-selection-list >
+    <mat-list-option *ngFor="let playlist of playlists" (click)="onAddSongToPlaylist(playlist)">
+      {{playlist.name}}
+    </mat-list-option>
+  </mat-selection-list>
+  <button mat-mini-fab>
+    <mat-icon title="Add new song" (click)="saveToPlaylists(song)">save</mat-icon>  
+  </button>
+</mat-card>
