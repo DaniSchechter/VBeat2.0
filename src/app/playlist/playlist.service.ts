@@ -13,36 +13,19 @@ export class PlaylistService{
     private base_url = 'http://localhost:3000/api';
 
     private playlists: Playlist[] = [];
+
+    // Liked Songs Playlist
     private favoritePlaylist: Playlist;
+    private favoritePlaylistUpdated = new Subject<Playlist>();
+
     private playlistsCount = 0;
-    private playlistsByNameUpdated = new Subject<Playlist>();
     private playlistsUpdated = new Subject<{playlists: Playlist[], totalPlaylists: number}>();
-    private playlistUpdated = new Subject<Playlist>();
 
     constructor(private Http: HttpClient,
                 private notificationService:NotificationPopupService, private router:Router){
-                    // get the favorite playlist id if there is one
-                    this.Http.get<{message: string; playlist: any}>(this.base_url + '/playlist/' + "LIKED SONGS")
-                    .pipe(
-                        map(playlistData => {
-                            if(playlistData.playlist){
-                                return {
-                                    name: playlistData.playlist.name, 
-                                    UserId: playlistData.playlist.UserId, 
-                                    songList: playlistData.playlist.songList,
-                                    id: playlistData.playlist._id
-                                };
-                        }
-                    }))
-                    .subscribe(
-                        playlistsAfterChange => {
-                            this.favoritePlaylist = playlistsAfterChange;
-                        },
-                        error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
-                    );
+        this.getFavPlaylist();
     }
 
-    
     getPlaylistsUpdateListener(){
         return this.playlistsUpdated.asObservable();
     }
@@ -75,8 +58,44 @@ export class PlaylistService{
         );
     }
 
-    getPlaylistUpdateListener(){
-        return this.playlistUpdated.asObservable();
+    getFavPlaylistUpdateListener(){
+        return this.favoritePlaylistUpdated.asObservable();
+    }
+
+    getFavPlaylist(){
+        // get the favorite playlist id if there is one
+        this.Http.get<{message: string; playlist: any}>(this.base_url + '/playlist/' + "LIKED SONGS")
+        .pipe(
+            map(playlistData => {
+                if(playlistData.playlist){
+                    let songs = playlistData.playlist.songList.map( song => {
+                        return {
+                            id: song._id,
+                            name: song.name,
+                            genre: song.genre,
+                            song_path: song.song_path,
+                            image_path: song.image_path,
+                            release_date: song.release_date,
+                            artists: song.artists,
+                            num_of_times_liked: song.num_of_times_liked
+                        }
+                    })
+                    return {
+                        name: playlistData.playlist.name, 
+                        UserId: playlistData.playlist.UserId, 
+                        songList: songs,
+                        id: playlistData.playlist._id
+                    };
+                }
+            }
+        ))
+        .subscribe(
+            playlistsAfterChange => {
+                this.favoritePlaylist = playlistsAfterChange;
+                this.favoritePlaylistUpdated.next(this.favoritePlaylist);
+            },
+            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+        );
     }
 
     // get playlist by id
