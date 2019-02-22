@@ -35,14 +35,13 @@ export class SongCreateComponent implements OnInit {
   //Will represent temp artists that match filtering option
   filtered_artists: string[];
 
-  constructor(private songService: SongService, /*public route: ActivatedRoute*/) {
-    this.genre_options = Object.keys(Genre);
-  }
+  constructor(private songService: SongService, /*public route: ActivatedRoute*/) {}
 
   ngOnInit() {
     this.selected_artists = [];
     this.filtered_artists = [];  //gets an actual value only from pre-defined length - see updates below
     this.name_length_to_query = 2;
+    this.genre_options = Object.keys(Genre);
   }
 
   private _filter(value: string): string[] {
