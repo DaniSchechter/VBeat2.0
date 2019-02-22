@@ -1,0 +1,12 @@
+mat-panel-title, mat-panel-description p{
+    margin: auto 10px;
+}
+mat-accordion {
+    display: block;
+    padding: 0;
+    margin: 0 10px 10px 10px;
+}
+
+mat-paginator{
+    margin-top: 1rem;
+}

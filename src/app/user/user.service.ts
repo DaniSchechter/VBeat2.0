@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map }  from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 import { NotificationPopupService } from '../notification/notification-popup.service'
 import { NotificationStatus, Notification } from '../notification/notification.model'
+
 import { User, UserRole } from './user.model'
 
 @Injectable({
@@ -17,7 +19,7 @@ export class UserService {
 	artistsUpdated = new Subject<User[]>();
 
 	constructor(private Http: HttpClient,
-				private notificationService: NotificationPopupService) { }
+				private notificationService: NotificationPopupService, private router:Router) { }
 
 	getArtistsUpdateListener(){
 		return this.artistsUpdated.asObservable();
@@ -79,7 +81,13 @@ export class UserService {
 						this.notificationService.submitNotification(
 								new Notification(responseData.message, NotificationStatus.OK)
 						);
-						onSuccess()
+						if(responseData.message == "ok") {
+							onSuccess();
+							this.router.navigate(["/"])
+						} else {
+							onFailure();
+						}
+
 					},
 					error => {
 						this.notificationService.submitNotification(

@@ -1,0 +1,59 @@
+<mat-card *ngIf="playlist">
+  <form (submit)="onSubmit(newForm)" #newForm="ngForm">
+      <!-- NAME -->
+      <mat-form-field appearance = "legacy" color = "accent">
+          <input 
+            matInput 
+            placeholder = "Name"
+            name = "name"
+            [ngModel] = "playlist.name"
+            required
+            minlength = 4
+            #name = "ngModel">
+          <mat-hint> At least 4 characters </mat-hint>
+          <mat-error *ngIf = "name.invalid"> Name is should be at least 4 characters long </mat-error>
+      </mat-form-field>
+      
+      <!-- ARTISTS -->
+      <!--! TODO validation think of rules -->
+      <!--TODO Steps: (1)first two letters -> (2)db query-> (3)auto complete: propagate with naswer form db query -->
+      <mat-form-field appearance = "legacy" color = "accent">
+          <!--TODO display loading gif on db querying - if need add async pipe after onSearchSongChange func -->
+          <input 
+            type="text" 
+            placeholder="Songs" 
+            matInput 
+            [matAutocomplete]="auto"
+            [(ngModel)]="prefix"
+            name="filter_songs"
+            (ngModelChange) = "onSearchSongChange()">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option 
+              *ngFor="let song of filtered_songs" 
+              [value] = "song"
+              (click) = "onSelectSong(song)">
+              {{ song }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-hint> 
+            Enter {{ name_length_to_query }} 
+            letter<span *ngIf="name_length_to_query">s</span>
+            for auto complete
+          </mat-hint> 
+      </mat-form-field>
+      <!--List displaying the selected songs -->
+      <mat-list role="list">
+          <mat-list-item role="listitem" *ngFor="let song of selected_songs">
+              <button mat-mini-fab >
+                  <mat-icon title="remove this song from this playlist" (click)="onDeleteSelectedSong(song)">delete</mat-icon>
+                </button>
+              <p>{{ song }} </p> 
+          </mat-list-item>
+      </mat-list>
+      <button 
+        mat-mini-fab 
+        type="submit">
+          <mat-icon title="Add new playlist">save</mat-icon>  
+      </button>
+  </form>
+</mat-card>
