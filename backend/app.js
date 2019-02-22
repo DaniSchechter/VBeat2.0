@@ -23,10 +23,6 @@ app.use(bodyParser.json());
 app.use(session(
 	{
 		secret: secretCookie,
-		cookie: {
-			'path': 
-			'maxAge': 86400000
-		},
 		resave:true
 	}
 ));
@@ -34,10 +30,11 @@ app.use(session(
 
 //Setting Headers
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
     res.setHeader("Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
     next();
 });
 
