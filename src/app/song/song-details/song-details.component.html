@@ -6,7 +6,7 @@
         By: 
       </span>
       <span class="mat-h3" *ngFor="let artist of song.artists">
-        {{ artist | uppercase }}, 
+        {{ artist.display_name | uppercase }}, 
       </span>
     </mat-card-subtitle>
   </mat-card-header>

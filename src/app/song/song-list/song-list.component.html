@@ -7,7 +7,7 @@
       </mat-panel-title>
       <mat-panel-description>
         <p class="mat-h3" *ngFor="let artist of song.artists">
-          {{ artist }}
+          {{ artist.display_name }}
         </p>
       </mat-panel-description>
       <mat-panel-description class="mat-h3">
@@ -30,4 +30,5 @@
   </div>
 </div>
 
+<!-- ! TODO @alex increase the font size -->
 <mat-paginator [length]="totalSongs" [pageSize]="songsPerPage" (page)="onChangePage($event)"></mat-paginator>
