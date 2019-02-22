@@ -6,8 +6,6 @@ const app = express.Router();
 
 //create a new playlist
 app.post("", (req, res, next) => {
-    // !!! TODO ge tthe userId from the session
-    req.session.userId = "5c6ea4605634786140479038";
     const playlist = new Playlist({
         name: req.body.name,
         UserId: req.session.userId,
@@ -28,8 +26,6 @@ app.post("", (req, res, next) => {
 
 // Get playlist by name
 app.get("/:name", (req, res, next) => {
-    // !!! TODO ge tthe userId from the session
-    req.session.userId = "5c6ea4605634786140479038";
     Playlist.findOne({_id:req.session.userId,  name: req.params.name})
     .then(result => {
         res.status(200).json({
@@ -48,8 +44,6 @@ app.get("", (req, res, next) => {
     const pageSize = +req.query.pageSize;
     const currPage = +req.query.page;
     let fetchedPlaylists;
-        // !!! TODO ge tthe userId from the session
-    req.session.userId = "5c6ea4605634786140479038";
     const playlistQuery = Playlist.find({UserId: req.session.userId });
     if (pageSize && currPage){
         playlistQuery.skip(pageSize * (currPage - 1)).limit(pageSize);
