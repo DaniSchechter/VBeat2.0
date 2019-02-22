@@ -45,17 +45,23 @@ export class UserService {
 			display_name: display_name,
 			email: email
 		};
-		this.Http.post<{message: string, userId: string}>(this.base_url + '/user',user)
-		.subscribe(
-			responseData => {
-				this.notificationService.submitNotification(
-					new Notification(responseData.message, NotificationStatus.OK)
-				);
-			},
-			error => this.notificationService.submitNotification(
-				new Notification(error.message, NotificationStatus.ERROR)
+		
+		return new Promise( (resolve, reject) => {
+			this.Http.post<{message: string, userId: string}>(this.base_url + '/user',user)
+			.subscribe(
+				responseData => {
+					this.notificationService.submitNotification(
+						new Notification(responseData.message, NotificationStatus.OK)
+					);
+					resolve();
+				},
+				error => {
+					this.notificationService.submitNotification(
+						new Notification(error.message, NotificationStatus.ERROR));
+					reject();
+				}
 			)
-		);
+		})
 	}
 
 	login(
@@ -79,7 +85,7 @@ export class UserService {
 						this.notificationService.submitNotification(
 								new Notification(responseData.message, NotificationStatus.OK)
 						);
-            this.router.navigate(["/"]);
+            		this.router.navigate(["/"]);
 					},
 					error => {
 						this.notificationService.submitNotification(
