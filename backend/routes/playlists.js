@@ -30,7 +30,7 @@ app.post("", (req, res, next) => {
 app.get("/:name", (req, res, next) => {
     // !!! TODO ge tthe userId from the session
     req.session.userId = "5c6ea4605634786140479038";
-    Playlist.findOne({_id:req.session.userId,  name: req.params.name})
+    Playlist.findOne({UserId:req.session.userId,  name: req.params.name})
     .then(result => {
         res.status(200).json({
                 message: "favorite songs playlist fetchet successfully",
@@ -90,12 +90,25 @@ app.delete("/:id", (req, res, next) => {
 
 // update playlist
 app.put("/:id", (req, res, next) => {
+    let songList = req.body.songList.map( song => {
+        return newSong = {
+            _id: song.id,
+            name: song.name,
+            genre: song.genre,
+            song_path: song.song_path,
+            image_path: song.image_path,
+            release_date: song.release_date,
+            artists: song.artists,
+            num_of_times_liked: song.num_of_times_liked
+        };
+    });
     const playlist = new Playlist({
         _id: req.body.id,
         name: req.body.name,
         UserId: req.session.userId,
-        songList:  req.body.songList
+        songList:  songList
     });
+
     Playlist.updateOne({_id: req.params.id}, playlist)
     .then(result => {
         res.status(200).json({

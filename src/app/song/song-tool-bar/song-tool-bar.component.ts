@@ -5,12 +5,9 @@ import { SongActionService } from '../song-action.sevice';
 import { Playlist } from '../../playlist/playlist.model';
 import { PlaylistService } from '../../playlist/playlist.service'
 import { SongService } from '../songs.service';
-import { Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { NotificationPopupService } from '../../notification/notification-popup.service';
 import { NotificationStatus, Notification } from '../../notification/notification.model';
-
-
 
 @Component({
   selector: 'app-song-tool-bar',
@@ -20,7 +17,7 @@ import { NotificationStatus, Notification } from '../../notification/notificatio
 export class SongToolBarComponent implements OnInit {
 
   @Input() song: Song;
-  songLiked: boolean;
+  songLiked: boolean = false;
   // Not initializing in c'tor because of Singelton pattern
   songActionService: SongActionService;
   playlists: Playlist[];
@@ -38,7 +35,12 @@ export class SongToolBarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.songLiked = false;
+    // Diaplay each song as liked or not as it appears in DB
+    this.playlistService.getFavPlaylistUpdateListener().subscribe( likedSongsPlaylist => {
+      this.songLiked = likedSongsPlaylist.songList.some( (song:Song) => song.id == this.song.id );
+    });
+    this.playlistService.getFavPlaylist();
+
     // Listen for updates in num of likes through web sockets
     this.songActionService.getSongUpdatedSubject().subscribe( 
       (updatedSong: Song) => {

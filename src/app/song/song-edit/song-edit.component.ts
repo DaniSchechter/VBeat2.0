@@ -108,7 +108,6 @@ export class SongEditComponent implements OnInit {
   }
 
   filterArtists() {
-    console.log(this.prefix);
     this.filtered_artists = this.artists.filter( 
         artist => artist.display_name.toLowerCase().startsWith(this.prefix.toLowerCase())); 
   }
