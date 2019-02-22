@@ -38,6 +38,9 @@ import { SongEditComponent } from './song/song-edit/song-edit.component';
 import { UserLoginComponent } from './user/user-login/user-login.component';
 import { UserSignupComponent } from './user/user-signup/user-signup.component';
 
+// interceptor related imports
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CookieInterceptor } from './cookie-interceptor';
 
 @NgModule({
   declarations: [
@@ -78,7 +81,14 @@ import { UserSignupComponent } from './user/user-signup/user-signup.component';
     MatPaginatorModule,
     MatSnackBarModule,
   ],
-  providers: [],
+  providers: [
+  	{
+		// include cookies in all of the requests
+		provide: HTTP_INTERCEPTORS,
+		useClass: CookieInterceptor,
+		multi: true
+	}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -20,7 +20,16 @@ var secretCookie = 'donttellthistonobodyitssupposedtobeasecret'
 
 app.use(bodyParser.json());
 
-app.use(session({secret: secretCookie}));
+app.use(session(
+	{
+		secret: secretCookie,
+		cookie: {
+			'path': 
+			'maxAge': 86400000
+		},
+		resave:true
+	}
+));
 
 
 //Setting Headers
