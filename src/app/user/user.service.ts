@@ -17,7 +17,7 @@ export class UserService {
 	private base_url = 'http://localhost:3000/api'; /* TODO need to move this out */ 
 	artists: User[];
 	artistsUpdated = new Subject<User[]>();
-	userFetched = new Subject<string>();
+	userFetched = new Subject<User>();
 	userId: string;
 
 	constructor(private Http: HttpClient,
@@ -148,12 +148,9 @@ export class UserService {
 	}
 
 	getUserPermissions(){
-		this.Http.get<{ userRole: string }>(`${this.base_url}/user/userRole`)
-		.subscribe(responseData => {
-			if (responseData.userRole){
-				return this.userFetched.next(responseData.userRole);
-			}
-			return this.userFetched.next(null);
+		this.Http.get<{user: User}>(`${this.base_url}/user/currentUser`)
+		.subscribe(userData => {
+			this.userFetched.next(userData.user);
 		},
 		error => {
 			this.notificationService.submitNotification(

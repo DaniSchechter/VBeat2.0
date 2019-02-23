@@ -14,8 +14,8 @@ export class HeaderComponent{
     constructor(private userService:UserService){};
 
     ngOnInit() {
-        this.userService.getUserPermissionsUpdateListener().subscribe(userRole => {
-            if(userRole){
+        this.userService.getUserPermissionsUpdateListener().subscribe(user => {
+            if(user){
                 this.loggedIn = true;
             }
             else{

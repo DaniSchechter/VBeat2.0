@@ -78,18 +78,18 @@ app.get("/artists", (req, res, next) => {
     });
 });
 
-// get the role of the current user (connected or not)
-app.get("/userRole", (req, res, next) => {
+// get the current user (connected or not)
+app.get("/currentUser", (req, res, next) => {
     User.findOne({_id:req.session.userId})
         .then(userResult => {
             if(userResult){
                 res.status(200).json({
-                    userRole: userResult.role
+                    user: userResult
                 });
             }
             else{
                 res.status(200).json({
-                    userRole: null
+                    user: null
                 });
             }
         }

@@ -29,8 +29,6 @@ export class SongEditComponent implements OnInit {
   //Temp string for current prefix filter
   prefix: string;
 
-  //! TODO add the singed-in user as artist for this song inside the list - and disable his delete option 
-  //! TODO when diplaying artist list, dont display yourself
   // To be pulled from DB when needed
   artists: User[] = [];  
 
@@ -39,6 +37,9 @@ export class SongEditComponent implements OnInit {
 
   //Will represent temp artists that match filtering option
   filtered_artists: User[];
+
+  // Will be automatically added as an artist for the new song
+  connectedArtist: User;
 
   constructor(private songService: SongService, public route: ActivatedRoute,  private userService:UserService) {}
 
@@ -58,10 +59,26 @@ export class SongEditComponent implements OnInit {
             .subscribe((songData: {songs: Song[], totalSongs: number}) => {
                 this.songs = songData.songs;
                 this.song = songData.songs.find( song => this.songId == song.id);
-                this.selected_artists = this.song.artists;
+                this.song.artists.forEach( artist => {
+                    if(!this.selected_artists.some( selectedArtist => artist.username == selectedArtist.username ))
+                      this.selected_artists.push(artist);
+                });
             });
         }
     });
+
+    // Get the current signed in artist and set him as an artist for the new song
+    this.userService.getUserPermissionsUpdateListener().subscribe(user => {
+        this.connectedArtist = user;
+        // When diplaying artist list, wont dislay connected user as it already selected
+        // When reloading the page, header component also calls so need to call only once
+        if(!this.selected_artists.some( selectedArtist => user.username == selectedArtist.username )) 
+          this.selected_artists.push(this.connectedArtist);
+        }
+    );
+    // When reloading the page, header component also calls so need to call only once
+    if(this.selected_artists.length == 0) 
+        this.userService.getUserPermissions();
 
     // Get in artist list even if not started filtering yet
     this.userService.getArtistsUpdateListener().subscribe(
@@ -124,7 +141,7 @@ export class SongEditComponent implements OnInit {
         form.value.song_path,
         form.value.song_image,
         form.value.release_date,
-        this.selected_artists, // TODO: change to artist array
+        this.selected_artists, 
         this.song.num_of_times_liked
       )
       form.resetForm();
