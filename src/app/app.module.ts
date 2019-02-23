@@ -84,6 +84,9 @@ import { BrowserPipe } from './stats/browser.pipe';
     MatPaginatorModule,
     MatSnackBarModule,
   ],
+  exports: [
+  	BrowserPipe
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

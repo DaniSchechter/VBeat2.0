@@ -1,12 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'browser'
+  name: 'browserdatacustom'
 })
 export class BrowserPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
-    return null;
+    console.log('transofrming data');
+    // value is browser data
+    return `Chrome: ${value.Chrome}, Firefox: ${value.Firefox}, Edge: ${value.Edge}`;
   }
-
 }
