@@ -73,7 +73,7 @@ class Song():
 		self.release_data = release_date
 		self.song_url = song_url
 		self.album_image_url = album_image_url
-		logger.info('initialized Song=%s' % self)
+		#logger.info('initialized Song=%s' % self)
 	
 	def save(self):
 		logger.info('sending %s to db' % self)
