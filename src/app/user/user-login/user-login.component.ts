@@ -10,9 +10,9 @@ import { UserConfig } from '../user.model';
 })
 export class UserLoginComponent implements OnInit {
  
-  userConfig: UserConfig;
+  userConfig: UserConfig = new UserConfig();
 
-  constructor( private userService:UserService ) { }
+  constructor( private userService:UserService) { }
 
   ngOnInit() {
   }
@@ -23,6 +23,8 @@ export class UserLoginComponent implements OnInit {
   		return;
   	}
 
-    this.userService.login(form.value.username, form.value.password);
+    this.userService.login(form.value.username, form.value.password)
+    .then( () => {
+      this.userService.getUserPermissions() });
   }
 }

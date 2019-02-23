@@ -9,7 +9,6 @@ import { BrowserStatsComponent } from './stats/browser-stats/browser-stats.compo
 import { PlaylistListComponent } from './playlist/playlist-list/playlist-list.component';
 import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-create.component';
 
-
 const routes: Routes = [
   {path: '', component: SongListComponent},
   {path: 'create_song', component: SongCreateComponent},
