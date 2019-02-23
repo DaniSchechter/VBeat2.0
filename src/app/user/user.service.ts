@@ -85,7 +85,6 @@ export class UserService {
 			this.Http.post<{message: string}>(this.base_url + '/user/login', user)
 				.subscribe(
 						responseData => {
-							console.log("gfd");
 							this.notificationService.submitNotification(
 									new Notification(responseData.message, NotificationStatus.OK)
 							);
