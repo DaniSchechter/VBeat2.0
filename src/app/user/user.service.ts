@@ -37,7 +37,7 @@ export class UserService {
 		display_name: string,
 		email: string,
 		country: string,
-        city: string,
+    city: string,
 		street: string,
 		houseNum: number
 	)
@@ -51,7 +51,7 @@ export class UserService {
 			display_name: display_name,
 			email: email,
 			country: country,
-        	city: city,
+      city: city,
 			street: street,
 			houseNum: houseNum,
 		};
