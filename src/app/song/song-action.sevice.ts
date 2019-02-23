@@ -85,7 +85,7 @@ export class SongActionService{
         // Inform for local change
         this.localSongUpdated.next(song);
         // Update in DB
-        this.http.put<{message: string}>(this.base_url + '/songs/likes/' + song.id, song).subscribe(
+        this.http.put<{message: string}>(this.base_url + '/song/likes/' + song.id, song).subscribe(
             res => {
             this.notificationService.submitNotification(
                 new Notification(res.message,NotificationStatus.OK)
@@ -104,7 +104,7 @@ export class SongActionService{
         // Inform for local change
         this.localSongUpdated.next(song);
         // Update in DB
-        this.http.put<{message: string}>(this.base_url + '/songs/likes/' + song.id, song).subscribe(
+        this.http.put<{message: string}>(this.base_url + '/song/likes/' + song.id, song).subscribe(
             res => {
             this.notificationService.submitNotification(
                 new Notification(res.message,NotificationStatus.OK)
