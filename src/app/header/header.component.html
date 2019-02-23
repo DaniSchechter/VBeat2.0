@@ -6,7 +6,7 @@
     <div id="rightSide" class = "space">
         <ul>
             <li>
-                <a class="link" *ngIf="loggedIn" mat-raised-button routerLink="/create_song">New Song</a>
+                <a class="link" *ngIf="loggedIn && user.role==artistRole" mat-raised-button routerLink="/create_song">New Song</a>
             </li>
             <li>
                 <a class="link" *ngIf="loggedIn" mat-raised-button routerLink="/playlist">Playlist</a>

@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
-import { NgForm } from '@angular/forms';
 import { UserService } from '../user/user.service';
+import { User } from '../user/user.model';
 
 @Component({
     selector: 'app-header',
@@ -10,6 +10,8 @@ import { UserService } from '../user/user.service';
 export class HeaderComponent{
 
     loggedIn : boolean = false;
+    user: User;
+    artistRole: string = "ARTIST";
 
     constructor(private userService:UserService){};
 
@@ -17,6 +19,7 @@ export class HeaderComponent{
         this.userService.getUserPermissionsUpdateListener().subscribe(user => {
             if(user){
                 this.loggedIn = true;
+                this.user = user;
             }
             else{
                 this.loggedIn = false;
