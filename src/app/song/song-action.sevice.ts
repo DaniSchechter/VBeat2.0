@@ -5,6 +5,7 @@ import { Song } from './song.model';
 import { HttpClient } from '@angular/common/http';
 import { NotificationPopupService } from '../notification/notification-popup.service';
 import { NotificationStatus, Notification } from '../notification/notification.model';
+import { PlaylistService } from '../playlist/playlist.service';
 
 @Injectable({providedIn: 'root'})
 export class SongActionService{
@@ -77,13 +78,14 @@ export class SongActionService{
 
     like(song: Song) {
         this.song = song;
+
         this.song.num_of_times_liked ++;
         // Inform for global change
         this.songUpdatedSubject.next(this.song);
         // Inform for local change
         this.localSongUpdated.next(song);
         // Update in DB
-        this.http.put<{message: string}>(this.base_url + '/songs/likes/' + song.id, song).subscribe(
+        this.http.put<{message: string}>(this.base_url + '/song/likes/' + song.id, song).subscribe(
             res => {
             this.notificationService.submitNotification(
                 new Notification(res.message,NotificationStatus.OK)
@@ -95,13 +97,14 @@ export class SongActionService{
 
     unlike(song: Song) {
         this.song = song;
+
         this.song.num_of_times_liked --;
         // Inform for global change
         this.songUpdatedSubject.next(this.song);
         // Inform for local change
         this.localSongUpdated.next(song);
         // Update in DB
-        this.http.put<{message: string}>(this.base_url + '/songs/likes/' + song.id, song).subscribe(
+        this.http.put<{message: string}>(this.base_url + '/song/likes/' + song.id, song).subscribe(
             res => {
             this.notificationService.submitNotification(
                 new Notification(res.message,NotificationStatus.OK)

@@ -28,29 +28,36 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 // Custom Modules and components
 import { AppRoutingModule } from './app-routing.module';
 
+import { SongEditComponent } from './song/song-edit/song-edit.component';
 import { SongDetailsComponent } from './song/song-details/song-details.component';
 import { SongListComponent } from './song/song-list/song-list.component';
-import { SongToolBarComponent } from "./song/song-tool-bar/song-tool-bar.component";
+import { SongToolBarComponent } from './song/song-tool-bar/song-tool-bar.component';
 import { SongCreateComponent } from './song/song-create/song-create.component';
-import { UserCreateComponent } from './user/user-create/user-create.component';
-import { NotificationPopupComponent } from './notification/notification-popup/notification-popup.component';
-import { HeaderComponent } from './header/header.component';
-import { SongEditComponent } from './song/song-edit/song-edit.component';
+
 import { UserLoginComponent } from './user/user-login/user-login.component';
 import { UserSignupComponent } from './user/user-signup/user-signup.component';
 import { BrowserStatsComponent } from './stats/browser-stats/browser-stats.component';
 import { BrowserPipe } from './stats/browser.pipe';
 
+// interceptor related imports
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CookieInterceptor } from './cookie-interceptor';
+// end of interceptors 
+import { NotificationPopupComponent } from './notification/notification-popup/notification-popup.component';
+import { HeaderComponent } from './header/header.component';
+
+import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-create.component';
+import { PlaylistEditComponent } from './playlist/playlist-edit/playlist-edit.component';
+import { PlaylistListComponent } from './playlist/playlist-list/playlist-list.component';
+import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SongDetailsComponent,
-
     SongListComponent,
     SongToolBarComponent,
     SongCreateComponent,
-    UserCreateComponent,
     HeaderComponent,
     NotificationPopupComponent,
     SongEditComponent,
@@ -58,6 +65,10 @@ import { BrowserPipe } from './stats/browser.pipe';
     UserSignupComponent,
     BrowserStatsComponent,
     BrowserPipe,
+    PlaylistCreateComponent,
+    PlaylistEditComponent,
+    PlaylistListComponent,
+    PlaylistDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,7 +98,14 @@ import { BrowserPipe } from './stats/browser.pipe';
   exports: [
   	BrowserPipe
   ],
-  providers: [],
+  providers: [
+  	{
+		// include cookies in all of the requests
+		provide: HTTP_INTERCEPTORS,
+		useClass: CookieInterceptor,
+		multi: true
+	}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

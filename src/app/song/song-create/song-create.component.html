@@ -87,12 +87,9 @@
       <!-- END -->
 
       <!-- ARTISTS -->
-      <!--! TODO validation think of rules - make sure artist doesnt get picked twice -->
-      <!--TODO Steps: (1)first two letters -> (2)db query-> (3)auto complete: propagate with naswer form db query -->
       
       <!-- INPUT AND AUTO-COMPLETE TO SELECT ARTISTST-->
       <mat-form-field appearance = "legacy" color = "accent">
-          <!--TODO display loading gif on db querying - if need add async pipe after onSearchArtistChange func -->
           <input 
             type="text" 
             placeholder="Artists" 
@@ -106,7 +103,7 @@
               *ngFor="let artist of filtered_artists" 
               [value] = "artist"
               (click) = "onSelectArtist(artist)">
-              {{ artist }}
+              {{ artist.display_name }}
             </mat-option>
           </mat-autocomplete>
           <mat-hint> 
@@ -121,7 +118,7 @@
               <button mat-mini-fab >
                   <mat-icon title="remove this artist from this song" (click)="onDeleteSelectedArtist(artist)">delete</mat-icon>
                 </button>
-              <p>{{ artist }} </p> 
+              <p>{{ artist.display_name }} </p> 
           </mat-list-item>
       </mat-list>
       <!-- END -->

@@ -11,7 +11,7 @@ app.post("", (req, res, next) => {
         song_path: req.body.song_path,
         image_path: req.body.image_path,
         release_date: req.body.release_date,
-        artists:  req.body.artists, // TODO: change to artist array
+        artists:  req.body.artists,
         num_of_times_liked: req.body.num_of_times_liked
     });
     song.save()
@@ -28,6 +28,7 @@ app.post("", (req, res, next) => {
 });
 
 app.get("", (req, res, next) => {
+    console.log(`user seesion: ${req.session.userId}`);
     const pageSize = +req.query.pageSize;
     const currPage = +req.query.page;
     let fetchedSongs;
@@ -77,7 +78,7 @@ app.put("/:id", (req, res, next) => {
         song_path: req.body.song_path,
         image_path: req.body.image_path,
         release_date: req.body.release_date,
-        artists:  req.body.artists, // TODO: change to artist array
+        artists:  req.body.artists,
         num_of_times_liked: req.body.num_of_times_liked
     });
     Song.updateOne({_id: req.params.id}, song)
@@ -101,9 +102,10 @@ app.put("/likes/:id", (req, res, next) => {
         song_path: req.body.song_path,
         image_path: req.body.image_path,
         release_date: req.body.release_date,
-        artists:  req.body.artists, // TODO: change to artist array
+        artists:  req.body.artists,
         num_of_times_liked: req.body.num_of_times_liked
     });
+    
     Song.updateOne({_id: req.params.id}, song)
     .then(
         result => {

@@ -1,6 +1,5 @@
 mat-panel-title, mat-panel-description p{
     margin: auto 10px;
-    flex: none
 }
 mat-accordion {
     display: block;
@@ -9,5 +8,5 @@ mat-accordion {
 }
 
 mat-paginator{
-    margin: 10px;
+    margin-top: 1rem;
 }

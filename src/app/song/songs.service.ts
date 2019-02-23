@@ -5,10 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { Song, Genre } from './song.model';
 import { NotificationPopupService } from '../notification/notification-popup.service'
 import { NotificationStatus, Notification } from '../notification/notification.model'
-import { elementEnd } from '@angular/core/src/render3';
-import { visitValue } from '@angular/compiler/src/util';
 import { Router } from '@angular/router';
-
+import { User } from '../user/user.model';
 @Injectable({providedIn: 'root'})
 export class SongService{
     private base_url = 'http://localhost:3000/api';
@@ -29,7 +27,7 @@ export class SongService{
     
     getSongs(songsPerPage = 10, currentPage = 1){
         const queryParams = `?pageSize=${songsPerPage}&page=${currentPage}`;
-        this.Http.get<{message: string; songs: any, totalSongs: number}>(this.base_url + '/songs' + queryParams)
+        this.Http.get<{message: string; songs: any, totalSongs: number}>(this.base_url + '/song' + queryParams)
         .pipe(
             map(songData => {
             return {songs: songData.songs.map(song => {
@@ -39,7 +37,7 @@ export class SongService{
                     song_path: song.song_path, 
                     image_path: song.image_path, 
                     release_date: song.release_date,
-                    artists: song.artists, //TODO: change to artist array
+                    artists: song.artists,
                     num_of_times_liked: song.num_of_times_liked, 
                     id: song._id
                 };
@@ -63,14 +61,10 @@ export class SongService{
         return this.songUpdated.asObservable();
     }
 
-    getSong(songs: Song[], songId: string){
-        return {...this.songs.find(song => song.id === songId)};
-    }
-
 
     addSong(name: string, genre: Genre, song_path: string, image_path: string, release_date: Date,
-        artists: string[], //TODO: change to artist array
-        num_of_times_liked: number){
+        artists: User[], num_of_times_liked: number)
+        {
             const song: Song = {
                 id: null, 
                 name: name, 
@@ -81,7 +75,8 @@ export class SongService{
                 artists: artists, 
                 num_of_times_liked: num_of_times_liked
             };
-        this.Http.post<{message: string, songId: string}>(this.base_url + '/songs', song)
+
+        this.Http.post<{message: string, songId: string}>(this.base_url + '/song', song)
         .subscribe(
             responseData => {
                 this.notificationService.submitNotification(
@@ -96,7 +91,7 @@ export class SongService{
     }
 
     deleteSong(songId: string){
-        return this.Http.delete<{message: string}>(this.base_url + '/songs/' + songId)
+        return this.Http.delete<{message: string}>(this.base_url + '/song/' + songId)
         .subscribe(
             responseData => {
                 const updatedSongs = this.songs.filter(song => song.id !== songId);
@@ -113,8 +108,8 @@ export class SongService{
     }
 
     updateSong(id: string, name: string, genre: Genre, song_path: string, image_path: string, release_date: Date,
-        artists: string[], //TODO: change to artist array
-        num_of_times_liked: number){
+        artists: User[], num_of_times_liked: number)
+        {
             const song: Song = {
                 id: id, 
                 name: name, 
@@ -125,7 +120,7 @@ export class SongService{
                 artists: artists, 
                 num_of_times_liked: num_of_times_liked
             };
-            this.Http.put<{message: string}>(this.base_url + '/songs/' + id, song).subscribe(
+            this.Http.put<{message: string}>(this.base_url + '/song/' + id, song).subscribe(
                 res => {
                     this.notificationService.submitNotification(
                         new Notification(res.message,NotificationStatus.OK)

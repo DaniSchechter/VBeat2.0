@@ -1,18 +1,24 @@
 <mat-toolbar color="blue">
-    <span>
-        <a class="link" routerLink="/">Vbeat</a>
-    </span>
-    <span id="rightSide" class = "space">
+    <div class="header-item">
+        <a mat-raised-button class="link" routerLink="/">Vbeat</a>
+    </div>
+    <div id="rightSide" class = "space">
         <ul>
             <li>
-                <a class="link" routerLink="/create_song">New Song</a>
+                <a class="link" mat-raised-button routerLink="/create_song">New Song</a>
             </li>
             <li>
-                <a class="link" routerLink="/login">Log In</a>
+                <a class="link" mat-raised-button routerLink="/login">Log In</a>
             </li>
             <li>
-                <a class="link" routerLink="/signup">Sign Up</a>
+                <a class="link" mat-raised-button routerLink="/signup">Sign Up</a>
+            </li>
+            <li>
+                <a class="link" mat-raised-button routerLink="/playlist">Playlist</a>
+            </li>
+            <li>
+                <a class="link" mat-raised-button routerLink="/create_playlist">New Playlist</a>
             </li>
         </ul>
-    </span>
+    </div>
 </mat-toolbar>
