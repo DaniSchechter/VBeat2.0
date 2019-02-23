@@ -15,6 +15,7 @@ export class User {
 		public country: string,
 		public city: string,
 		public street: string,
+		public houseNum: number
 	) {}
 }
 

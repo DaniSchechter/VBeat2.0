@@ -20,7 +20,8 @@ app.post("", (req, res, next) => {
         email: req.body.email,
         country: req.body.country,
         city: req.body.city,
-        street: req.body.street
+        street: req.body.street,
+        houseNum: req.body.houseNum
     });
     user.save()
     .then(newUser => {

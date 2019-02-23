@@ -11,7 +11,7 @@ const userSchema = mongoose.Schema({
 	country: {type:String, require:false},
 	city: {type:String, require:false},
 	street: {type:String, require:false},
-
+	houseNum: {type:Number, require:false},
 });
 
 userSchema.plugin(uniqueValidator);

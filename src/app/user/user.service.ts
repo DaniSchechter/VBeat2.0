@@ -38,7 +38,8 @@ export class UserService {
 		email: string,
 		country: string,
         city: string,
-        street: string,
+		street: string,
+		houseNum: number
 	)
 	{
 		const user: User = {
@@ -51,7 +52,8 @@ export class UserService {
 			email: email,
 			country: country,
         	city: city,
-        	street: street,
+			street: street,
+			houseNum: houseNum,
 		};
 		
 		return new Promise( (resolve, reject) => {
@@ -88,6 +90,7 @@ export class UserService {
 			country: null,
 			city: null,
 			street: null,
+			houseNum: null,
 		}
 
 		return new Promise( (resolve, reject) => {
@@ -126,6 +129,7 @@ export class UserService {
 					artist.country,
 					artist.city,
 					artist.street,
+					artist.houseNum,
 				)
 			})}
         }))
