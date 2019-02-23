@@ -32,6 +32,7 @@ export class UserSignupComponent implements OnInit {
     this.userService.addUser(form.value.username, form.value.password, form.value.role, form.value.profile_pic, form.value.display_name, form.value.email)
     .then( () => {
       this.playlistService.addPlaylist("LIKED SONGS", []);
+      this.userService.getUserPermissions();
     }
     );
     form.resetForm();

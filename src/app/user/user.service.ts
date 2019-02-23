@@ -17,6 +17,8 @@ export class UserService {
 	private base_url = 'http://localhost:3000/api'; /* TODO need to move this out */ 
 	artists: User[];
 	artistsUpdated = new Subject<User[]>();
+	userFetched = new Subject<string>();
+	userId: string;
 
 	constructor(private Http: HttpClient,
 				private notificationService: NotificationPopupService, private router:Router) { }
@@ -79,20 +81,25 @@ export class UserService {
 			email: null
 		}
 
-		this.Http.post<{message: string}>(this.base_url + '/user/login', user)
-			.subscribe(
-					responseData => {
-						this.notificationService.submitNotification(
-								new Notification(responseData.message, NotificationStatus.OK)
-						);
-            		this.router.navigate(["/"]);
-					},
-					error => {
-						this.notificationService.submitNotification(
-								new Notification(error.message, NotificationStatus.ERROR)
-						);
-					}
-			);
+		return new Promise( (resolve, reject) => {
+			this.Http.post<{message: string}>(this.base_url + '/user/login', user)
+				.subscribe(
+						responseData => {
+							console.log("gfd");
+							this.notificationService.submitNotification(
+									new Notification(responseData.message, NotificationStatus.OK)
+							);
+							resolve();
+							this.router.navigate(["/"]);
+						},
+						error => {
+							this.notificationService.submitNotification(
+									new Notification(error.message, NotificationStatus.ERROR)
+							);
+							reject();
+						}
+				);
+		});
 	}
 
 	getArtists(): void {
@@ -119,6 +126,25 @@ export class UserService {
             error => this.notificationService.submitNotification(
                 new Notification(error.message,NotificationStatus.ERROR))
         );
+	}
+
+	getUserPermissionsUpdateListener(){
+		return this.userFetched.asObservable();
+	}
+
+	getUserPermissions(){
+		this.Http.get<{ userRole: string }>(`${this.base_url}/user/userRole`)
+		.subscribe(responseData => {
+			console.log({"userservice " : responseData})
+			if (responseData.userRole){
+				return this.userFetched.next(responseData.userRole);
+			}
+			return this.userFetched.next(null);
+		},
+		error => {
+			this.notificationService.submitNotification(
+				new Notification(error.message, NotificationStatus.ERROR));
+		})
 	}
 
 }

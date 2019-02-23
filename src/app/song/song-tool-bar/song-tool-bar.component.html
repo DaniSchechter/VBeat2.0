@@ -1,5 +1,3 @@
-<!--TODO on add to playlist - select from list of playlists-->
-
 <mat-card-actions>
     <button mat-mini-fab (click)="onAddToQueue()">
         <mat-icon title="Add to queue">queue_music</mat-icon>  
@@ -7,11 +5,10 @@
     <button mat-mini-fab (click)="onPlay()">
       <mat-icon title="Play now">play_arrow</mat-icon>  
     </button>
-    <button mat-mini-fab (click)="onAddToPlaylist()">
+    <button *ngIf="isConnected" mat-mini-fab (click)="onAddToPlaylist()">
       <mat-icon title="Add to playlist">playlist_add</mat-icon>  
     </button>
-    <!--TODO add to user list of songs he has liked-->
-    <button mat-mini-fab [class.liked]="songLiked" (click)="onLikeToggle()">
+    <button *ngIf="isConnected" mat-mini-fab [class.liked]="songLiked" (click)="onLikeToggle()">
         <mat-icon *ngIf="song"
                   title="Like"
                   [matBadge]="song.num_of_times_liked"
@@ -20,10 +17,10 @@
         </mat-icon>
     </button>
 
-    <a mat-mini-fab *ngIf="song" [routerLink]="['/edit_song', song.id]">
+    <a mat-mini-fab *ngIf="isConnected" [routerLink]="['/edit_song', song.id]">
       <mat-icon title="Edit">edit</mat-icon> 
     </a>
-    <button mat-mini-fab (click)="onDelete()" color="warn">
+    <button mat-mini-fab *ngIf="isConnected" (click)="onDelete()" color="warn">
       <mat-icon title="Delete">delete</mat-icon>  
     </button>
 </mat-card-actions>

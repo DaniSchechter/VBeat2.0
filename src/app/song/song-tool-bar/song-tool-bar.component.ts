@@ -17,6 +17,7 @@ import { NotificationStatus, Notification } from '../../notification/notificatio
 export class SongToolBarComponent implements OnInit {
 
   @Input() song: Song;
+  isConnected = false;
   songLiked: boolean = false;
   // Not initializing in c'tor because of Singelton pattern
   songActionService: SongActionService;
@@ -37,10 +38,15 @@ export class SongToolBarComponent implements OnInit {
   ngOnInit() {
     // Diaplay each song as liked or not as it appears in DB
     this.playlistService.getFavPlaylistUpdateListener().subscribe( likedSongsPlaylist => {
-      this.songLiked = likedSongsPlaylist.songList.some( (song:Song) => song.id == this.song.id );
+      if (likedSongsPlaylist){
+        this.songLiked = likedSongsPlaylist.songList.some( (song:Song) => song.id == this.song.id );
+        this.isConnected = true;
+      }
+      else{
+        this.isConnected = false;
+      }
     });
     this.playlistService.getFavPlaylist();
-
     // Listen for updates in num of likes through web sockets
     this.songActionService.getSongUpdatedSubject().subscribe( 
       (updatedSong: Song) => {
