@@ -26,7 +26,7 @@ app.post("", (req, res, next) => {
 
 // Get playlist by name
 app.get("/:name", (req, res, next) => {
-    Playlist.findOne({_id:req.session.userId,  name: req.params.name})
+    Playlist.findOne({UserId:req.session.userId,  name: req.params.name})
     .then(result => {
         res.status(200).json({
                 message: "favorite songs playlist fetchet successfully",
@@ -60,7 +60,6 @@ app.get("", (req, res, next) => {
                 totalPlaylists: count
             });
     }).catch(error => {
-        console.log(error.message);
         res.status(500).json({
             message: error.message
         });
@@ -75,7 +74,6 @@ app.delete("/:id", (req, res, next) => {
             message : "Playlist deleted"
         });
     }).catch(error => {
-        console.log(error.message);
         res.status(400).json({
             message: error.message
         });
@@ -84,6 +82,7 @@ app.delete("/:id", (req, res, next) => {
 
 // update playlist
 app.put("/:id", (req, res, next) => {
+    console.log(req.body.songList);
     let songList = req.body.songList.map( song => {
         return newSong = {
             _id: song.id,
