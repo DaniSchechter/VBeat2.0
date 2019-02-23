@@ -34,8 +34,7 @@ export class PlaylistListComponent implements OnInit {
   }
 
   onSelectPlaylist(playlist: Playlist) {
-    this.selectedPlaylist = playlist;
-  }
+    this.selectedPlaylist = playlist;  }
 
   onChangePage(pageData: PageEvent){
     this.currentPage = pageData.pageIndex + 1;
