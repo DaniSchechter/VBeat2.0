@@ -105,9 +105,12 @@ export class SongEditComponent implements OnInit {
   }
 
   filterArtists() {
-    console.log({"prefix":this.prefix});
-    this.filtered_artists = this.artists.filter( 
-        artist => artist.display_name.toLowerCase().startsWith(this.prefix.toLowerCase())); 
+    // Sometimes gets to her when prefix in null
+    if(this.prefix) {
+      this.filtered_artists = this.artists.filter( 
+          artist => artist.display_name.toLowerCase().startsWith(this.prefix.toLowerCase())
+      ); 
+    }
   }
 
   onSubmit(form: NgForm){
