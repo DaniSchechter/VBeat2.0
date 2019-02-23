@@ -61,10 +61,6 @@ export class SongService{
         return this.songUpdated.asObservable();
     }
 
-    getSong(songs: Song[], songId: string){
-        return {...this.songs.find(song => song.id === songId)};
-    }
-
 
     addSong(name: string, genre: Genre, song_path: string, image_path: string, release_date: Date,
         artists: User[], num_of_times_liked: number)

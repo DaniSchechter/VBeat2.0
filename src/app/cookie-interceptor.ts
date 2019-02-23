@@ -15,7 +15,6 @@ export class CookieInterceptor implements HttpInterceptor {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-	console.log('added cookie to request...');
         request = request.clone({
             withCredentials: true
         });

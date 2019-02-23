@@ -48,37 +48,34 @@ export class SongEditComponent implements OnInit {
     this.filtered_artists = [];  //gets an actual value only from pre-defined length - see updates below
     this.name_length_to_query = 2;
     this.genre_options = Object.keys(Genre);
-    this.song = this.songService.getSong(this.songs, this.songId);
 
-    // Update local artist list when called by listening for changes
+    // Fetch the correct song to be edited by id
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+        if (paramMap.has('id')){
+            this.songId = paramMap.get('id');
+            this.songService.getSongs();
+            this.songSub = this.songService.getSongsUpdateListener()
+            .subscribe((songData: {songs: Song[], totalSongs: number}) => {
+                this.songs = songData.songs;
+                this.song = songData.songs.find( song => this.songId == song.id);
+                this.selected_artists = this.song.artists;
+            });
+        }
+    });
+
+    // Get in artist list even if not started filtering yet
     this.userService.getArtistsUpdateListener().subscribe(
       (artists: User[]) => { 
-
         // Filter the artists array from selected artists so they wont be selected again
         this.artists = [];
         artists.forEach( artist => {
-          if( !this.selected_artists.some( selectedArtist => artist.id == selectedArtist.id ))
+          if( !this.selected_artists.some( selectedArtist => artist.username == selectedArtist.username ))
             this.artists.push(artist);
         });
 
         this.filterArtists();
       }
     );
-
-    // Fetch the correct song to be edited by id
-    this.route.paramMap.subscribe((paramMap: ParamMap) => {
-        if (paramMap.has('id')){
-            this.songId = paramMap.get('id');
-            this.songService.getSong(this.songs, this.songId);
-            this.songService.getSongs();
-            this.songSub = this.songService.getSongsUpdateListener()
-            .subscribe((songData: {songs: Song[], totalSongs: number}) => {
-                this.songs = songData.songs;
-                this.song = this.songService.getSong(this.songs, this.songId);
-                this.selected_artists = this.song.artists;
-            });
-        }
-    });
   }
 
   // Adds an artist that was selected to song's artists list
@@ -89,7 +86,7 @@ export class SongEditComponent implements OnInit {
 
   // Removes an artist from song's artists list
   onDeleteSelectedArtist(artist_to_delete: User) {
-    this.selected_artists = this.selected_artists.filter( artist => artist.id != artist_to_delete.id);
+    this.selected_artists = this.selected_artists.filter( artist => artist.username != artist_to_delete.username);
   }
 
   onSearchArtistChange() {
@@ -108,8 +105,12 @@ export class SongEditComponent implements OnInit {
   }
 
   filterArtists() {
-    this.filtered_artists = this.artists.filter( 
-        artist => artist.display_name.toLowerCase().startsWith(this.prefix.toLowerCase())); 
+    // Sometimes gets to her when prefix in null
+    if(this.prefix) {
+      this.filtered_artists = this.artists.filter( 
+          artist => artist.display_name.toLowerCase().startsWith(this.prefix.toLowerCase())
+      ); 
+    }
   }
 
   onSubmit(form: NgForm){
