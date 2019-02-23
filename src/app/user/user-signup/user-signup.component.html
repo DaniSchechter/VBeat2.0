@@ -146,10 +146,11 @@
         matInput 
         placeholder = "houseNum"
         name = "houseNum"
-        type = number
+        type = "number"
+        pattern = "\d+"
         ngModel
         #houseNum="ngModel">
-      <mat-hint> Optional </mat-hint>
+      <mat-hint> Needs to be grater than 0 </mat-hint>
     </mat-form-field>
     <!-- END -->
 
