@@ -16,7 +16,7 @@ const routes: Routes = [
   {path: 'edit_song/:id', component: SongEditComponent},
   {path: 'login', component: UserLoginComponent},
   {path: 'signup', component: UserSignupComponent},
-  {path: 'stats', component: BrowserStatsComponent }
+  {path: 'stats', component: BrowserStatsComponent },
   {path: 'playlist', component: PlaylistListComponent},
   {path: 'create_playlist', component: PlaylistCreateComponent}
 ];
