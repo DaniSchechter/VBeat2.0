@@ -19,6 +19,7 @@ export class UserService {
 	artistsUpdated = new Subject<User[]>();
 	userFetched = new Subject<User>();
 	userId: string;
+	connectedUser: User;
 
 	constructor(private Http: HttpClient,
 				private notificationService: NotificationPopupService, private router:Router) { }
@@ -150,6 +151,7 @@ export class UserService {
 	getUserPermissions(){
 		this.Http.get<{user: User}>(`${this.base_url}/user/currentUser`)
 		.subscribe(userData => {
+			this.connectedUser = userData.user;
 			this.userFetched.next(userData.user);
 		},
 		error => {

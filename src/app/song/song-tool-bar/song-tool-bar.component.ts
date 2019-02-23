@@ -3,7 +3,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Song } from '../song.model';
 import { SongActionService } from '../song-action.sevice';
 import { Playlist } from '../../playlist/playlist.model';
-import { PlaylistService } from '../../playlist/playlist.service'
+import { PlaylistService } from '../../playlist/playlist.service';
+import { UserService } from '../../user/user.service';
 import { SongService } from '../songs.service';
 import { HttpClient } from '@angular/common/http';
 import { NotificationPopupService } from '../../notification/notification-popup.service';
@@ -24,10 +25,15 @@ export class SongToolBarComponent implements OnInit {
   playlists: Playlist[];
   playlistId: string;
   selectedPlaylists: Playlist[] = [];
-  private notificationService: NotificationPopupService;
 
+  /* At first false so at load time, component wont enable owner permissions for a second
+     Untill is shows no pernissions
+     will be updated on ngInit */
+  hasOwnerPermissions: boolean = false;
 
   constructor(
+    private userService:UserService,
+    private notificationService: NotificationPopupService,
     private songsService : SongService,
     private playlistService: PlaylistService,
     private http: HttpClient)
@@ -63,6 +69,8 @@ export class SongToolBarComponent implements OnInit {
         }
       }
     );
+
+    this.loadPermissionToConnectedUser();
   }
 
   onAddSongToPlaylist(playlist_action: Playlist){
@@ -122,6 +130,20 @@ export class SongToolBarComponent implements OnInit {
       this.playlistService.updatePlaylist(Playlist.id, Playlist.name, Playlist.songList);
     });
     this.selectedPlaylists = [];
+    }
+  }
+
+  loadPermissionToConnectedUser() {
+    if(this.userService.connectedUser == undefined)
+    {
+        this.userService.getUserPermissionsUpdateListener().subscribe(user => {
+          this.hasOwnerPermissions = this.song.artists.some( 
+            artist => artist.username == user.username);
+        });
+    }
+    else {
+      this.hasOwnerPermissions = this.song.artists.some( 
+        artist => artist.username == this.userService.connectedUser.username);
     }
   }
 }
