@@ -7,7 +7,11 @@ import { StatsService } from '../stats.service';
   styleUrls: ['./browser-stats.component.css']
 })
 export class BrowserStatsComponent implements OnInit {
-  browserData = {};
+  browserData = {
+  	'Chrome': 0,
+	'Firefox': 1,
+	'Edge': 3
+  };
  
   constructor(private statService: StatsService,
     private zone:NgZone) { }
