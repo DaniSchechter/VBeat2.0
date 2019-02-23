@@ -14,7 +14,11 @@ def main():
 	page_html = download_html(scraping_url)
 	matching_lines = filter_lines(page_html)
 	songs = parse_songs(matching_lines)	
-	
+	#logger.debug(songs)
+	for s in songs:
+		s.save()
+
+
 def filter_lines(page_html):
 	logger.info('filtering lines...')
 	page_html_lines = page_html.split('\n')
