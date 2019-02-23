@@ -28,7 +28,6 @@ app.post("", (req, res, next) => {
 });
 
 app.get("", (req, res, next) => {
-    console.log(`user seesion: ${req.session.userId}`);
     const pageSize = +req.query.pageSize;
     const currPage = +req.query.page;
     let fetchedSongs;
@@ -118,5 +117,7 @@ app.put("/likes/:id", (req, res, next) => {
         });
     });
 });
+
+
 
 module.exports = app;

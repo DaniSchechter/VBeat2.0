@@ -8,6 +8,7 @@ import { UserSignupComponent } from './user/user-signup/user-signup.component';
 import { BrowserStatsComponent } from './stats/browser-stats/browser-stats.component';
 import { PlaylistListComponent } from './playlist/playlist-list/playlist-list.component';
 import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-create.component';
+import { GenreStatsComponent } from './stats/genre-stats/genre-stats.component';
 
 const routes: Routes = [
   {path: '', component: SongListComponent},
@@ -17,7 +18,8 @@ const routes: Routes = [
   {path: 'signup', component: UserSignupComponent},
   {path: 'stats', component: BrowserStatsComponent },
   {path: 'playlist', component: PlaylistListComponent},
-  {path: 'create_playlist', component: PlaylistCreateComponent}
+  {path: 'create_playlist', component: PlaylistCreateComponent},
+  {path: 'genre', component: GenreStatsComponent}
 ];
 
 @NgModule({
