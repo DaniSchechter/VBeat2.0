@@ -15,10 +15,10 @@
                 <a class="link" *ngIf="loggedIn" mat-raised-button routerLink="/create_playlist">New Playlist</a>
             </li>
             <li>
-                <a class="link" mat-raised-button routerLink="/login">Log In</a>
+                <a class="link" *ngIf="loggedIn == false" mat-raised-button routerLink="/login">Log In</a>
             </li>
             <li>
-                <a class="link" mat-raised-button routerLink="/signup">Sign Up</a>
+                <a class="link" *ngIf="loggedIn == false" mat-raised-button routerLink="/signup">Sign Up</a>
             </li>
         </ul>
     </div>

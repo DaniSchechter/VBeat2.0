@@ -135,7 +135,6 @@ export class UserService {
 	getUserPermissions(){
 		this.Http.get<{ userRole: string }>(`${this.base_url}/user/userRole`)
 		.subscribe(responseData => {
-			console.log({"userservice " : responseData})
 			if (responseData.userRole){
 				return this.userFetched.next(responseData.userRole);
 			}

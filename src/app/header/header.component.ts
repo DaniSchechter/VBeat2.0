@@ -9,7 +9,7 @@ import { UserService } from '../user/user.service';
 })
 export class HeaderComponent{
 
-    loggedIn = false;
+    loggedIn : boolean = false;
 
     constructor(private userService:UserService){};
 

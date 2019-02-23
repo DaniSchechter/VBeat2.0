@@ -25,7 +25,6 @@ export class UserLoginComponent implements OnInit {
 
     this.userService.login(form.value.username, form.value.password)
     .then( () => {
-      console.log("then");
       this.userService.getUserPermissions() });
   }
 }
