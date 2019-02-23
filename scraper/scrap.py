@@ -6,7 +6,18 @@ scraping_url = 'https://www.top100singles.net/2017/12/every-aria-top-100-single-
 
 def main():
 	page_html = download_html(scraping_url)
+	matching_lines = filter_lines(page_html)
+	logger.info(len(matching_lines))
+
 	
+	
+def filter_lines(page_html):
+	logger.info('filtering lines...')
+	page_html_lines = page_html.split('\n')
+	return [x for x in page_html_lines if 'var t' in x or 'var s' in x]
+
+def parse_songs(matching_lines):
+	logger.info('parsing songs')
 
 # a class representing a song
 class Song():
