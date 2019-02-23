@@ -36,6 +36,8 @@ import { SongCreateComponent } from './song/song-create/song-create.component';
 
 import { UserLoginComponent } from './user/user-login/user-login.component';
 import { UserSignupComponent } from './user/user-signup/user-signup.component';
+import { BrowserStatsComponent } from './stats/browser-stats/browser-stats.component';
+import { BrowserPipe } from './stats/browser.pipe';
 
 // interceptor related imports
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -61,6 +63,8 @@ import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-d
     SongEditComponent,
     UserLoginComponent,
     UserSignupComponent,
+    BrowserStatsComponent,
+    BrowserPipe,
     PlaylistCreateComponent,
     PlaylistEditComponent,
     PlaylistListComponent,
@@ -90,6 +94,9 @@ import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-d
     MatAutocompleteModule,
     MatPaginatorModule,
     MatSnackBarModule,
+  ],
+  exports: [
+  	BrowserPipe
   ],
   providers: [
   	{
