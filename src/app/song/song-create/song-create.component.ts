@@ -11,8 +11,6 @@ import { UserService } from '../../user/user.service';
   styleUrls: ['./song-create.component.css']
 })
 export class SongCreateComponent implements OnInit {
-
-  song : Song;
   
   //For select_optios of genre - populated from Genre option ENUM
   genre_options: string[];
@@ -23,8 +21,6 @@ export class SongCreateComponent implements OnInit {
   //Temp string for current prefix filter
   prefix: string;
 
-  //! TODO add the singed-in user as artist for this song inside the list - and disable his delete option 
-  //! TODO when diplaying artist list, dont display yourself
   // To be pulled from DB when needed
   artists: User[] = [];  
 
@@ -34,6 +30,9 @@ export class SongCreateComponent implements OnInit {
   //Will represent temp artists that match filtering option
   filtered_artists: User[];
 
+  // Will be automatically added as an artist for the new song
+  connectedArtist: User;
+
   constructor(private songService: SongService, private userService:UserService) {}
 
   ngOnInit() {
@@ -41,6 +40,21 @@ export class SongCreateComponent implements OnInit {
     this.filtered_artists = [];  //gets an actual value only from pre-defined length - see updates below
     this.name_length_to_query = 2;
     this.genre_options = Object.keys(Genre);
+
+    // Get the current signed in artist and set him as an artist for the new song
+    this.userService.getUserPermissionsUpdateListener().subscribe(user => {
+      this.connectedArtist = user;
+
+      // When diplaying artist list, wont dislay connected user as it already selected
+      // When reloading the page, header component also calls so need to call only once
+      if(this.selected_artists.length == 0) 
+        this.selected_artists.push(this.connectedArtist);
+
+    });
+    
+    // When reloading the page, header component also calls so need to call only once
+    if(this.selected_artists.length == 0) 
+      this.userService.getUserPermissions();
 
     // Update local artist list when called by listening for changes
     this.userService.getArtistsUpdateListener().subscribe(

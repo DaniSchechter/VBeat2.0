@@ -111,11 +111,21 @@
           </mat-hint> 
       </mat-form-field>
       <!--List displaying the selected artists -->
-      <mat-list role="list">
+      <mat-list *ngIf="connectedArtist" role="list">
           <mat-list-item role="listitem" *ngFor="let artist of selected_artists">
-              <button mat-mini-fab >
-                  <mat-icon title="remove this artist from this song" (click)="onDeleteSelectedArtist(artist)">delete</mat-icon>
-                </button>
+              <button mat-mini-fab type="button">
+                  <mat-icon 
+                    *ngIf="artist.username != connectedArtist.username"
+                    title="remove this artist from this song" 
+                    (click)="onDeleteSelectedArtist(artist)">
+                      delete
+                  </mat-icon>
+                  <mat-icon 
+                    *ngIf="artist.username == connectedArtist.username"
+                    title="Cannot remove yourself">
+                      person
+                  </mat-icon>
+              </button>
               <p>{{ artist.display_name }} </p> 
           </mat-list-item>
       </mat-list>
