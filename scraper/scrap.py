@@ -13,9 +13,7 @@ logzero.logfile('debug.log')
 def main():
 	page_html = download_html(scraping_url)
 	matching_lines = filter_lines(page_html)
-	songs = parse_songs(matching_lines)
-
-	
+	songs = parse_songs(matching_lines)	
 	
 def filter_lines(page_html):
 	logger.info('filtering lines...')
@@ -59,9 +57,12 @@ def parse_songs(matching_lines):
 	artists_split = artist_array_inner_value.split('",')
 
 	logger.debug('lengths %d, %d' % (len(songs_split), len(artists_split)))
-	
 
-	return None
+	songs_object = []
+	for i in range(0,len(songs_split)):
+		songs_object.append(Song(songs_split[i], artists_split[i], None, None, None, None))
+
+	return songs_object 
 
 # a class representing a song
 class Song():
