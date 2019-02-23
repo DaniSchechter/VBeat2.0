@@ -17,10 +17,10 @@
         </mat-icon>
     </button>
 
-    <a mat-mini-fab *ngIf="isConnected" [routerLink]="['/edit_song', song.id]">
+    <a mat-mini-fab *ngIf="isConnected && hasOwnerPermissions" [routerLink]="['/edit_song', song.id]">
       <mat-icon title="Edit">edit</mat-icon> 
     </a>
-    <button mat-mini-fab *ngIf="isConnected" (click)="onDelete()" color="warn">
+    <button mat-mini-fab *ngIf="isConnected && hasOwnerPermissions" (click)="onDelete()" color="warn">
       <mat-icon title="Delete">delete</mat-icon>  
     </button>
 </mat-card-actions>
