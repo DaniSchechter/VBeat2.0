@@ -7,7 +7,7 @@ scraping_url = 'https://www.top100singles.net/2017/12/every-aria-top-100-single-
 def main():
 	page_html = download_html(scraping_url)
 	matching_lines = filter_lines(page_html)
-	logger.info(len(matching_lines))
+	songs, artists = parse_songs(matching_lines)
 
 	
 	
@@ -18,6 +18,11 @@ def filter_lines(page_html):
 
 def parse_songs(matching_lines):
 	logger.info('parsing songs')
+	songs_line = [x for x in matching_lines if 'var s' in x]
+	logger.info('found song line %s' % songs_line)
+	artists_line = [x for x in matching_lines if 'var t' in x]
+	logger.info('found artist line %s' % artists_line)
+	return (None, None)
 
 # a class representing a song
 class Song():
@@ -38,6 +43,7 @@ class Song():
 
 # download html and basic check for status code
 def download_html(url):
+	logger.info('downloading %s' % url)
 	r = requests.get(url)
 	if r.status_code != 200:
 		raise Exception('unable to request %s (code: %d)' % (url, r.status_code))
