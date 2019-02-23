@@ -74,6 +74,24 @@ app.get("/artists", (req, res, next) => {
     });
 });
 
+// get the role of the current user (connected or not)
+app.get("/userRole", (req, res, next) => {
+    User.findOne({_id:req.session.userId})
+        .then(userResult => {
+            if(userResult){
+                res.status(200).json({
+                    userRole: userResult.role
+                });
+            }
+            else{
+                res.status(200).json({
+                    userRole: null
+                });
+            }
+        }
+    );
+})
+
 // get users
 app.get("", (req, res, next) => {
     User.find(
@@ -102,6 +120,8 @@ app.get("/:id", (req, res, next) => {
     });
 });
 
+
+
 // delete certain user
 app.delete("/:id", (req, res, next) => {
     User.deleteOne({_id: req.params.id})
@@ -121,4 +141,3 @@ app.delete("/:id", (req, res, next) => {
 
 
 module.exports = app;
-

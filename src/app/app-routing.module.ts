@@ -9,14 +9,13 @@ import { BrowserStatsComponent } from './stats/browser-stats/browser-stats.compo
 import { PlaylistListComponent } from './playlist/playlist-list/playlist-list.component';
 import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-create.component';
 
-
 const routes: Routes = [
   {path: '', component: SongListComponent},
   {path: 'create_song', component: SongCreateComponent},
   {path: 'edit_song/:id', component: SongEditComponent},
   {path: 'login', component: UserLoginComponent},
   {path: 'signup', component: UserSignupComponent},
-  {path: 'stats', component: BrowserStatsComponent }
+  {path: 'stats', component: BrowserStatsComponent },
   {path: 'playlist', component: PlaylistListComponent},
   {path: 'create_playlist', component: PlaylistCreateComponent}
 ];
