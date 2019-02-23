@@ -60,7 +60,6 @@ app.get("", (req, res, next) => {
                 totalPlaylists: count
             });
     }).catch(error => {
-        console.log(error.message);
         res.status(500).json({
             message: error.message
         });
@@ -75,7 +74,6 @@ app.delete("/:id", (req, res, next) => {
             message : "Playlist deleted"
         });
     }).catch(error => {
-        console.log(error.message);
         res.status(400).json({
             message: error.message
         });
