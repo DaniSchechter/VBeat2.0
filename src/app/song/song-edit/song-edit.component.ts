@@ -68,10 +68,8 @@ export class SongEditComponent implements OnInit {
       (artists: User[]) => { 
         // Filter the artists array from selected artists so they wont be selected again
         this.artists = [];
-        console.log(this.song.artists);
         artists.forEach( artist => {
-          console.log(artist);
-          if( !this.selected_artists.some( selectedArtist => artist.id == selectedArtist.id ))
+          if( !this.selected_artists.some( selectedArtist => artist.username == selectedArtist.username ))
             this.artists.push(artist);
         });
 
@@ -88,7 +86,7 @@ export class SongEditComponent implements OnInit {
 
   // Removes an artist from song's artists list
   onDeleteSelectedArtist(artist_to_delete: User) {
-    this.selected_artists = this.selected_artists.filter( artist => artist.id != artist_to_delete.id);
+    this.selected_artists = this.selected_artists.filter( artist => artist.username != artist_to_delete.username);
   }
 
   onSearchArtistChange() {
@@ -107,6 +105,7 @@ export class SongEditComponent implements OnInit {
   }
 
   filterArtists() {
+    console.log({"prefix":this.prefix});
     this.filtered_artists = this.artists.filter( 
         artist => artist.display_name.toLowerCase().startsWith(this.prefix.toLowerCase())); 
   }

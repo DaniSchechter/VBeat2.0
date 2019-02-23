@@ -82,7 +82,6 @@ app.delete("/:id", (req, res, next) => {
 
 // update playlist
 app.put("/:id", (req, res, next) => {
-    console.log(req.body.songList);
     let songList = req.body.songList.map( song => {
         return newSong = {
             _id: song.id,

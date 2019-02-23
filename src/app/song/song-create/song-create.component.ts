@@ -49,7 +49,7 @@ export class SongCreateComponent implements OnInit {
         // Filter the artists array from selected artists so they wont be selected again
         this.artists = [];
         artists.forEach( artist => {
-          if( !this.selected_artists.some( selectedArtist => artist.id == selectedArtist.id ))
+          if( !this.selected_artists.some( selectedArtist => artist.username == selectedArtist.username ))
             this.artists.push(artist);
         });
 
@@ -66,7 +66,7 @@ export class SongCreateComponent implements OnInit {
 
   // Removes an artist from song's artists list
   onDeleteSelectedArtist(artist_to_delete: User) {
-    this.selected_artists = this.selected_artists.filter( artist => artist.id != artist_to_delete.id);
+    this.selected_artists = this.selected_artists.filter( artist => artist.username != artist_to_delete.username);
   }
 
   onSearchArtistChange() {
