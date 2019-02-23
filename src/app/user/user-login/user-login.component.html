@@ -10,8 +10,8 @@
             required
             minlength = {{minAttributeLength}}
             #name="ngModel">
-          <mat-hint> At least {{minAttributeLength}} characters </mat-hint>
-          <mat-error *ngIf = "name.invalid"> Username is should be at least {{minAttributeLength}} characters long </mat-error>
+          <mat-hint> At least {{userConfig.nameLength}} characters </mat-hint>
+          <mat-error *ngIf = "name.invalid"> Username is should be at least {{userConfig.nameLength}} characters long </mat-error>
       </mat-form-field>
 
       <!-- password -->
@@ -25,8 +25,8 @@
             required
             minlength = {{minAttributeLength}}
             #password="ngModel">
-          <mat-hint> At least {{minAttributeLength}} characters </mat-hint>
-          <mat-error *ngIf = "password.invalid"> Password is should be at least {{minAttributeLength}} characters long </mat-error>
+          <mat-hint> At least {{userConfig.passwordLength}} characters </mat-hint>
+          <mat-error *ngIf = "password.invalid"> Password is should be at least {{userConfig.passwordLength}} characters long </mat-error>
       </mat-form-field>
 
         <button 
