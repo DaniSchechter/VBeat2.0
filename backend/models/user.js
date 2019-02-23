@@ -8,6 +8,10 @@ const userSchema = mongoose.Schema({
 	profile_pic: {type: String, require: false},
 	display_name: {type:String, require: true},
 	email: {type:String, require:true},
+	country: {type:String, require:false},
+	city: {type:String, require:false},
+	street: {type:String, require:false},
+
 });
 
 userSchema.plugin(uniqueValidator);

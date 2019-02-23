@@ -99,6 +99,48 @@
     </mat-form-field>
     <!-- END -->
 
+    <!-- country -->
+    <mat-form-field appearance = "legacy" color = "accent">
+      <input 
+        matInput 
+        placeholder = "Country"
+        name = "country"
+        type = "country"
+        ngModel
+        #country="ngModel">
+      <mat-hint> Optional </mat-hint>
+    </mat-form-field>
+    <!-- END -->
+
+
+    <!-- city -->
+    <mat-form-field appearance = "legacy" color = "accent">
+      <input 
+        matInput 
+        placeholder = "City"
+        name = "city"
+        type = "city"
+        ngModel
+        #city="ngModel">
+      <mat-hint> Optional </mat-hint>
+    </mat-form-field>
+    <!-- END -->
+
+
+    <!-- street -->
+    <mat-form-field appearance = "legacy" color = "accent">
+      <input 
+        matInput 
+        placeholder = "Street"
+        name = "street"
+        type = "street"
+        ngModel
+        #street="ngModel">
+      <mat-hint> Optional </mat-hint>
+    </mat-form-field>
+    <!-- END -->
+
+
     <button 
     mat-mini-fab 
     style="float: right;"

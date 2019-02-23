@@ -12,6 +12,9 @@ export class User {
 		public profile_pic: string,
 		public display_name: string,
 		public email: string,
+		public country: string,
+		public city: string,
+		public street: string,
 	) {}
 }
 

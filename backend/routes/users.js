@@ -17,7 +17,10 @@ app.post("", (req, res, next) => {
         role: req.body.role,
         profile_pic: req.body.profile_pic,
         display_name: req.body.display_name, 
-        email: req.body.email
+        email: req.body.email,
+        country: req.body.country,
+        city: req.body.city,
+        street: req.body.street
     });
     user.save()
     .then(newUser => {
