@@ -35,7 +35,11 @@ export class UserService {
 		role: UserRole,
 		profile_pic: string,
 		display_name: string,
-		email: string
+		email: string,
+		country: string,
+    city: string,
+		street: string,
+		houseNum: number
 	)
 	{
 		const user: User = {
@@ -45,7 +49,11 @@ export class UserService {
 			password: password, 
 			profile_pic: profile_pic,
 			display_name: display_name,
-			email: email
+			email: email,
+			country: country,
+      city: city,
+			street: street,
+			houseNum: houseNum,
 		};
 		
 		return new Promise( (resolve, reject) => {
@@ -78,7 +86,11 @@ export class UserService {
 			password: password,
 			profile_pic: null,
 			display_name: null,
-			email: null
+			email: null,
+			country: null,
+			city: null,
+			street: null,
+			houseNum: null,
 		}
 
 		return new Promise( (resolve, reject) => {
@@ -114,6 +126,10 @@ export class UserService {
 					artist.profile_pic,
 					artist.display_name,
 					artist.email,
+					artist.country,
+					artist.city,
+					artist.street,
+					artist.houseNum,
 				)
 			})}
         }))
