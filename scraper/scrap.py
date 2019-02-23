@@ -8,7 +8,7 @@ import logging
 
 scraping_url = 'https://www.top100singles.net/2017/12/every-aria-top-100-single-in-2018.html'
 
-logzero.logfile('scraper-debug.log')
+logzero.logfile('debug.log')
 
 def main():
 	page_html = download_html(scraping_url)
@@ -38,22 +38,9 @@ def parse_songs(matching_lines):
 	songs_line = songs_line[0]
 	artists_line = artists_line[0]
 
-	#logger.debug(songs_line)
-	#logger.debug(artists_line)
+	logger.debug(songs_line)
+	logger.debug(artists_line)
 
-	songs_json = songs_line.replace('var s=', '')[:-1]
-	artists_json = artists_line.replace('var t=', '')[:-1]
-
-	logger.debug(songs_json)
-	logger.debug(artists_json)
-
-	songs = json.loads(songs_json)
-	artists = json.loads(artists_json)
-
-	logger.debug(songs)
-	logger.debug(artists)
-	# not a good method
-	'''
 	song_array_inner_match = array_regex.match(songs_line)
 	artists_array_inner_match = array_regex.match(artists_line)
 
@@ -68,11 +55,11 @@ def parse_songs(matching_lines):
 	logger.debug(song_array_inner_value)
 	logger.debug(artist_array_inner_value)
 
-	songs_split = song_array_inner_value.split(',')
-	artists_split = artist_array_inner_value.split(',')
+	songs_split = song_array_inner_value.split('",')
+	artists_split = artist_array_inner_value.split('",')
 
 	logger.debug('lengths %d, %d' % (len(songs_split), len(artists_split)))
-	'''
+	
 
 	return None
 
