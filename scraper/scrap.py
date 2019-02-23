@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 import requests
 from logzero import logger # logging framework made easy
+import re
 
 scraping_url = 'https://www.top100singles.net/2017/12/every-aria-top-100-single-in-2018.html'
 
 def main():
 	page_html = download_html(scraping_url)
 	matching_lines = filter_lines(page_html)
-	songs, artists = parse_songs(matching_lines)
+	songs = parse_songs(matching_lines)
 
 	
 	
@@ -17,12 +18,36 @@ def filter_lines(page_html):
 	return [x for x in page_html_lines if 'var t' in x or 'var s' in x]
 
 def parse_songs(matching_lines):
+	array_regex = re.compile('var \\w=\\[([^\\]]+)')
 	logger.info('parsing songs')
+	# find javascript array in html
 	songs_line = [x for x in matching_lines if 'var s' in x]
-	logger.info('found song line %s' % songs_line)
 	artists_line = [x for x in matching_lines if 'var t' in x]
-	logger.info('found artist line %s' % artists_line)
-	return (None, None)
+
+	logger.debug('songs js array match len=%d, artists js array len=%d' % (len(songs_line), len(artists_line)))
+
+	# observed values from html
+	if len(songs_line) != 3 or len(artists_line) != 2:
+		raise Exception("Parsing went wrong")
+	
+	songs_line = songs_line[0]
+	artists_line = artists_line[0]
+
+	song_array_inner_match = array_regex.match(songs_line)
+	artists_array_inner_match = array_regex.match(artists_line)
+
+	logger.debug('inner matches:')
+	logger.debug(song_array_inner_match)
+	logger.debug(artists_array_inner_match)
+
+	song_array_inner_value = song_array_inner_match.group(1)	
+	artist_array_inner_value = artists_array_inner_match.group(1)
+
+	logger.debug('inner values:')
+	logger.debug(song_array_inner_value)
+	logger.debug(artist_array_inner_value)
+
+	return None
 
 # a class representing a song
 class Song():
