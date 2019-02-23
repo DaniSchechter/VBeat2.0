@@ -40,7 +40,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use("/api/songs", songsRoutes);
+app.use("/api/song", songsRoutes);
 app.use("/api/user", usersRoutes);
 app.use("/api/playlist", playlistRoutes);
 

@@ -108,16 +108,15 @@ export class PlaylistService{
             const playlist: Playlist = {
                 id: null, 
                 name: name, 
-                UserId: null, 
+                UserId: null,
                 songList: songList
             };
         this.Http.post<{message: string, playlistId: string}>(this.base_url + '/playlist', playlist)
         .subscribe(
-                responseData => {
-                this.notificationService.submitNotification(
-                    new Notification(responseData.message,NotificationStatus.OK)
-                )
-                this.router.navigate(["/"])
+            responseData => {
+                    this.notificationService.submitNotification(
+                        new Notification(responseData.message,NotificationStatus.OK))
+                    this.router.navigate(["/"])
             },
             error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
 

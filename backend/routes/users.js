@@ -4,6 +4,7 @@ const User = require('../models/user');
 const app = express.Router();
 const browserCounter = require('../algo/count-user-agent');
 
+// sign up
 app.post("", (req, res, next) => {
     const user = new User({
         username: req.body.username,
@@ -15,9 +16,10 @@ app.post("", (req, res, next) => {
     });
     user.save()
     .then(newUser => {
+        req.session.userId = newUser._id;
         res.status(201).json({
+            userId: newUser._id, 
             message: "User created successfully",
-            userId: newUser._id
         });
     }).catch(error => {
         res.status(500).json({

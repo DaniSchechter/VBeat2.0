@@ -1,53 +1,5 @@
 <mat-card>
   <form (submit)="onSubmit(newForm)" #newForm="ngForm">
-      <!-- username -->
-        <mat-form-field appearance = "legacy" color = "accent">
-            <input 
-              matInput 
-              placeholder = "Username"
-              name = "username"
-              ngModel
-              required
-              minlength = {{minAttributeLength}}
-              #username="ngModel">
-            <mat-hint> At least {{minAttributeLength}} characters </mat-hint>
-            <mat-error *ngIf = "username.invalid"> Username is should be at least {{minAttributeLength}} characters long </mat-error>
-        </mat-form-field>
-  
-      <!-- password -->
-        <mat-form-field appearance = "legacy" color = "accent">
-            <input 
-              matInput 
-              placeholder = "Password"
-              name = "password"
-              type = "password"
-              ngModel
-              required
-              minlength = {{minAttributeLength}}
-              #password="ngModel">
-            <mat-hint> At least {{minAttributeLength}} characters </mat-hint>
-            <mat-error *ngIf = "password.invalid"> Password is should be at least {{minAttributeLength}} characters long </mat-error>
-        </mat-form-field>
-
-      <!-- role -->
-        <mat-form-field appearance = "legacy" color = "accent">
-          <mat-select 
-              placeholder = "Role"
-              name = "role"
-              ngModel
-              required
-              #role_option = "ngModel">
-              <mat-option
-                *ngFor = "let role of role_options" 
-                [value]="role">
-                {{ role }}
-              </mat-option>
-          </mat-select>
-          <mat-hint> Please select a role </mat-hint>
-          <mat-error *ngIf = "role_option.invalid"> Please select one role </mat-error>
-      </mat-form-field>
-
-
     <!-- USERNAME -->
     <mat-form-field appearance = "legacy" color = "accent">
         <input 
