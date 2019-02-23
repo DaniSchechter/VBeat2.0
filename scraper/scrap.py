@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import pymongo
 import requests
 from logzero import logger # logging framework made easy
 import logzero
@@ -17,9 +18,20 @@ def main():
 	matching_lines = filter_lines(page_html)
 	songs = parse_songs(matching_lines)	
 	#logger.debug(songs)
+	mongoclient = open_mongo()
+	song_dict_list = []
 	for s in songs:
-		s.save()
+		song_dict_list.append(s.__dict__)
+	save(mongoclient, song_dict_list)
+	
+	
 
+def save(mongoclient, song_dict_list):
+	logger.info('saving songs to database')
+	first_node = mongoclient['first-node']
+	top_songs = first_node['top-songs-scraped']
+	mongo_object = top_songs.insert_many(song_dict_list)
+	logger.info('songs saved under id %s' % mongo_object.inserted_ids)
 
 def filter_lines(page_html):
 	logger.info('filtering lines...')
@@ -66,9 +78,13 @@ def parse_songs(matching_lines):
 
 	songs_object = []
 	for i in range(0,len(songs_split)):
-		songs_object.append(Song(songs_split[i], artists_split[i], None, None, None, None))
+		songs_object.append(Song(songs_split[i][1:], artists_split[i][1:], None, None, None, None))
 
 	return songs_object 
+
+def open_mongo():
+	mongoclient = pymongo.MongoClient(mongodb_string)
+	return mongoclient
 
 # a class representing a song
 class Song():
@@ -79,10 +95,7 @@ class Song():
 		self.release_data = release_date
 		self.song_url = song_url
 		self.album_image_url = album_image_url
-		#logger.info('initialized Song=%s' % self)
-	
-	def save(self):
-		logger.info('sending %s to db' % self)
+		#logger.info('initialized Song=%s' % self)	
 	
 	def __str__(self):
 		return str(self.__dict__)
