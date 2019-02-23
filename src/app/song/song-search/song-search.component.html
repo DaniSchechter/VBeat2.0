@@ -1,3 +1,19 @@
-<p>
-  song-search works!
-</p>
+<mat-card>
+  <form (submit)="onSearch(searchForm)" #searchForm="ngForm">
+
+    <mat-form-field>
+      <input matInput name="songName" ngModel>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput name="artistName" ngModel>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput name="genreName" ngModel> <!-- TODO : make this a checkbox with the genre enum -->
+    </mat-form-field>
+
+    <button mat-raised-button type="submit">
+
+  </form>
+</mat-card>

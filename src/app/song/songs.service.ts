@@ -22,11 +22,11 @@ export class SongService{
     constructor(private Http: HttpClient,
                 private notificationService:NotificationPopupService, private router:Router){}
 
-    
+
     getSongsUpdateListener(){
         return this.songsUpdated.asObservable();
     }
-    
+
     getSongs(songsPerPage = 10, currentPage = 1){
         const queryParams = `?pageSize=${songsPerPage}&page=${currentPage}`;
         this.Http.get<{message: string; songs: any, totalSongs: number}>(this.base_url + '/songs' + queryParams)
@@ -34,13 +34,13 @@ export class SongService{
             map(songData => {
             return {songs: songData.songs.map(song => {
                 return {
-                    name: song.name, 
-                    genre: song.genre, 
-                    song_path: song.song_path, 
-                    image_path: song.image_path, 
+                    name: song.name,
+                    genre: song.genre,
+                    song_path: song.song_path,
+                    image_path: song.image_path,
                     release_date: song.release_date,
                     artists: song.artists, //TODO: change to artist array
-                    num_of_times_liked: song.num_of_times_liked, 
+                    num_of_times_liked: song.num_of_times_liked,
                     id: song._id
                 };
             }), totalSongs: songData.totalSongs};
@@ -50,7 +50,7 @@ export class SongService{
                 this.songsCount = songsAfterChange.totalSongs;
                 this.songs = songsAfterChange.songs;
                 this.songsUpdated.next({
-                    songs: [...this.songs], 
+                    songs: [...this.songs],
                     totalSongs: songsAfterChange.totalSongs
                 });
             },
@@ -72,13 +72,13 @@ export class SongService{
         artists: string[], //TODO: change to artist array
         num_of_times_liked: number){
             const song: Song = {
-                id: null, 
-                name: name, 
-                genre: genre, 
-                song_path: song_path, 
-                image_path: image_path, 
+                id: null,
+                name: name,
+                genre: genre,
+                song_path: song_path,
+                image_path: image_path,
                 release_date: release_date,
-                artists: artists, 
+                artists: artists,
                 num_of_times_liked: num_of_times_liked
             };
         this.Http.post<{message: string, songId: string}>(this.base_url + '/songs', song)
@@ -116,13 +116,13 @@ export class SongService{
         artists: string[], //TODO: change to artist array
         num_of_times_liked: number){
             const song: Song = {
-                id: id, 
-                name: name, 
-                genre: genre, 
-                song_path: song_path, 
-                image_path: image_path, 
+                id: id,
+                name: name,
+                genre: genre,
+                song_path: song_path,
+                image_path: image_path,
                 release_date: release_date,
-                artists: artists, 
+                artists: artists,
                 num_of_times_liked: num_of_times_liked
             };
             this.Http.put<{message: string}>(this.base_url + '/songs/' + id, song).subscribe(
@@ -130,10 +130,29 @@ export class SongService{
                     this.notificationService.submitNotification(
                         new Notification(res.message,NotificationStatus.OK)
                     )
-                    this.router.navigate(["/"])            
-                }, 
+                    this.router.navigate(["/"])
+                },
                 error => this.notificationService.submitNotification(
                     new Notification(error.message,NotificationStatus.ERROR))
             );
+    }
+
+
+
+    searchSongs(songName: string, artistName: string, genre: Genre) {
+      let fileteredArr = [...this.songs];
+
+      if (songName !== ''){
+        fileteredArr = fileteredArr.filter(song => song.name == songName);
+      }
+
+      if (songName !== ''){
+        fileteredArr = fileteredArr.filter(song => song.name == songName);
+      }
+
+      if (songName !== ''){
+        fileteredArr = fileteredArr.filter(song => song.name == songName);
+      }
+      this.songsUpdated.next({songs: fileteredArr, totalSongs: fileteredArr.length});
     }
 }
