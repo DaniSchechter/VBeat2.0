@@ -14,7 +14,7 @@
                   [matBadge]="song.num_of_times_liked"
                   matBadgePosition="before" >
                   thumb_up
-        </mat-icon>
+    </mat-icon>
     </button>
 
     <a mat-mini-fab *ngIf="isConnected && hasOwnerPermissions" [routerLink]="['/edit_song', song.id]">
