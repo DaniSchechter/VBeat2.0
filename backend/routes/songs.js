@@ -70,7 +70,7 @@ app.delete("/:id", (req, res, next) => {
 });
 
 app.put("/:id", (req, res, next) => {
-    
+
     const song = new Song({
         _id: req.body.id,
         name: req.body.name,
@@ -105,7 +105,7 @@ app.put("/likes/:id", (req, res, next) => {
         artists:  req.body.artists,
         num_of_times_liked: req.body.num_of_times_liked
     });
-    
+
     Song.updateOne({_id: req.params.id}, song)
     .then(
         result => {
@@ -118,5 +118,48 @@ app.put("/likes/:id", (req, res, next) => {
         });
     });
 });
+
+
+
+
+
+app.get("/search", (req, res, next) => {
+    console.log(`user seesion: ${req.session.userId}`);
+    const pageSize = +req.query.pageSize;
+    const currPage = +req.query.page;
+    const songName = req.query.songName;
+    const artistName = req.query.artistName;
+    const genreName = req.query.genreName;
+
+    let fetchedSongs;
+
+
+    
+    const songQuery = Song.find({"name": songName, "artists.display_name": artistName, "genre": genreName});
+    if (pageSize && currPage){
+        songQuery.skip(pageSize * (currPage - 1)).limit(pageSize);
+    }
+    songQuery
+    .then(songsResult => {
+        fetchedSongs = songsResult;
+        return Song.countDocuments();
+    })
+    .then(count => {
+        res.status(200).json({
+                message: "Songs fetched successfully",
+                songs: fetchedSongs,
+                totalSongs: count
+            });
+    }).catch(error => {
+        console.log(error.message);
+        res.status(500).json({
+            message: error.message
+        });
+    });
+});
+
+
+
+
 
 module.exports = app;
