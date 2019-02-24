@@ -51,6 +51,7 @@ import { PlaylistEditComponent } from './playlist/playlist-edit/playlist-edit.co
 import { PlaylistListComponent } from './playlist/playlist-list/playlist-list.component';
 import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-details.component';
 import { UserLocationComponent } from './user/user-location/user-location.component';
+import { SongSearchComponent } from './song/song-search/song-search.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { UserLocationComponent } from './user/user-location/user-location.compon
     PlaylistListComponent,
     PlaylistDetailsComponent,
     UserLocationComponent,
+    SongSearchComponent,
   ],
   imports: [
     BrowserModule,
