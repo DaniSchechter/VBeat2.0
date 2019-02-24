@@ -24,6 +24,21 @@ app.post("", (req, res, next) => {
     });
 });
 
+// get all playlists
+app.get("/all", (req, res, next) => {
+    let fetchedPlaylists;
+    Playlist.find({UserId: req.session.userId })
+    .then(playlistsResult => {
+        res.status(200).json({
+                playlists: playlistsResult,
+            });
+    }).catch(error => {
+        res.status(500).json({
+            message: error.message
+        });
+    });
+});
+
 // Get playlist by name
 app.get("/:name", (req, res, next) => {
     Playlist.findOne({UserId:req.session.userId,  name: req.params.name})
@@ -39,7 +54,7 @@ app.get("/:name", (req, res, next) => {
     });
 });
 
-// get all playlists
+// get all playlists for the connected user
 app.get("", (req, res, next) => {
     const pageSize = +req.query.pageSize;
     const currPage = +req.query.page;
@@ -65,6 +80,20 @@ app.get("", (req, res, next) => {
         });
     });
 });
+
+// app.delete("/song/:id", (req, res, next) => {
+//     Playlist.deleteMany(songList._id = req.params.id)
+//     .then(result => {
+//         res.status(200).json({
+//             message : "Song deleted from playlists"
+//         });
+//     }).catch(error => {
+//         res.status(400).json({
+//             message: error.message
+//         });
+//     });
+// });
+
 
 // delete playlist
 app.delete("/:id", (req, res, next) => {

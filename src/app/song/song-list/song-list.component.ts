@@ -28,6 +28,7 @@ export class SongListComponent implements OnInit {
     this.songsService.getSongs(this.songsPerPage, 1);
     this.songSub = this.songsService.getSongsUpdateListener()
     .subscribe((songData: {songs: Song[], totalSongs: number}) => {
+      console.log("update");
       this.totalSongs = songData.totalSongs;
       this.songs = songData.songs;
       this.selectedSong = null;
