@@ -9,6 +9,7 @@ import { BrowserStatsComponent } from './stats/browser-stats/browser-stats.compo
 import { PlaylistListComponent } from './playlist/playlist-list/playlist-list.component';
 import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-create.component';
 import { GraphComponent } from './stats/graph/graph.component';
+import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-details.component';
 
 const routes: Routes = [
   {path: '', component: SongListComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: 'login', component: UserLoginComponent},
   {path: 'signup', component: UserSignupComponent},
   {path: 'stats', component: BrowserStatsComponent },
+  {path: 'playlist/details/:id', component: PlaylistDetailsComponent},
   {path: 'playlist', component: PlaylistListComponent},
   {path: 'create_playlist', component: PlaylistCreateComponent},
   {path: 'animated_bar', component: GraphComponent}
