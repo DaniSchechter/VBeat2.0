@@ -32,7 +32,7 @@ app.post("", (req, res, next) => {
         });
     }).catch(error => {
         res.status(500).json({
-            message: error.message
+            message: "COuld not create a user"
         });
     });
 });

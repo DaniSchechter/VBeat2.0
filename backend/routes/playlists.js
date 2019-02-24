@@ -19,7 +19,7 @@ app.post("", (req, res, next) => {
         });
     }).catch(error => {
         res.status(500).json({
-            message: error.message
+            message: "Could not add a new playlist"
         });
     });
 });
@@ -34,7 +34,7 @@ app.get("/:name", (req, res, next) => {
             });
     }).catch(error => {
         res.status(500).json({
-            message: error.message
+            message: "Could not get the playlist with name" + req.params.name
         });
     });
 });
@@ -61,7 +61,7 @@ app.get("", (req, res, next) => {
             });
     }).catch(error => {
         res.status(500).json({
-            message: error.message
+            message: "Could not get the playlists"
         });
     });
 });
@@ -75,7 +75,7 @@ app.delete("/:id", (req, res, next) => {
         });
     }).catch(error => {
         res.status(400).json({
-            message: error.message
+            message: "Error on deleting playlist"
         });
     });
 });
@@ -108,7 +108,7 @@ app.put("/:id", (req, res, next) => {
         });
     }).catch(error => {
         res.status(400).json({
-            message: error.message
+            message: "Could not update playlist"
         });
     });
 });
