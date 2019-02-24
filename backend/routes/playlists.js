@@ -51,7 +51,7 @@ app.get("", (req, res, next) => {
     playlistQuery
     .then(playlistsResult => {
         fetchedPlaylists = playlistsResult;
-        return Playlist.count();
+        return playlistsResult.length;
     })
     .then(count => {
         res.status(200).json({
@@ -60,6 +60,7 @@ app.get("", (req, res, next) => {
                 totalPlaylists: count
             });
     }).catch(error => {
+        console.log(error)
         res.status(500).json({
             message: error.message
         });
