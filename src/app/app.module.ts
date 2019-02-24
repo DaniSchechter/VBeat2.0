@@ -50,7 +50,6 @@ import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-cre
 import { PlaylistEditComponent } from './playlist/playlist-edit/playlist-edit.component';
 import { PlaylistListComponent } from './playlist/playlist-list/playlist-list.component';
 import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-details.component';
-import { GraphComponent } from './stats/graph/graph.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +69,6 @@ import { GraphComponent } from './stats/graph/graph.component';
     PlaylistEditComponent,
     PlaylistListComponent,
     PlaylistDetailsComponent,
-    GraphComponent,
   ],
   imports: [
     BrowserModule,

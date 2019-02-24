@@ -8,7 +8,6 @@ import { UserSignupComponent } from './user/user-signup/user-signup.component';
 import { BrowserStatsComponent } from './stats/browser-stats/browser-stats.component';
 import { PlaylistListComponent } from './playlist/playlist-list/playlist-list.component';
 import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-create.component';
-import { GraphComponent } from './stats/graph/graph.component';
 import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-details.component';
 
 const routes: Routes = [
@@ -20,8 +19,7 @@ const routes: Routes = [
   {path: 'stats', component: BrowserStatsComponent },
   {path: 'playlist/details/:id', component: PlaylistDetailsComponent},
   {path: 'playlist', component: PlaylistListComponent},
-  {path: 'create_playlist', component: PlaylistCreateComponent},
-  {path: 'animated_bar', component: GraphComponent}
+  {path: 'create_playlist', component: PlaylistCreateComponent}
 ];
 
 @NgModule({
