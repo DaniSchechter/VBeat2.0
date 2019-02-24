@@ -133,9 +133,13 @@ app.get("/search", (req, res, next) => {
 
     let fetchedSongs;
 
+    let query = {};
 
-    
-    const songQuery = Song.find({"name": songName, "artists.display_name": artistName, "genre": genreName});
+    if(songName!=='') query["name"] = songName;
+    if(artistName!=='') query["artists.display_name"] = artistName;
+    if(genreName!=='') query["genre"] = genreName;
+
+    const songQuery = Song.find(query);
     if (pageSize && currPage){
         songQuery.skip(pageSize * (currPage - 1)).limit(pageSize);
     }
