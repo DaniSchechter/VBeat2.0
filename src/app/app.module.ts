@@ -50,6 +50,7 @@ import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-cre
 import { PlaylistEditComponent } from './playlist/playlist-edit/playlist-edit.component';
 import { PlaylistListComponent } from './playlist/playlist-list/playlist-list.component';
 import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-details.component';
+import { UserLocationComponent } from './user/user-location/user-location.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-d
     PlaylistEditComponent,
     PlaylistListComponent,
     PlaylistDetailsComponent,
+    UserLocationComponent,
   ],
   imports: [
     BrowserModule,
