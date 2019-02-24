@@ -9,6 +9,7 @@ import { UserSignupComponent } from './user/user-signup/user-signup.component';
 import { BrowserStatsComponent } from './stats/browser-stats/browser-stats.component';
 import { PlaylistListComponent } from './playlist/playlist-list/playlist-list.component';
 import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-create.component';
+import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-details.component';
 
 const routes: Routes = [
   {path: '', component: SongListComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [
   {path: 'login', component: UserLoginComponent},
   {path: 'signup', component: UserSignupComponent},
   {path: 'stats', component: BrowserStatsComponent },
+  {path: 'playlist/details/:id', component: PlaylistDetailsComponent},
   {path: 'playlist', component: PlaylistListComponent},
   {path: 'create_playlist', component: PlaylistCreateComponent},
   {path: 'song_search', component: SongSearchComponent}
