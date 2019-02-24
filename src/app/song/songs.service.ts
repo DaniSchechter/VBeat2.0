@@ -212,7 +212,7 @@ export class SongService {
         songsAfterChange => {
           this.searchSongsCount = songsAfterChange.totalSongs;
           this.searchSongs = songsAfterChange.songs;
-          this.songsUpdated.next({
+          this.searchSongUpdated.next({
             songs: [...this.searchSongs],
             totalSongs: this.searchSongsCount
           });
