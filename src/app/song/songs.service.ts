@@ -134,6 +134,7 @@ export class SongService{
             error => this.notificationService.submitNotification(
                 new Notification(error.message,NotificationStatus.ERROR))
         );
+        this.router.navigate(["/"]);
     }
 
   searchSong(songName, artistName, genreName, songsPerPage, currentPage) {
@@ -199,6 +200,7 @@ export class SongService{
                 error => this.notificationService.submitNotification(
                     new Notification(error.message,NotificationStatus.ERROR))
             );
+            this.router.navigate(["/"]);
     }
 }
 
