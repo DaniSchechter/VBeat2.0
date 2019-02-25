@@ -5,7 +5,6 @@ const Song = require('../models/song');
 const app = express.Router();
 
 app.post("", (req, res, next) => {
-    console.log("1111111");
     const song = new Song({
         name: req.body.name,
         genre: req.body.genre,
