@@ -37,5 +37,7 @@ export class HeaderComponent{
     	this.loggedIn = false;
 	this.user = null;
 	this.router.navigate(['/']);
+	// refresh the page
+	window.location.reload();
     }
 }
