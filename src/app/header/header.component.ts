@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { UserService } from '../user/user.service';
 import { User } from '../user/user.model';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-header',
@@ -13,7 +14,7 @@ export class HeaderComponent{
     user: User;
     artistRole: string = "ARTIST";
 
-    constructor(private userService:UserService){};
+    constructor(private userService:UserService, private router:Router){};
 
     ngOnInit() {
         this.userService.getUserPermissionsUpdateListener().subscribe(user => {
@@ -27,4 +28,14 @@ export class HeaderComponent{
         })
         this.userService.getUserPermissions();
     }    
+
+    onLogoutClicked(){
+    	this.userService.logout(this.onLogout.bind(this));	
+    }
+
+    onLogout(){
+    	this.loggedIn = false;
+	this.user = null;
+	this.router.navigate('/');
+    }
 }
