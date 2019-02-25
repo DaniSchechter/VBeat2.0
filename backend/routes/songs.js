@@ -172,4 +172,27 @@ app.get("/search", (req, res, next) => {
 
 
 
+app.get("/mapreduce", (req, res, next) => {
+	const o = {};
+
+	o.map = function(){
+		emit(this.genre, this.num_of_times_liked)
+	};
+
+	o.reduce = function(id, num_of_times_liked){
+		return Array.sum(num_of_times_liked);
+	};
+
+	Song.mapReduce(o, function(err, results, stats){
+		if(err != undefined || err != null){
+			res.status(500).json({
+				message: err
+			});
+			return;
+		}
+
+		res.status(200).json(results);
+	});
+});
+
 module.exports = app;
