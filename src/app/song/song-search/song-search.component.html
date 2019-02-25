@@ -54,4 +54,4 @@
 </div>
 
 <!-- ! TODO @alex increase the font size -->
-<mat-paginator [length]="totalSongs" [pageSize]="songsPerPage" (page)="onChangePage($event)"></mat-paginator>
+<mat-paginator [length]="totalSongs" [pageIndex]="currentPage-1" [pageSize]="songsPerPage" (page)="onChangePage($event)"></mat-paginator>

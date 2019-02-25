@@ -15,16 +15,18 @@ export class SongSearchComponent implements OnInit {
   selectedSong: Song;
   songs: Song[];
   totalSongs:number = 0;
-  songsPerPage:number = 10;
+  songsPerPage:number = 2;
   currentPage:number = 1;
   // pageSizeOptions = [3,4,10];
   private songSub: Subscription;
+  songName:string = '';
+  artistName:string = '';
+  genreName:string = '';
 
   constructor(public songService: SongService) { }
 
   ngOnInit() {
         // this.songLiked = false;
-        this.songService.getSongs(this.songsPerPage, 1);
         this.songSub = this.songService.getSearchSongUpdateListener()
         .subscribe((songData: {songs: Song[], totalSongs: number}) => {
           this.totalSongs = songData.totalSongs;
@@ -37,11 +39,17 @@ export class SongSearchComponent implements OnInit {
     this.selectedSong = song;
   }
 
+  onChangePage(pageData: PageEvent){
+    this.currentPage = pageData.pageIndex + 1;
+    this.songsPerPage = pageData.pageSize;
+    this.songService.searchSong(this.songName, this.artistName, this.genreName, this.songsPerPage, this.currentPage);
+  }
 
   onSearch(form: NgForm) {
-    const songName = form.value.songName;
-    const artistName = form.value.artistName;
-    const genreName = form.value.genreName;
-    this.songService.searchSong(songName, artistName, genreName, 10, 1);
+    this.songName = form.value.songName;
+    this.artistName = form.value.artistName;
+    this.genreName = form.value.genreName;
+    this.currentPage = 1;
+    this.songService.searchSong(this.songName, this.artistName, this.genreName, this.songsPerPage, this.currentPage);
   }
 }

@@ -132,21 +132,27 @@ app.get("/search", (req, res, next) => {
     const genreName = req.query.genreName;
 
     let fetchedSongs;
-
     let query = {};
 
     if(songName!=='') query["name"] = songName;
     if(artistName!=='') query["artists.display_name"] = artistName;
     if(genreName!=='') query["genre"] = genreName;
 
+
     const songQuery = Song.find(query);
+
+    Song.find(query).then(results=>{
+      totalNumFiltered = results.length;
+    });
+
+
     if (pageSize && currPage){
         songQuery.skip(pageSize * (currPage - 1)).limit(pageSize);
     }
     songQuery
     .then(songsResult => {
         fetchedSongs = songsResult;
-        return fetchedSongs.length;
+        return Song.find(query).countDocuments();
     })
     .then(count => {
         res.status(200).json({
