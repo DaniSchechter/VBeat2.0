@@ -147,8 +147,8 @@ class Song():
 		self.artists = artists
 		self.genre = random.choice(['POP', 'JAZZ', 'HIP-HOP', 'ROCK', 'CLASSIC'])  
 		self.release_data = release_date
-		self.song_url = song_url
-		self.album_image_url = 'https://www.thoughtco.com/thmb/oXOWMUKShSv3ym-a1xMVGPoabPM=/1200x800/filters:fill(auto,1)/archer_closeup-56a00f9f3df78cafda9fde1c.png' # just because
+		self.song_path = song_url
+		self.album_image_path = 'https://www.thoughtco.com/thmb/oXOWMUKShSv3ym-a1xMVGPoabPM=/1200x800/filters:fill(auto,1)/archer_closeup-56a00f9f3df78cafda9fde1c.png' # just because
 		self.scraped = True
 		self.num_of_times_liked = 0
 		#logger.info('initialized Song=%s' % self)	
