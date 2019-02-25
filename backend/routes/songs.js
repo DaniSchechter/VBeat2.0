@@ -88,7 +88,7 @@ app.put("/:id", (req, res, next) => {
         });
     }).catch(error => {
         res.status(400).json({
-            message: "COuld not update this song"
+            message: "Could not update this song"
         });
     });
 });
@@ -114,7 +114,7 @@ app.put("/likes/:id", (req, res, next) => {
         });
     }).catch(error => {
         res.status(400).json({
-            message: error.message
+            message: "Could not update num of likes"
         });
     });
 });
