@@ -14,6 +14,9 @@
             <li>
                 <a class="link" *ngIf="loggedIn" mat-raised-button routerLink="/create_playlist">New Playlist</a>
             </li>
+	    <li>
+	    	<a class="link" *ngIf="loggedIn" mat-raised-button (click)="onLogoutClicked()">Logout</a>
+	    </li>
             <li>
                 <a class="link" *ngIf="loggedIn == false" mat-raised-button routerLink="/login">Log In</a>
             </li>
