@@ -159,5 +159,15 @@ export class UserService {
 				new Notification(error.message, NotificationStatus.ERROR));
 		})
 	}
-
+	
+	logout(onSuccess: Function){
+		this.Http.get(`${this.base_url}/user/logout`)
+			.subscribe(data => {
+				this.notificationService.submitNotification(new Notification("logged out!", NotificationStatus.OK));
+				onSuccess();
+			}, 
+			error => {
+				this.notificationService.submitNotification(new Notification("unable to logout", NotificationStatus.ERROR));
+			});
+	}
 }

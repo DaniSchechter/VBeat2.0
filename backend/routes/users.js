@@ -3,11 +3,20 @@ const User = require('../models/user');
 const app = express.Router();
 const browserCounter = require('../algo/count-user-agent');
 
+// browser stats from CMS
 app.get("/browser", (req, res, next) => {
 	res.status(200).json(
 		browserCounter.getData()
 	);
-})
+});
+
+app.get("/logout", (req, res, next) => {
+	req.session.userId = null;
+	// typescript will redirect
+	res.status(200).json({
+		message: "logged out",
+	});
+});
 
 app.post("", (req, res, next) => {
     const user = new User({
