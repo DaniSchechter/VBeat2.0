@@ -265,9 +265,11 @@ export class PlaylistService{
         .subscribe(
             playlists => {
                 playlists.playlists.forEach(playlist => {
-                    playlist.songList = playlist.songList.filter(song => song._id != songToEdit.id);
-                    playlist.songList.push(songToEdit);
-                    this.updatePlaylist(playlist._id, playlist.name, playlist.songList);
+                    if( this.IsSongInPlaylist(playlist, songToEdit) ) {
+                        playlist.songList = playlist.songList.filter(song => song._id != songToEdit.id);
+                        playlist.songList.push(songToEdit);
+                        this.updatePlaylist(playlist._id, playlist.name, playlist.songList);
+                    }
                 });
             },
             error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
@@ -280,7 +282,7 @@ export class PlaylistService{
         .subscribe(
             playlists => {
                 playlists.playlists.forEach(playlist => {
-                    if(playlist.name != "LIKED SONGS") {
+                    if(playlist.name != "LIKED SONGS" && this.IsSongInPlaylist(playlist, songToEdit)) {
                         playlist.songList = playlist.songList.filter(song => song._id != songToEdit.id);
                         playlist.songList.push(songToEdit);
                         this.updatePlaylist(playlist._id, playlist.name, playlist.songList);
@@ -291,4 +293,7 @@ export class PlaylistService{
         );
     }
 
+    IsSongInPlaylist(playlist:Playlist, song:Song): boolean {
+        return playlist.songList.some( songInPlaylist => songInPlaylist.id == song.id )
+    }
 }
