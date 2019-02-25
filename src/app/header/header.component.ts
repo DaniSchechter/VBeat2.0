@@ -36,6 +36,6 @@ export class HeaderComponent{
     onLogout(){
     	this.loggedIn = false;
 	this.user = null;
-	this.router.navigate('/');
+	this.router.navigate(['/']);
     }
 }
