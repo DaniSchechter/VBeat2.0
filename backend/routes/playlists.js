@@ -3,7 +3,7 @@ const express = require("express");
 const Playlist = require('../models/playlist');
 const app = express.Router();
 
-// denies entry for when user id is needed 
+// denies entry for when user id is needed
 function denyEntry(req, res){
 	if(req.session.userId) {
 		return false;
@@ -37,6 +37,63 @@ app.post("", (req, res, next) => {
         });
     });
 });
+
+
+
+
+
+
+
+
+app.get("/search", (req, res, next) => {
+  if(denyEntry(req,res)) {
+    return;
+  }
+
+  const pageSize = +req.query.pageSize;
+  const currPage = +req.query.page;
+  let minSongs = +req.query.minSongs;
+  if(req.query.minSongs==='') minSongs = null //if empty num is passed in request, make it null
+  const playlistName = req.query.playlistName;
+  const songName = req.query.songName;
+
+  let fetchedPlaylists;
+  let query = {};
+
+  if(songName!=='') query["songList.name"] = songName;
+  if(playlistName!=='') query["name"] = playlistName;
+  if(minSongs!==null && minSongs > 0) {
+    query["songList." + (minSongs - 1).toString()] = { "$exists": true };
+  }
+  query["UserId"] = req.session.userId;
+
+  const playlistQuery = Playlist.find(query);
+  if (pageSize && currPage){
+      playlistQuery.skip(pageSize * (currPage - 1)).limit(pageSize);
+  }
+  playlistQuery
+  .then(playlistsResult => {
+      fetchedPlaylists = playlistsResult;
+      return Playlist.find(query).countDocuments();
+  })
+  .then(count => {
+      res.status(200).json({
+              message: "Playlists fetched successfully",
+              playlists: fetchedPlaylists,
+              totalPlaylists: count
+          });
+  }).catch(error => {
+      res.status(500).json({
+          message: "Could not get the playlists"
+      });
+  });
+
+});
+
+
+
+
+
 
 // get all playlists
 app.get("/all", (req, res, next) => {
