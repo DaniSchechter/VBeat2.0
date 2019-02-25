@@ -125,8 +125,8 @@ export class SongService{
             this.Http.put<{message: string}>(this.base_url + '/song/' + id, song).subscribe(
                 res => {
                     this.notificationService.submitNotification(
-                        new Notification(res.message,NotificationStatus.OK)
-                    )
+                        new Notification(res.message,NotificationStatus.OK))
+                    this.playlistService.updateSongFromAllPlaylists(song);
                 }, 
                 error => this.notificationService.submitNotification(
                     new Notification(error.message,NotificationStatus.ERROR))

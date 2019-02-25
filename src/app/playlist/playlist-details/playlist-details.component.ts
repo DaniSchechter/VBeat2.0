@@ -26,7 +26,7 @@ export class PlaylistDetailsComponent implements OnInit, OnDestroy {
     });
 
     this.playlistSub = this.playlistService.getPlaylistUpdateListener()
-        .subscribe( (playlist: Playlist) => { this.playlist = playlist ; this.playlist.songList.forEach(song => console.log(song));} );
+        .subscribe( (playlist: Playlist) =>  this.playlist = playlist );
     
     this.playlistService.getPlaylistById(playlistId);
   }
