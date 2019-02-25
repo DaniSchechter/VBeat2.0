@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import bson
 import random
 import pymongo
 import requests
@@ -7,6 +8,7 @@ import logzero
 import re
 import json
 import logging
+import uuid
 
 # settings
 scraping_url = 'https://www.top100singles.net/2017/12/every-aria-top-100-single-in-2018.html'
@@ -23,9 +25,25 @@ def main():
 	song_dict_list = []
 	for s in songs:
 		s = fix_artists(s)
-		logger.debug(s)
 		song_dict_list.append(s.__dict__)
 	save(mongoclient, song_dict_list)
+
+def get_random_username(artist):
+	return artist + uuid.uuid4().__str__()	
+
+artist_cache_list = []
+
+def get_artist_object(artistname):
+	global artist_cache_list
+	artist_match_list = [x for x in artist_cache_list if x.display_name == artistname]
+	if len(artist_match_list) == 1:
+		logger.debug('used artist from cache')
+		return artist_match_list[0].__dict__
+	
+	artist_object = Artist.create_from_name(artistname)	
+	artist_cache_list.append(artist_object)
+	return artist_object.__dict__
+	
 
 def fix_artists(song):
 	artists = song.artists
@@ -42,7 +60,7 @@ def fix_artists(song):
 			comma_split.append(split_res)
 		
 	
-	song.artists = [a.strip() for a in comma_split]
+	song.artists = [get_artist_object(a.strip()) for a in comma_split]
 	return song
 	
 
@@ -107,6 +125,21 @@ def open_mongo():
 	mongoclient = pymongo.MongoClient(mongodb_string)
 	return mongoclient
 
+class Artist():
+	def __init__(self, username, password, display_name):
+		self._id = bson.objectid.ObjectId()
+		self.username = username
+		self.password = password
+		self.role = "ARTIST"
+		self.profile_pic = 'https://i.kym-cdn.com/entries/icons/original/000/000/341/i-dunno-lol_1_.jpg'
+		self.display_name = display_name
+		self.email = username + '@artistmail.com'
+
+	def create_from_name(name):
+		username = get_random_username(name)
+		password = 'random_artist_password'
+		return Artist(username, password, name)
+
 # a class representing a song
 class Song():
 	def __init__(self, title, artists, genre, release_date, song_url, album_image_url):
@@ -115,8 +148,9 @@ class Song():
 		self.genre = random.choice(['POP', 'JAZZ', 'HIP-HOP', 'ROCK', 'CLASSIC'])  
 		self.release_data = release_date
 		self.song_url = song_url
-		self.album_image_url = album_image_url
+		self.album_image_url = 'https://www.thoughtco.com/thmb/oXOWMUKShSv3ym-a1xMVGPoabPM=/1200x800/filters:fill(auto,1)/archer_closeup-56a00f9f3df78cafda9fde1c.png' # just because
 		self.scraped = True
+		self.num_of_times_liked = 0
 		#logger.info('initialized Song=%s' % self)	
 	
 	def __str__(self):
