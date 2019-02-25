@@ -3,9 +3,23 @@ const express = require("express");
 const Playlist = require('../models/playlist');
 const app = express.Router();
 
+// denies entry for when user id is needed 
+function denyEntry(req, res){
+	if(req.session.userId) {
+		return false;
+	}
+	res.status(401).json({
+		message: 'You need to login before you can access playlists'
+	});
+
+	return true;
+}
 
 //create a new playlist
 app.post("", (req, res, next) => {
+    if(denyEntry(req,res))  {
+    	return;
+    }
     const playlist = new Playlist({
         name: req.body.name,
         UserId: req.session.userId,
@@ -27,6 +41,10 @@ app.post("", (req, res, next) => {
 // get all playlists
 app.get("/all", (req, res, next) => {
     let fetchedPlaylists;
+    if(denyEntry(req,res)) {
+    	return;
+    }
+
     Playlist.find({UserId: req.session.userId })
     .then(playlistsResult => {
         res.status(200).json({
@@ -56,6 +74,9 @@ app.get("/getById/:id", (req, res, next) => {
 
 // Get playlist by name
 app.get("/:name", (req, res, next) => {
+    if(denyEntry(req,res)) {
+    	return;
+    }
     Playlist.findOne({UserId:req.session.userId,  name: req.params.name})
     .then(result => {
         res.status(200).json({
@@ -74,6 +95,11 @@ app.get("", (req, res, next) => {
     const pageSize = +req.query.pageSize;
     const currPage = +req.query.page;
     let fetchedPlaylists;
+
+    if(denyEntry(req,res)) {
+    	return;
+    }
+
     const playlistQuery = Playlist.find({UserId: req.session.userId });
     if (pageSize && currPage){
         playlistQuery.skip(pageSize * (currPage - 1)).limit(pageSize);
@@ -112,6 +138,9 @@ app.delete("/:id", (req, res, next) => {
 
 // update playlist
 app.put("/:id", (req, res, next) => {
+    if(denyEntry(req,res)) {
+    	return;
+    }
     let songList = req.body.songList.map( song => {
         return newSong = {
             _id: song.id,
