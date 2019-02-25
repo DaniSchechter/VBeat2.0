@@ -90,7 +90,7 @@ export class SongToolBarComponent implements OnInit {
     this.playlistService.getPlaylists();
     this.playlistService.getPlaylistsUpdateListener().subscribe(
       (playlistData: {playlists: Playlist[], totalPlaylists: number}) => {
-        this.playlists = playlistData.playlists;
+        this.playlists = playlistData.playlists.filter(playlist => playlist.name != "LIKED SONGS");
         this.selectedPlaylists = null;
     })
   }
