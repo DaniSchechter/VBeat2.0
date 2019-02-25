@@ -14,7 +14,6 @@ app.post("", (req, res, next) => {
         artists:  req.body.artists,
         num_of_times_liked: req.body.num_of_times_liked
     });
-    console.log(song);
     song.save()
     .then(newSong => {
         res.status(201).json({
