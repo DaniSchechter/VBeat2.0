@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import random
 import pymongo
 import requests
 from logzero import logger # logging framework made easy
@@ -21,9 +22,28 @@ def main():
 	mongoclient = open_mongo()
 	song_dict_list = []
 	for s in songs:
+		s = fix_artists(s)
+		logger.debug(s)
 		song_dict_list.append(s.__dict__)
 	save(mongoclient, song_dict_list)
+
+def fix_artists(song):
+	artists = song.artists
+	artists = artists.replace('{{', '').replace('}}', '')
+	feat_split = artists.split('feat.')
+	and_split = []
+	for artist in feat_split:
+		for split_res in artist.split('\\&'):
+			and_split.append(split_res)
 	
+	comma_split = []
+	for artist in and_split:
+		for split_res in artist.split(','):
+			comma_split.append(split_res)
+		
+	
+	song.artists = [a.strip() for a in comma_split]
+	return song
 	
 
 def save(mongoclient, song_dict_list):
@@ -90,12 +110,13 @@ def open_mongo():
 # a class representing a song
 class Song():
 	def __init__(self, title, artists, genre, release_date, song_url, album_image_url):
-		self.title = title
+		self.name = title
 		self.artists = artists
-		self.genre = genre
+		self.genre = random.choice(['POP', 'JAZZ', 'HIP-HOP', 'ROCK', 'CLASSIC'])  
 		self.release_data = release_date
 		self.song_url = song_url
 		self.album_image_url = album_image_url
+		self.scraped = True
 		#logger.info('initialized Song=%s' % self)	
 	
 	def __str__(self):
