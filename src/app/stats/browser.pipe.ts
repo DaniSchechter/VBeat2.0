@@ -8,6 +8,6 @@ export class BrowserPipe implements PipeTransform {
   transform(value: any, args?: any): any {
     console.log('transofrming data');
     // value is browser data
-    return `Chrome: ${value.Chrome}, Firefox: ${value.Firefox}, Edge: ${value.Edge}`;
+    return `Top Browsers: Chrome: ${value.Chrome}, Firefox: ${value.Firefox}, Edge: ${value.Edge}`;
   }
 }
