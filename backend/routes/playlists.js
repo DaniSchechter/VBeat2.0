@@ -19,6 +19,36 @@ app.post("", (req, res, next) => {
         });
     }).catch(error => {
         res.status(500).json({
+            message: "Could not add a new playlist"
+        });
+    });
+});
+
+// get all playlists
+app.get("/all", (req, res, next) => {
+    let fetchedPlaylists;
+    Playlist.find({UserId: req.session.userId })
+    .then(playlistsResult => {
+        res.status(200).json({
+                playlists: playlistsResult,
+            });
+    }).catch(error => {
+        res.status(500).json({
+            message: error.message
+        });
+    });
+});
+
+// get playlist by id
+app.get("/getById/:id", (req, res, next) => {
+    Playlist.findOne({_id: req.params.id})
+    .then(result => {
+        res.status(200).json({
+                message: "Playlist fetched successfully",
+                playlist: result,
+            });
+    }).catch(error => {
+        res.status(500).json({
             message: error.message
         });
     });
@@ -29,17 +59,17 @@ app.get("/:name", (req, res, next) => {
     Playlist.findOne({UserId:req.session.userId,  name: req.params.name})
     .then(result => {
         res.status(200).json({
-                message: "favorite songs playlist fetchet successfully",
+                message: "favorite songs playlist fetched successfully",
                 playlist: result,
             });
     }).catch(error => {
         res.status(500).json({
-            message: error.message
+            message: "Could not get the playlist with name" + req.params.name
         });
     });
 });
 
-// get all playlists
+// get all playlists for the connected user
 app.get("", (req, res, next) => {
     const pageSize = +req.query.pageSize;
     const currPage = +req.query.page;
@@ -61,7 +91,7 @@ app.get("", (req, res, next) => {
             });
     }).catch(error => {
         res.status(500).json({
-            message: error.message
+            message: "Could not get the playlists"
         });
     });
 });
@@ -75,7 +105,7 @@ app.delete("/:id", (req, res, next) => {
         });
     }).catch(error => {
         res.status(400).json({
-            message: error.message
+            message: "Error on deleting playlist"
         });
     });
 });
@@ -108,7 +138,7 @@ app.put("/:id", (req, res, next) => {
         });
     }).catch(error => {
         res.status(400).json({
-            message: error.message
+            message: "Could not update playlist"
         });
     });
 });

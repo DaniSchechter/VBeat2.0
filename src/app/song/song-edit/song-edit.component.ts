@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Song, Genre } from '../song.model'
 import { NgForm } from '@angular/forms';
 import { SongService } from '../songs.service'
@@ -13,7 +13,7 @@ import { UserService } from '../../user/user.service';
   styleUrls: ['./song-edit.component.css']
 })
 
-export class SongEditComponent implements OnInit {
+export class SongEditComponent implements OnInit, OnDestroy {
 
   private songId : string;
   private songSub: Subscription;
@@ -41,7 +41,7 @@ export class SongEditComponent implements OnInit {
   // Will be automatically added as an artist for the new song
   connectedArtist: User;
 
-  constructor(private songService: SongService, public route: ActivatedRoute,  private userService:UserService) {}
+  constructor(private songService: SongService, private route: ActivatedRoute,  private userService:UserService) {}
 
   // !!!! TODO change to load only one song and not the entire songs
   ngOnInit() {
@@ -150,5 +150,9 @@ export class SongEditComponent implements OnInit {
   private clearFilteredrtists() {
     this.prefix = null;
     this.filtered_artists = [];
+  }
+
+  ngOnDestroy(): void {
+    this.songSub.unsubscribe();
   }
 }

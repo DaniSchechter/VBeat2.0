@@ -22,7 +22,7 @@ app.post("", (req, res, next) => {
         });
     }).catch(error => {
         res.status(500).json({
-            message: error.message
+            message: "Could not create a new song"
         });
     });
 });
@@ -50,7 +50,7 @@ app.get("", (req, res, next) => {
     }).catch(error => {
         console.log(error.message);
         res.status(500).json({
-            message: error.message
+            message: "Could not get the songs"
         });
     });
 });
@@ -64,7 +64,7 @@ app.delete("/:id", (req, res, next) => {
     }).catch(error => {
         console.log(error.message);
         res.status(400).json({
-            message: error.message
+            message: "Could not delete this song"
         });
     });
 });
@@ -88,7 +88,7 @@ app.put("/:id", (req, res, next) => {
         });
     }).catch(error => {
         res.status(400).json({
-            message: error.message
+            message: "Could not update this song"
         });
     });
 });
@@ -114,7 +114,7 @@ app.put("/likes/:id", (req, res, next) => {
         });
     }).catch(error => {
         res.status(400).json({
-            message: error.message
+            message: "Could not update num of likes"
         });
     });
 });
