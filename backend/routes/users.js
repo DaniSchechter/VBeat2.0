@@ -12,8 +12,10 @@ app.get("/browser", (req, res, next) => {
 
 app.get("/logout", (req, res, next) => {
 	req.session.userId = null;
-	// redirect to home page with status code 302 FOUND
-	res.redirect(302, "/");
+	// typescript will redirect
+	res.status(200).json({
+		message: "logged out",
+	});
 });
 
 app.post("", (req, res, next) => {
