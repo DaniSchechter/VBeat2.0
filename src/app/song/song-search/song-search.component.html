@@ -1,14 +1,17 @@
 <mat-card>
   <form (submit)="onSearch(searchForm)" #searchForm="ngForm">
 
+    <label>song name:</label>
     <mat-form-field>
       <input matInput name="songName" ngModel>
     </mat-form-field>
 
+    <label>artist name:</label>
     <mat-form-field>
       <input matInput name="artistName" ngModel>
     </mat-form-field>
 
+    <label>genre name:</label>
     <mat-form-field>
       <input matInput name="genreName" ngModel> <!-- TODO : make this a checkbox with the genre enum -->
     </mat-form-field>
