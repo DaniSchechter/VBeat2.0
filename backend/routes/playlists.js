@@ -24,6 +24,21 @@ app.post("", (req, res, next) => {
     });
 });
 
+// get all playlists
+app.get("/all", (req, res, next) => {
+    let fetchedPlaylists;
+    Playlist.find({UserId: req.session.userId })
+    .then(playlistsResult => {
+        res.status(200).json({
+                playlists: playlistsResult,
+            });
+    }).catch(error => {
+        res.status(500).json({
+            message: error.message
+        });
+    });
+});
+
 // Get playlist by name
 app.get("/:name", (req, res, next) => {
     Playlist.findOne({UserId:req.session.userId,  name: req.params.name})
@@ -39,7 +54,7 @@ app.get("/:name", (req, res, next) => {
     });
 });
 
-// get all playlists
+// get all playlists for the connected user
 app.get("", (req, res, next) => {
     const pageSize = +req.query.pageSize;
     const currPage = +req.query.page;

@@ -209,4 +209,17 @@ export class PlaylistService{
             );
     }
 
+    removeSongFromAllPlaylists(songToRemove: string){
+        this.Http.get<{playlists: any}>(this.base_url + '/playlist/all')
+        .subscribe(
+            playlists => {
+                playlists.playlists.forEach(playlist => {
+                    playlist.songList = playlist.songList.filter(song => song._id != songToRemove);
+                    this.updatePlaylist(playlist._id, playlist.name, playlist.songList);
+                });
+            },
+            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+        );
+    }
+
 }

@@ -7,6 +7,7 @@ import { NotificationPopupService } from '../notification/notification-popup.ser
 import { NotificationStatus, Notification } from '../notification/notification.model'
 import { Router } from '@angular/router';
 import { User } from '../user/user.model';
+import { PlaylistService } from '../playlist/playlist.service';
 @Injectable({providedIn: 'root'})
 export class SongService{
     private base_url = 'http://localhost:3000/api';
@@ -18,7 +19,7 @@ export class SongService{
     private songUpdated = new Subject<Song>();
 
     constructor(private Http: HttpClient,
-                private notificationService:NotificationPopupService, private router:Router){}
+                private notificationService:NotificationPopupService, private router:Router, private playlistService: PlaylistService){}
 
     
     getSongsUpdateListener(){
@@ -91,13 +92,14 @@ export class SongService{
     }
 
     deleteSong(songId: string){
-        return this.Http.delete<{message: string}>(this.base_url + '/song/' + songId)
+        this.Http.delete<{message: string}>(this.base_url + '/song/' + songId)
         .subscribe(
             responseData => {
                 const updatedSongs = this.songs.filter(song => song.id !== songId);
                 this.songs = updatedSongs;
                 this.songsCount --;
                 this.songsUpdated.next({songs: [...this.songs], totalSongs: this.songsCount});
+                this.playlistService.removeSongFromAllPlaylists(songId);
                 this.notificationService.submitNotification(
                     new Notification(responseData.message,NotificationStatus.OK)
                 )
