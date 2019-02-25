@@ -28,7 +28,6 @@ app.post("", (req, res, next) => {
 app.get("/getById/:id", (req, res, next) => {
     Playlist.findOne({_id: req.params.id})
     .then(result => {
-        console.log(result);
         res.status(200).json({
                 message: "Playlist fetched successfully",
                 playlist: result,
