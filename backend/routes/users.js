@@ -112,9 +112,7 @@ app.get("/currentUser", (req, res, next) => {
 app.get("", (req, res, next) => {
     User.find(
         ).then(userResult => {
-	for(var i = 0; i < userResult.length; i++) {
-		userResult[i].password = "<censored>";
-	}
+	userResult.forEach(user => user.password="<censored>");
         res.status(200).json({
             message: "ok",
             users: userResult
