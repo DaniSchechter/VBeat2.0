@@ -260,6 +260,7 @@ export class PlaylistService{
     }
 
     updateSongFromAllPlaylists(songToEdit: Song){
+        console.log(songToEdit.num_of_times_liked);
         this.Http.get<{playlists: any}>(this.base_url + '/playlist/all')
         .subscribe(
             playlists => {
@@ -267,6 +268,23 @@ export class PlaylistService{
                     playlist.songList = playlist.songList.filter(song => song._id != songToEdit.id);
                     playlist.songList.push(songToEdit);
                     this.updatePlaylist(playlist._id, playlist.name, playlist.songList);
+                });
+            },
+            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+        );
+    }
+
+    updateSongFromAllPlaylistsButFav(songToEdit: Song){
+        console.log(songToEdit.num_of_times_liked);
+        this.Http.get<{playlists: any}>(this.base_url + '/playlist/all')
+        .subscribe(
+            playlists => {
+                playlists.playlists.forEach(playlist => {
+                    if(playlist.name != "LIKED SONGS") {
+                        playlist.songList = playlist.songList.filter(song => song._id != songToEdit.id);
+                        playlist.songList.push(songToEdit);
+                        this.updatePlaylist(playlist._id, playlist.name, playlist.songList);
+                    }
                 });
             },
             error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))

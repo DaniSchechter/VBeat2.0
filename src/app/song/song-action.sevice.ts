@@ -25,8 +25,7 @@ export class SongActionService{
     // Force only one Socket per client
     private constructor( 
         private http: HttpClient,
-        private notificationService: NotificationPopupService) 
-    {
+        private notificationService: NotificationPopupService)    {
         this.socket = io("http://localhost:3000/");
         this.songUpdatedSubject = this.createSongUpdatedSubject();
     }
