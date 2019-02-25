@@ -9,3 +9,9 @@ button.liked {
 mat-card{
     font: 500 20px/32px Roboto,"Helvetica Neue",sans-serif;
 }
+mat-card-actions {
+    margin:0;
+}
+mat-card-actions button, mat-card-actions a {
+    margin-bottom: 10px;
+}

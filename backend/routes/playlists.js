@@ -39,12 +39,27 @@ app.get("/all", (req, res, next) => {
     });
 });
 
+// get playlist by id
+app.get("/getById/:id", (req, res, next) => {
+    Playlist.findOne({_id: req.params.id})
+    .then(result => {
+        res.status(200).json({
+                message: "Playlist fetched successfully",
+                playlist: result,
+            });
+    }).catch(error => {
+        res.status(500).json({
+            message: error.message
+        });
+    });
+});
+
 // Get playlist by name
 app.get("/:name", (req, res, next) => {
     Playlist.findOne({UserId:req.session.userId,  name: req.params.name})
     .then(result => {
         res.status(200).json({
-                message: "favorite songs playlist fetchet successfully",
+                message: "favorite songs playlist fetched successfully",
                 playlist: result,
             });
     }).catch(error => {

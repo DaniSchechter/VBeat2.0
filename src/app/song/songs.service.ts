@@ -127,7 +127,6 @@ export class SongService{
                     this.notificationService.submitNotification(
                         new Notification(res.message,NotificationStatus.OK)
                     )
-                    this.router.navigate(["/"])            
                 }, 
                 error => this.notificationService.submitNotification(
                     new Notification(error.message,NotificationStatus.ERROR))

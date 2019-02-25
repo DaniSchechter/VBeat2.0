@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageEvent } from '@angular/material';
 import { Song, Genre } from '../song.model'
 import { Subscription } from 'rxjs';
@@ -12,7 +12,7 @@ import { SongService } from '../songs.service';
   templateUrl: './song-list.component.html',
   styleUrls: ['./song-list.component.css']
 })
-export class SongListComponent implements OnInit {
+export class SongListComponent implements OnInit, OnDestroy {
   selectedSong: Song;
   songs: Song[];
   totalSongs:number = 0;
@@ -46,8 +46,6 @@ export class SongListComponent implements OnInit {
   
 
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
     this.songSub.unsubscribe();
   }
 

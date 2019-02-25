@@ -13,6 +13,7 @@ export class PlaylistService{
     private base_url = 'http://localhost:3000/api';
 
     private playlists: Playlist[] = [];
+    private playlist: Playlist;
 
     // Liked Songs Playlist
     private favoritePlaylist: Playlist;
@@ -20,6 +21,7 @@ export class PlaylistService{
 
     private playlistsCount = 0;
     private playlistsUpdated = new Subject<{playlists: Playlist[], totalPlaylists: number}>();
+    private playlistUpdated = new Subject<Playlist>();
 
     constructor(private Http: HttpClient,
                 private notificationService:NotificationPopupService, private router:Router){
@@ -99,8 +101,44 @@ export class PlaylistService{
     }
 
     // get playlist by id
-    getPlaylist(playlists: Playlist[], playlistId: string){
-        return {...this.playlists.find(playlist => playlist.id === playlistId)};
+    getPlaylistById(playlistId: string){
+        this.Http.get<{message: string; playlist: any}>(`${this.base_url}/playlist/getById/${playlistId}`)
+        .pipe(
+            map(playlistData => {
+                if(playlistData.playlist){
+                    let songs = playlistData.playlist.songList.map( song => {
+                        return {
+                            id: song._id,
+                            name: song.name,
+                            genre: song.genre,
+                            song_path: song.song_path,
+                            image_path: song.image_path,
+                            release_date: song.release_date,
+                            artists: song.artists,
+                            num_of_times_liked: song.num_of_times_liked
+                        }
+                    })
+                    return {
+                        name: playlistData.playlist.name, 
+                        UserId: playlistData.playlist.UserId, 
+                        songList: songs,
+                        id: playlistData.playlist._id
+                    };
+                }
+            }
+        ))
+        .subscribe(
+            playlistsAfterChange => {
+                this.playlist = playlistsAfterChange;
+                this.playlistUpdated.next(this.playlist);
+            },
+            error => this.notificationService.submitNotification(
+                new Notification(error.message,NotificationStatus.ERROR))
+        );
+    }
+
+    getPlaylistUpdateListener(){
+        return this.playlistUpdated.asObservable();
     }
 
     // add new playlist
@@ -203,7 +241,6 @@ export class PlaylistService{
                         new Notification(res.message,NotificationStatus.OK)
                     )
                 }
-                this.router.navigate(["/"])            
             }, 
             error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
             );

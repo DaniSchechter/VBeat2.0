@@ -1,14 +1,14 @@
 <mat-card-actions>
-    <button mat-mini-fab (click)="onAddToQueue()">
+    <button type="button" mat-mini-fab (click)="onAddToQueue()">
         <mat-icon title="Add to queue">queue_music</mat-icon>  
     </button>
-    <button mat-mini-fab (click)="onPlay()">
+    <button type="button" mat-mini-fab (click)="onPlay()">
       <mat-icon title="Play now">play_arrow</mat-icon>  
     </button>
-    <button *ngIf="isConnected" mat-mini-fab (click)="onAddToPlaylist()">
+    <button type="button" *ngIf="isConnected" mat-mini-fab (click)="onAddToPlaylist()">
       <mat-icon title="Add to playlist">playlist_add</mat-icon>  
     </button>
-    <button *ngIf="isConnected" mat-mini-fab [class.liked]="songLiked" (click)="onLikeToggle()">
+    <button type="button" *ngIf="isConnected" mat-mini-fab [class.liked]="songLiked" (click)="onLikeToggle()">
         <mat-icon *ngIf="song"
                   title="Like"
                   [matBadge]="song.num_of_times_liked"
@@ -20,7 +20,7 @@
     <a mat-mini-fab *ngIf="isConnected && hasOwnerPermissions" [routerLink]="['/edit_song', song.id]">
       <mat-icon title="Edit">edit</mat-icon> 
     </a>
-    <button mat-mini-fab *ngIf="isConnected && hasOwnerPermissions" (click)="onDelete()" color="warn">
+    <button type="button" mat-mini-fab *ngIf="isConnected && hasOwnerPermissions" (click)="onDelete()" color="warn">
       <mat-icon title="Delete">delete</mat-icon>  
     </button>
 </mat-card-actions>
