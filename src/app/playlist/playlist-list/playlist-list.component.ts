@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { PageEvent } from '@angular/material';
 import { Playlist } from '../playlist.model'
 import { Subscription } from 'rxjs';
@@ -13,6 +13,7 @@ import { PlaylistService } from '../playlist.service';
   styleUrls: ['./playlist-list.component.css']
 })
 export class PlaylistListComponent implements OnInit, OnDestroy {
+
   selectedPlaylist: Playlist;
   playlists: Playlist[];
   totalPlaylists:number = 0;
@@ -42,6 +43,10 @@ export class PlaylistListComponent implements OnInit, OnDestroy {
     this.playlistsService.getPlaylists(this.playlistsPerPage, this.currentPage);
   }
   
+
+  onDelete(playlistId: string) {
+    this.playlistsService.deletePlaylist(playlistId);
+  }
 
   ngOnDestroy(): void {
     this.playlistSub.unsubscribe();

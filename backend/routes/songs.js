@@ -21,6 +21,7 @@ app.post("", (req, res, next) => {
             songId: newSong._id
         });
     }).catch(error => {
+        console.log(error);
         res.status(500).json({
             message: "Could not create a new song"
         });
