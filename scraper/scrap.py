@@ -67,7 +67,7 @@ def fix_artists(song):
 def save(mongoclient, song_dict_list):
 	logger.info('saving songs to database')
 	first_node = mongoclient['first-node']
-	top_songs = first_node['top-songs-scraped']
+	top_songs = first_node['songs']
 	mongo_object = top_songs.insert_many(song_dict_list)
 	#logger.info('songs saved under id %s' % mongo_object.inserted_ids)
 	logger.info('songs sent to db')
