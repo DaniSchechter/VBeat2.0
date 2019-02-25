@@ -5,6 +5,7 @@ const Song = require('../models/song');
 const app = express.Router();
 
 app.post("", (req, res, next) => {
+    console.log("1111111");
     const song = new Song({
         name: req.body.name,
         genre: req.body.genre,
@@ -14,6 +15,7 @@ app.post("", (req, res, next) => {
         artists:  req.body.artists,
         num_of_times_liked: req.body.num_of_times_liked
     });
+    console.log(song);
     song.save()
     .then(newSong => {
         res.status(201).json({
@@ -21,6 +23,7 @@ app.post("", (req, res, next) => {
             songId: newSong._id
         });
     }).catch(error => {
+        console.log(error);
         res.status(500).json({
             message: "Could not create a new song"
         });
