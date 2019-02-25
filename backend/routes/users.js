@@ -7,12 +7,7 @@ app.get("/browser", (req, res, next) => {
 	res.status(200).json(
 		browserCounter.getData()
 	);
-}).catch(error => {
-    res.status(400).json({
-        message: "Error getting browser data"
-    });
-});
-
+})
 
 app.post("", (req, res, next) => {
     const user = new User({
