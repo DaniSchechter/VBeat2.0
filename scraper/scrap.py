@@ -148,7 +148,8 @@ class Song():
 		self.genre = random.choice(['POP', 'JAZZ', 'HIP-HOP', 'ROCK', 'CLASSIC'])  
 		self.release_date = release_date
 		self.song_path = song_url
-		self.image_path = 'https://www.thoughtco.com/thmb/oXOWMUKShSv3ym-a1xMVGPoabPM=/1200x800/filters:fill(auto,1)/archer_closeup-56a00f9f3df78cafda9fde1c.png' # just because
+		images = ['https://www.thoughtco.com/thmb/oXOWMUKShSv3ym-a1xMVGPoabPM=/1200x800/filters:fill(auto,1)/archer_closeup-56a00f9f3df78cafda9fde1c.png','https://comedycentral.mtvnimages.com/images/tve/archer/tve_series_page/ARCHER_NextGen_Spotlight_NoLogo_1920x1080.jpg?width=640&height=360&crop=true', 'https://cdn.techadvisor.co.uk/cmsdata/features/3684524/archer_season_10_thumb800.jpg', 'https://tribzap2it.files.wordpress.com/2016/04/archer-season-7-ray-adam-reed.jpg?w=900', 'https://media.comicbook.com/2018/09/burt-reyonds-death-archer-fans-reaction-1132320-1280x0.jpeg']
+		self.image_path = random.choice(images) # just because
 		self.scraped = True
 		self.num_of_times_liked = 0
 		#logger.info('initialized Song=%s' % self)	
