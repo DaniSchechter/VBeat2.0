@@ -117,7 +117,6 @@ export class SongToolBarComponent implements OnInit {
 
   onDelete() {
     this.songsService.deleteSong(this.song.id);
-    this.playlistService.removeSongFromAllPlaylists(this.song.id);
   }
 
   saveToPlaylists(song: Song){
