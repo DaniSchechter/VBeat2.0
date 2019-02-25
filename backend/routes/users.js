@@ -7,8 +7,7 @@ app.get("/browser", (req, res, next) => {
 	res.status(200).json(
 		browserCounter.getData()
 	);
-});
-
+})
 
 app.post("", (req, res, next) => {
     const user = new User({
