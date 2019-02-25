@@ -125,7 +125,6 @@ app.put("/likes/:id", (req, res, next) => {
 
 
 app.get("/search", (req, res, next) => {
-    console.log(`user seesion: ${req.session.userId}`);
     const pageSize = +req.query.pageSize;
     const currPage = +req.query.page;
     const songName = req.query.songName;
@@ -141,10 +140,6 @@ app.get("/search", (req, res, next) => {
 
 
     const songQuery = Song.find(query);
-
-    Song.find(query).then(results=>{
-      totalNumFiltered = results.length;
-    });
 
 
     if (pageSize && currPage){
@@ -162,9 +157,8 @@ app.get("/search", (req, res, next) => {
                 totalSongs: count
             });
     }).catch(error => {
-        console.log(error.message);
         res.status(500).json({
-            message: error.message
+            message: "error on search songs"
         });
     });
 });

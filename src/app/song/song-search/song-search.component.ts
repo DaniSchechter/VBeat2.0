@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { SongService } from '../songs.service';
 import { PageEvent } from '@angular/material';
@@ -11,13 +11,13 @@ import { Subscription } from 'rxjs';
   templateUrl: './song-search.component.html',
   styleUrls: ['./song-search.component.css']
 })
-export class SongSearchComponent implements OnInit {
+export class SongSearchComponent implements OnInit, OnDestroy {
   selectedSong: Song;
   songs: Song[];
   totalSongs:number = 0;
-  songsPerPage:number = 2;
+  songsPerPage:number = 10;
   currentPage:number = 1;
-  // pageSizeOptions = [3,4,10];
+
   private songSub: Subscription;
   songName:string = '';
   artistName:string = '';
@@ -51,5 +51,9 @@ export class SongSearchComponent implements OnInit {
     this.genreName = form.value.genreName;
     this.currentPage = 1;
     this.songService.searchSong(this.songName, this.artistName, this.genreName, this.songsPerPage, this.currentPage);
+  }
+
+  ngOnDestroy(): void {
+    this.songSub.unsubscribe();
   }
 }
