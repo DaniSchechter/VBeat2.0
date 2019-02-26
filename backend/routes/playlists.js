@@ -8,7 +8,10 @@ function denyEntry(req, res){
 	if(req.session.userId) {
 		return false;
 	}
-	res.status(401);
+	res.status(401).json({
+		message: 'You need to login before you can access playlists'
+	});
+
 	return true;
 }
 

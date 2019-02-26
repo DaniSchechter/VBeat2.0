@@ -89,7 +89,10 @@ app.get("/artists", (req, res, next) => {
 // get the current user (connected or not)
 app.get("/currentUser", (req, res, next) => {
     if(!req.session.userId){
-    	res.status(401);
+    	res.status(401).json({
+		message: 'not logged in'
+	});
+    	return;
     }
     User.findOne({_id:req.session.userId})
         .then(userResult => {
