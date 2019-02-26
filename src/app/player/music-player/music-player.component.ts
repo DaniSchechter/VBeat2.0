@@ -24,4 +24,10 @@ export class MusicPlayerComponent implements OnInit {
   ngOnInit() {
   }
 
+  onSongEnded(player): void {
+    // remove the endedd song (first song in the array)
+    this.songs.shift();
+    player.load();
+    player.play();
+  }
 }
