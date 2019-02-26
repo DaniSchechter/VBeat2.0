@@ -62,9 +62,12 @@ app.get("/search", (req, res, next) => {
 
   if(songName!=='') query["songList.name"] = songName;
   if(playlistName!=='') query["name"] = playlistName;
-  if(minSongs!==null && minSongs > 0) {
-    query["songList." + (minSongs - 1).toString()] = { "$exists": true };
+  if(!isNaN(minSongs)){ // if it is not a number, considered like empty string, not filtering with that parameter
+    if(minSongs!==null && minSongs > 0) {
+      query["songList." + (minSongs - 1).toString()] = { "$exists": true };
+    }
   }
+
   query["UserId"] = req.session.userId;
 
   const playlistQuery = Playlist.find(query);
