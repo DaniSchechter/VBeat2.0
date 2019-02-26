@@ -1,4 +1,10 @@
-<audio controls #player id="player">
-  <source *ngFor="let song of songs" [src]="song" type="audio/mp3">
+<audio controls #player id="player" autoplay
+(ended)="onSongEnded()">
+  <source *ngFor="let song of songs" [src]="song.song_path" type="audio/mp3">
 Your browser does not support the audio element.
 </audio>
+
+<div id="song-name-wrapper">
+  <img [src]="songs[0].image_path" *ngIf="songs">
+  <p *ngIf="songs"> {{ songs[0].name }} </p>
+</div>
