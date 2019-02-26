@@ -45,6 +45,9 @@ Thumbs.db
 # package lock
 package-lock.json
 
+# song assets
+*.mp3
+
 #VIM
 
 # Created by https://www.gitignore.io/api/vim

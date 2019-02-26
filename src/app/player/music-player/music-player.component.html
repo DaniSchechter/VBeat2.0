@@ -1,3 +1,4 @@
-<p>
-  music-player works!
-</p>
+<audio controls #player id="player">
+  <source *ngFor="let song of songs" [src]="song" type="audio/mp3">
+Your browser does not support the audio element.
+</audio>
