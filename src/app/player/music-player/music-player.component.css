@@ -1,4 +1,7 @@
+
 #player{
+    position: absolute;
+    bottom: 10px;
     width:98%;
     margin-left: 1%;
 }

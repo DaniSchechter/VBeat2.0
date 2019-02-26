@@ -1,34 +1,39 @@
-<mat-accordion [class.col-sm-7]="selectedSong">
-  
-  <mat-expansion-panel *ngFor="let song of songs" (click)="onSelectSong(song)">
-    <mat-expansion-panel-header>
-      <mat-panel-title class="mat-h2">
-          {{ song.name }}
-      </mat-panel-title>
-      <mat-panel-description>
-        <p class="mat-h3" *ngFor="let artist of song.artists">
-          {{ artist.display_name }}
-        </p>
-      </mat-panel-description>
-      <mat-panel-description class="mat-h3">
-        {{ num_of_times_liked }}
-      </mat-panel-description>
-    </mat-expansion-panel-header>
 
-    <p class="mat-h3">
-        {{ song.release_date | date}}
-    </p>
+<div>
+  <mat-accordion [class.col-sm-7]="selectedSong">
+    
+    <mat-expansion-panel *ngFor="let song of songs" (click)="onSelectSong(song)">
+      <mat-expansion-panel-header>
+        <mat-panel-title class="mat-h2">
+            {{ song.name }}
+        </mat-panel-title>
+        <mat-panel-description>
+          <p class="mat-h3" *ngFor="let artist of song.artists">
+            {{ artist.display_name }}
+          </p>
+        </mat-panel-description>
+        <mat-panel-description class="mat-h3">
+          {{ num_of_times_liked }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
 
-    <app-song-tool-bar [song]="song"></app-song-tool-bar>
+      <p class="mat-h3">
+          {{ song.release_date | date}}
+      </p>
 
-  </mat-expansion-panel>
-</mat-accordion>
+      <app-song-tool-bar [song]="song"></app-song-tool-bar>
 
-<div [class.col-sm-5]="song">
-  <div *ngFor="let song of songs" >
-    <app-song-details [hidden]="song !== selectedSong" [song]="song"></app-song-details>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <div [class.col-sm-5]="song">
+    <div *ngFor="let song of songs" >
+      <app-song-details [hidden]="song !== selectedSong" [song]="song"></app-song-details>
+    </div>
   </div>
 </div>
 
-<!-- ! TODO @alex increase the font size -->
-<mat-paginator [length]="totalSongs" [pageSize]="songsPerPage" (page)="onChangePage($event)"></mat-paginator>
+<div>
+    <mat-paginator [length]="totalSongs" [pageSize]="songsPerPage" (page)="onChangePage($event)"></mat-paginator>
+
+</div>
