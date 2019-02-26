@@ -52,6 +52,9 @@ import { PlaylistListComponent } from './playlist/playlist-list/playlist-list.co
 import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-details.component';
 import { GraphComponent } from './stats/graph/graph.component';
 
+// D3 graph
+import { DoughnutChartComponent, PieChartComponent, BarChartComponent } from 'angular-d3-charts'; // this is needed!
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -71,6 +74,9 @@ import { GraphComponent } from './stats/graph/graph.component';
     PlaylistListComponent,
     PlaylistDetailsComponent,
     GraphComponent,
+    DoughnutChartComponent, 
+    PieChartComponent, 
+    BarChartComponent
   ],
   imports: [
     BrowserModule,
