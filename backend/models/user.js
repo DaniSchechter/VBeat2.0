@@ -12,6 +12,10 @@ const userSchema = mongoose.Schema({
 	city: {type:String, require:false},
 	street: {type:String, require:false},
 	houseNum: {type:Number, require:false},
+	playlsits: [{ 
+		type: mongoose.Schema.Types.ObjectId, 
+		ref: "Playlist"
+	}]
 });
 
 userSchema.plugin(uniqueValidator);

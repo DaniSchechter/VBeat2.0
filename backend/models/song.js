@@ -8,7 +8,11 @@ const songSchema = mongoose.Schema({
     image_path: {type: String, require:true},
     release_date: {type: Date, require:true},
     artists: {type: [User.schema], require:true},
-    num_of_times_liked: {type: Number, require:true}
+    num_of_times_liked: {type: Number, require:true},
+    playlists: [{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "Playlist"
+    }]
 });
 
 module.exports = mongoose.model('Song', songSchema);
