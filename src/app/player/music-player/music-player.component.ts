@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { Song } from '../../song/song.model';
+import { ViewChild } from '@angular/core'
 
 @Component({
   selector: 'app-music-player',
@@ -7,6 +8,10 @@ import { Song } from '../../song/song.model';
   styleUrls: ['./music-player.component.css']
 })
 export class MusicPlayerComponent implements OnInit {
+
+  // Reference to html audio
+  @ViewChild('player') player: ElementRef;
+  image:string = "https://images.pexels.com/photos/35646/pexels-photo.jpg?cs=srgb&dl=close-up-dahlia-flower-35646.jpg&fm=jpg";
 
   songs: string[] = [
     "../../../assets/songs/Alessia Cara - Scars To Your Beautiful (Audio).mp3",
@@ -25,9 +30,27 @@ export class MusicPlayerComponent implements OnInit {
   }
 
   onSongEnded(player): void {
-    // remove the endedd song (first song in the array)
+    // remove the ended song (first song in the array)
     this.songs.shift();
-    player.load();
-    player.play();
+    this.player.nativeElement.load();
+    this.player.nativeElement.play();
   }
+
+  playNow(song: string): void {
+    this.songs.unshift(song);
+    this.player.nativeElement.load();
+    this.player.nativeElement.play();
+  }
+
+  addToQueue(song: string): void {
+    // Add new song to the end of the array
+    this.songs.push(song);
+  }
+
+  playPlaylist(songs: string[]): void {
+    this.songs = songs;
+    this.player.nativeElement.load();
+    this.player.nativeElement.play();
+  }
+
 }
