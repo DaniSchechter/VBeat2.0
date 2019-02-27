@@ -11,6 +11,7 @@ import { PlaylistListComponent } from './playlist/playlist-list/playlist-list.co
 import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-create.component';
 import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-details.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
+import { UserLocationComponent } from './user/user-location/user-location.component'
 
 const routes: Routes = [
   {path: '', component: SongListComponent},
@@ -23,7 +24,8 @@ const routes: Routes = [
   {path: 'playlist', component: PlaylistListComponent},
   {path: 'create_playlist', component: PlaylistCreateComponent},
   {path: 'song_search', component: SongSearchComponent},
-  {path: 'user_details', component: UserDetailsComponent}
+  {path: 'user_details', component: UserDetailsComponent},
+  {path: 'user_location', component: UserLocationComponent}
 ];
 
 @NgModule({

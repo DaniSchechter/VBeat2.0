@@ -13,7 +13,8 @@ export class UserLocationComponent implements OnInit {
   cityName: string;
   countryName: string;
 
-
+  lat = 51.678418;
+  lng = 7.809007;
   constructor() { }
 
   ngOnInit() {
