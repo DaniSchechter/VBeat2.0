@@ -36,7 +36,7 @@ module.exports.searchSongs = function(displayNames, callback){
 
 	// add each one of the keywords to the algorithm
 	displayNames.forEach(name => {
-		searchEngine.add(cleanKeyword(keyword));	
+		searchEngine.add(cleanKeyword(name));	
 	});
 	// build the search engine, prepare to search
 	searchEngine.build();
