@@ -19,6 +19,10 @@ function getAllSongs(callback){
 	});
 }
 
+function cleanKeyword(keyword) {
+	return keyword.toLowerCase().replace(/\s+/g, '');
+}
+
 // callback = function(results, err){}
 // searches for songs in an efficient way
 module.exports.searchSongs = function(displayNames, callback){
@@ -32,7 +36,7 @@ module.exports.searchSongs = function(displayNames, callback){
 
 	// add each one of the keywords to the algorithm
 	displayNames.forEach(name => {
-		searchEngine.add(name);	
+		searchEngine.add(cleanKeyword(keyword));	
 	});
 	// build the search engine, prepare to search
 	searchEngine.build();
@@ -47,9 +51,10 @@ module.exports.searchSongs = function(displayNames, callback){
 		hitArray = []
 
 		// iterate each song
-		results.forEeach(result => {
+		results.forEach(result => {
 			// search the name of the song for one of the keywords
-			hits = searchEngine.search(result.name);
+			console.log('searching in', result.name);
+			hits = searchEngine.search(result.name.toLowerCase());
 			// do we have at least one hit?
 			if(hits.length != 0) {
 				// add song to our hit array

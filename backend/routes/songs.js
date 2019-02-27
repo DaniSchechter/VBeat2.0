@@ -166,22 +166,22 @@ app.get("/search", (req, res, next) => {
 
 
 app.post("/quick_search", (req, res, next) => {
-	if(!req.params.query) {
+	if(!req.body.query) {
 		res.status(400).json({
 			message: "missing query string"
 		});
 		return;
 	}
 
-	var query = req.params.query;
+	var query = req.body.query;
 	var queryArray = query.split(',');
 	console.log('performing an efficient search for', queryArray);
 	// using efficient search
 	SongSearch.searchSongs(queryArray, (results,err) => {
-		console.log('searchSongs callback called from /new_search_user');
+		console.log('searchSongs callback called from /new_search_user', results, err);
 		if(err) {
 			res.status(500).json({
-				message: err
+				message: err.message
 			});
 			return;
 		} else {
