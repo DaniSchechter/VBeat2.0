@@ -38,7 +38,7 @@ export class UserService {
 		display_name: string,
 		email: string,
 		country: string,
-    city: string,
+    	city: string,
 		street: string,
 		houseNum: number
 	)
@@ -52,13 +52,13 @@ export class UserService {
 			display_name: display_name,
 			email: email,
 			country: country,
-      city: city,
+      		city: city,
 			street: street,
 			houseNum: houseNum,
 		};
 		
 		return new Promise( (resolve, reject) => {
-			this.Http.post<{message: string, userId: string}>(this.base_url + '/user',user)
+			this.Http.post<{message: string, userId: string}>(`${this.base_url}/user`,user)
 			.subscribe(
 				responseData => {
 					this.notificationService.submitNotification(
@@ -115,6 +115,7 @@ export class UserService {
 	}
 
 	getArtists(): void {
+		console.log("1");
 		this.Http.get<{ message:string, artists: any }>(`${this.base_url}/user/artists`)
         .pipe(
             map(artistsData => {

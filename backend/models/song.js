@@ -7,7 +7,10 @@ const songSchema = mongoose.Schema({
     song_path: {type: String, require:true},
     image_path: {type: String, require:true},
     release_date: {type: Date, require:true},
-    artists: {type: [User.schema], require:true},
+    artists: [{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "User"
+    }],
     num_of_times_liked: {type: Number, require:true},
     playlists: [{
         type: mongoose.Schema.Types.ObjectId, 

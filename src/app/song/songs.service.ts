@@ -38,6 +38,8 @@ export class SongService{
   }
 
   getSongs(songsPerPage = 10, currentPage = 1) {
+    
+
     const queryParams = `?pageSize=${songsPerPage}&page=${currentPage}`;
     this.Http.get<{ message: string; songs: any; totalSongs: number }>(
       this.base_url + "/song" + queryParams
@@ -119,6 +121,7 @@ export class SongService{
   }
 
     deleteSong(songId: string){
+      console.log('deleteSong');
         this.Http.delete<{message: string}>(this.base_url + '/song/' + songId)
         .subscribe(
             responseData => {
@@ -126,7 +129,6 @@ export class SongService{
                 this.songs = updatedSongs;
                 this.songsCount --;
                 this.songsUpdated.next({songs: [...this.songs], totalSongs: this.songsCount});
-                this.playlistService.removeSongFromAllPlaylists(songId);
                 this.notificationService.submitNotification(
                     new Notification(responseData.message,NotificationStatus.OK)
                 )
@@ -195,12 +197,12 @@ export class SongService{
                 res => {
                     this.notificationService.submitNotification(
                         new Notification(res.message,NotificationStatus.OK))
-                    this.playlistService.updateSongFromAllPlaylists(song);
+                    this.router.navigate(["/"]);
+
                 },
                 error => this.notificationService.submitNotification(
                     new Notification(error.message,NotificationStatus.ERROR))
             );
-            this.router.navigate(["/"]);
     }
 }
 

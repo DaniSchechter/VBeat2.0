@@ -44,6 +44,7 @@ export class SongToolBarComponent implements OnInit {
   ngOnInit() {
     // Diaplay each song as liked or not as it appears in DB
     this.playlistService.getFavPlaylistUpdateListener().subscribe( likedSongsPlaylist => {
+      console.log(likedSongsPlaylist);
       if (likedSongsPlaylist){
         this.songLiked = likedSongsPlaylist.songList.some( (song:Song) => song.id == this.song.id );
         this.isConnected = true;
@@ -100,25 +101,18 @@ export class SongToolBarComponent implements OnInit {
   onPlay() {alert("song "+ this.song.name +" playnow")}
   onAddToQueue() {alert("song "+ this.song.name +" queue")}
   onLikeToggle() { 
-    let song = this.song;
     //If songLiked is true => click is to dislike => we want to decrease the num of likes
     if(this.songLiked) {
       // deactivate the like button
       this.songActionService.unlike(this.song);
       // remove the song from the favorite playlist
       this.playlistService.removeSongFromFavoritePlaylist(this.song);
-      // update in all playlists
-      song.num_of_times_liked--;
-      this.playlistService.updateSongFromAllPlaylistsButFav(song);
     }
     else {
       // activate the like button
       this.songActionService.like(this.song);
       // create or update favorite playlist
       this.playlistService.addSongToFavoritePlaylist(this.song);  
-      // update in all playlists
-      song.num_of_times_liked++;
-      this.playlistService.updateSongFromAllPlaylistsButFav(song);
     }
   }
 

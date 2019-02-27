@@ -12,9 +12,13 @@ const userSchema = mongoose.Schema({
 	city: {type:String, require:false},
 	street: {type:String, require:false},
 	houseNum: {type:Number, require:false},
-	playlsits: [{ 
+	playlists: [{ 
 		type: mongoose.Schema.Types.ObjectId, 
 		ref: "Playlist"
+	}],
+	songs: [{
+		type: mongoose.Schema.Types.ObjectId, 
+		ref: "Song"
 	}]
 });
 

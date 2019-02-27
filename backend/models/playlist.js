@@ -7,7 +7,7 @@ const playlistSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: "User"
     },
-    songs: [{
+    songList: [{
         type: mongoose.Schema.Types.ObjectId, 
         ref: "Song"
     }] 

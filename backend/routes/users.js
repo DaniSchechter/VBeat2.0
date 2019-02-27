@@ -20,6 +20,7 @@ app.get("/logout", (req, res, next) => {
 
 // Create a new user
 app.post("", (req, res, next) => {
+    console.log('888888888888888888888888');
     const user = new User(req.body);
     user.save()
     .then(newUser => {
@@ -37,6 +38,7 @@ app.post("", (req, res, next) => {
 
 // User login
 app.post("/login", (req, res, next) => {
+    console.log('999999999999999999999999999');
     User.findOne({
         username: req.body.username,
         password: req.body.password
@@ -65,6 +67,7 @@ app.post("/login", (req, res, next) => {
 
 // get all artists ( roll = "Artist" )
 app.get("/artists", (req, res, next) => {
+    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
     User.find({ 
         role: "ARTIST" 
     })
@@ -85,15 +88,15 @@ app.get("/artists", (req, res, next) => {
 
 // get the current user (connected or not)
 app.get("/currentUser", (req, res, next) => {
+    console.log('bbbbbbbbbbbbbbbbbbbbbbbbbb');
     if(!req.session.userId){
     	res.status(401).json({
 		    message: 'not logged in'
-	    });
+        });
+        return;
     }
 
-    User.findOne({
-        _id:req.session.userId
-    })
+    User.findById(req.session.userId)
     .then(user => {
         if(user){
             res.status(200).json({
@@ -115,6 +118,7 @@ app.get("/currentUser", (req, res, next) => {
 
 // get all users
 app.get("", (req, res, next) => {
+    console.log('cccccccccccccccccccccccccccccc');
     User.find()
     .then(users => {
 	    users.forEach(user => user.password="<censored>");
@@ -132,9 +136,8 @@ app.get("", (req, res, next) => {
 
 // get certain user by id
 app.get("/:id", (req, res, next) => {
-    User.findOne({
-        _id: req.params.id
-    })
+    console.log('ddddddddddddddddddddddddd');
+    User.findById(req.params.id)
     .then(user => {
         if(user == null || user == undefined) {
             res.status(404).json({
