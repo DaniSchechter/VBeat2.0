@@ -296,4 +296,11 @@ export class PlaylistService{
     IsSongInPlaylist(playlist:Playlist, song:Song): boolean {
         return playlist.songList.some( songInPlaylist => songInPlaylist.id == song.id )
     }
+
+    deleteSongFromPlaylist(playlist: Playlist, songId: string){
+        let isFavorite: boolean = playlist.name == "LIKED SONGS";
+        let songlist = playlist.songList.filter (song => song.id !== songId);
+        this.updatePlaylist(playlist.id, playlist.name, songlist, isFavorite);
+        this.router.navigate(["/"]);
+    }
 }
