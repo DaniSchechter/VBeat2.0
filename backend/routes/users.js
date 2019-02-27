@@ -40,10 +40,6 @@ app.post("", (req, res, next) => {
 
 // User login
 app.post("/login", (req, res, next) => {
-<<<<<<< HEAD
-=======
-    console.log('login called /login');
->>>>>>> 975ffd00ff0bf11152a12056f084b28e5426b1d7
     User.findOne({
         username: req.body.username,
         password: req.body.password
@@ -72,10 +68,6 @@ app.post("/login", (req, res, next) => {
 
 // get all artists ( role = "Artist" )
 app.get("/artists", (req, res, next) => {
-<<<<<<< HEAD
-=======
-    console.log('get all artists called /artists');
->>>>>>> 975ffd00ff0bf11152a12056f084b28e5426b1d7
     User.find({ 
         role: "ARTIST" 
     })
@@ -96,10 +88,6 @@ app.get("/artists", (req, res, next) => {
 
 // get the current user (connected or not)
 app.get("/currentUser", (req, res, next) => {
-<<<<<<< HEAD
-=======
-    console.log('get current user /currentUser called');
->>>>>>> 975ffd00ff0bf11152a12056f084b28e5426b1d7
     if(!req.session.userId){
     	res.status(401).json({
 		    message: 'not logged in'
