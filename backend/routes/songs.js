@@ -168,7 +168,7 @@ app.get("/search", (req, res, next) => {
 app.post("/quick_search", (req, res, next) => {
 	if(!req.params.query) {
 		res.status(400).json({
-			message: "missing query string";
+			message: "missing query string"
 		});
 		return;
 	}

@@ -1,6 +1,6 @@
 const AhoCorasick = require('node-aho-corasick')
 const User = require('../models/user')
-const Song = require9'../models/song')
+const Song = require('../models/song')
 
 
 // get all songs helper function
