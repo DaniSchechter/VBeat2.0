@@ -35,16 +35,14 @@ artist_cache_list = []
 
 def get_artist_object(artistname):
 	global artist_cache_list
-	artist_match_list = [x for x in artist_cache_list if x.display_name == artistname]
+	artist_match_list = [x for x in artist_cache_list if x['display_name'] == artistname]
 	if len(artist_match_list) == 1:
 		logger.debug('used artist from cache')
-		return artist_match_list[0].__dict__
+		return artist_match_list[0]['_id']
 	
 	artist_object = Artist.create_from_name(artistname)	
-
-
-
-	artist_cache_list.append(artist_object)
+	artist_object.songs = []
+	artist_cache_list.append(artist_object.__dict__)
 	return artist_object.__dict__['_id']
 	
 
@@ -66,13 +64,26 @@ def fix_artists(song):
 	song.artists = [get_artist_object(a.strip()) for a in comma_split]
 	return song
 	
+def insert_song_ids_to_artist(song):
+	global artist_cache_list
+	for artistId in song['artists']:
+		artist_obj = [x for x in artist_cache_list if x['_id'] == artistId]
+		if len(artist_obj) != 1:
+			continue
+		artist_obj = artist_obj[0]
+		artist_obj['songs'].append(song['_id'])
+
 
 def save(mongoclient, song_dict_list):
+	global artist_cache_list
 	logger.info('saving songs to database')
 	first_node = mongoclient['first-node']
-	top_songs = first_node['songs']
-	mongo_object = top_songs.insert_many(song_dict_list)
-	#logger.info('songs saved under id %s' % mongo_object.inserted_ids)
+	top_song_collection = first_node['songs']
+	mongo_object = top_song_collection.insert_many(song_dict_list)
+	user_collection = first_node['users']
+	for song in song_dict_list:
+		insert_song_ids_to_artist(song)
+	user_collection.insert_many(artist_cache_list)
 	logger.info('songs sent to db')
 
 def filter_lines(page_html):
