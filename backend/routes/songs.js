@@ -2,6 +2,7 @@ const express = require("express");
 
 
 const Song = require('../models/song');
+const SongSearch('../algo/aho-corasick');
 const app = express.Router();
 
 app.post("", (req, res, next) => {
@@ -164,8 +165,30 @@ app.get("/search", (req, res, next) => {
 });
 
 
+app.post("/quick_search", (req, res, next) => {
+	if(!req.params.query) {
+		res.status(400).json({
+			message: "missing query string";
+		});
+		return;
+	}
 
-
+	var query = req.params.query;
+	var queryArray = query.split(',');
+	console.log('performing an efficient search for', queryArray);
+	// using efficient search
+	SongSearch.searchSongs(queryArray, (results,err) => {
+		console.log('searchSongs callback called from /new_search_user');
+		if(err) {
+			res.status(500).json({
+				message: err
+			});
+			return;
+		} else {
+			res.status(200).json(results);
+		}
+	});
+});
 
 app.get("/mapreduce", (req, res, next) => {
 	const o = {};
