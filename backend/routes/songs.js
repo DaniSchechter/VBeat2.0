@@ -2,7 +2,7 @@ const express = require("express");
 
 
 const Song = require('../models/song');
-const SongSearch('../algo/aho-corasick');
+const SongSearch = require('../algo/aho-corasick');
 const app = express.Router();
 
 app.post("", (req, res, next) => {
