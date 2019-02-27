@@ -1,5 +1,19 @@
 <ul>
 	<mat-card *ngFor="let song of searchResults">
-		
+		<mat-card-header>
+			<img mat-card-avatar src="{{song.image_path}}">
+			<mat-card-title>
+				{{song.name}}
+			</mat-card-title>	
+			<mat-card-subtitle>
+				{{song.genre}}
+			</mat-card-subtitle>
+		</mat-card-header>
+
+		<mat-card-content>
+			Song Stored At: {{song.song_path}}
+			<br>
+			Has {{song.num_of_times_liked}} Likes
+		</mat-card-content>
 	</mat-card>
 </ul>
