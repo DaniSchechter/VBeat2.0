@@ -115,7 +115,6 @@ export class UserService {
 	}
 
 	getArtists(): void {
-		console.log("1");
 		this.Http.get<{ message:string, artists: any }>(`${this.base_url}/user/artists`)
         .pipe(
             map(artistsData => {

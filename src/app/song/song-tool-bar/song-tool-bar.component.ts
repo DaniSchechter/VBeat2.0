@@ -125,10 +125,6 @@ export class SongToolBarComponent implements OnInit {
         new Notification("No selected playlists",NotificationStatus.OK))
     }
     else{
-      console.log(this.selectedPlaylists);
-      // this.selectedPlaylists.forEach( async Playlist => {
-      //   Playlist.songList.push(song);
-      //   await this.playlistService.updatePlaylist(Playlist.id, Playlist.name, Playlist.songList);
       this.playlistService.addSongToPlaylists(this.selectedPlaylists, song);
     }
     this.selectedPlaylists = [];

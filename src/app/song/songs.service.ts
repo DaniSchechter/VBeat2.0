@@ -121,7 +121,6 @@ export class SongService{
   }
 
     deleteSong(songId: string){
-      console.log('deleteSong');
         this.Http.delete<{message: string}>(this.base_url + '/song/' + songId)
         .subscribe(
             responseData => {

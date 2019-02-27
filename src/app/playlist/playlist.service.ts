@@ -248,7 +248,6 @@ export class PlaylistService{
     }
 
     addSongToPlaylists(playlists: Playlist[], songToAdd: Song){
-        console.log(playlists);
         this.Http.put<{message: string}>(`${this.base_url}/playlist/updateAll`, {playlists: playlists, song: songToAdd}).subscribe(
             res => {
                 this.notificationService.submitNotification(
