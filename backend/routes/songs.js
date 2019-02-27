@@ -11,6 +11,10 @@ app.post("", async (req, res, next) => {
     console.log('artist in song', req.body.artists);
     console.log('creating new song...');
     try{
+        // for each artist update the song list
+        var artistArray = req.body.artists.map(artist => (artist.id || artist._id));
+        console.log('filtered artist array =>', artistArray);
+
         // Create the new song
         const song = new Song({
             name: req.body.name,
@@ -18,7 +22,7 @@ app.post("", async (req, res, next) => {
             song_path: req.body.song_path,
             image_path: req.body.image_path,
             release_date: req.body.release_date,
-            artists: req.body.artists,
+            artists: artistArray,
             num_of_times_liked: req.body.num_of_times_liked,
             playlists: []
         });
@@ -27,10 +31,9 @@ app.post("", async (req, res, next) => {
         const savedSong = await song.save();
         console.log('song saved', savedSong);
 
-        // for each artist update the song list
         
-        req.body.artists.forEach(async artistId => {
-            console.log("trying to find artist");
+        artistArray.forEach(async artistId => {
+            console.log("trying to find artist", artistId);
             const artist = await User.findById(artistId);
             if(artist == null) {
                 console.log('artist ' + artistId + ' was null');
