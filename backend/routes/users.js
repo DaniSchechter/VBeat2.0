@@ -21,7 +21,7 @@ app.get("/logout", (req, res, next) => {
 
 // Create a new user
 app.post("", (req, res, next) => {
-    console.log('888888888888888888888888');
+    console.log('create new user called /');
     const user = new User(req.body);
     user.save()
     .then(newUser => {
@@ -39,7 +39,7 @@ app.post("", (req, res, next) => {
 
 // User login
 app.post("/login", (req, res, next) => {
-    console.log('999999999999999999999999999');
+    console.log('login called /login');
     User.findOne({
         username: req.body.username,
         password: req.body.password
@@ -68,7 +68,7 @@ app.post("/login", (req, res, next) => {
 
 // get all artists ( role = "Artist" )
 app.get("/artists", (req, res, next) => {
-    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+    console.log('get all artists called /artists');
     User.find({ 
         role: "ARTIST" 
     })
@@ -89,7 +89,7 @@ app.get("/artists", (req, res, next) => {
 
 // get the current user (connected or not)
 app.get("/currentUser", (req, res, next) => {
-    console.log('bbbbbbbbbbbbbbbbbbbbbbbbbb');
+    console.log('get current user /currentUser called');
     if(!req.session.userId){
     	res.status(401).json({
 		    message: 'not logged in'
