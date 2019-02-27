@@ -1,13 +1,17 @@
 const express = require("express");
 
-const User = require('../models/user');
-const Playlist = require('../models/playlist');
 const Song = require('../models/song');
+const Playlist = require('../models/playlist');
+const User = require('../models/user');
+
+
 const app = express.Router();
 
 app.post("", async (req, res, next) => {
     try{
+
         artistIds = req.body.artists.map( artist => artist.id );
+
         // Create the new song
         const song = new Song({
             name: req.body.name,
@@ -23,7 +27,11 @@ app.post("", async (req, res, next) => {
         const savedSong = await song.save();
         // for each artist update the song list
         artistIds.forEach(async artistId => {
+
             const artist = await User.findById(artistId);
+            if(artist == null) {
+                return;
+            }
             artist.songs.push(savedSong._id);
             // Save user's changes
             await artist.save();
@@ -34,7 +42,7 @@ app.post("", async (req, res, next) => {
         });
     }
     catch (err){
-            console.log(err);
+            console.error(err);
             res.status(500).json({
                 message: "Could not create a new song"
             });
