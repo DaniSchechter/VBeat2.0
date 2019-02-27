@@ -1,0 +1,13 @@
+mat-card {
+  overflow-y: hidden;
+  margin: 10px;
+  box-shadow: none !important;
+}
+
+img{
+  position: absolute;
+  right: 30px;
+  top: 30px;
+  height: calc(100vh- 60px);
+  width: 40%;
+}

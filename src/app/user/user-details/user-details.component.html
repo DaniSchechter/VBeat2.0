@@ -1,0 +1,61 @@
+<mat-card *ngIf="currentUser">
+
+  <mat-card-content>
+    <p class="mat-h3">
+      Display Name: {{ currentUser.display_name }}
+    </p>
+  </mat-card-content>
+
+  <mat-card-content>
+      <p class="mat-h3">
+        Username: {{ currentUser.username }}
+      </p>
+  </mat-card-content>
+
+  <mat-card-content>
+      <p class="mat-h3">
+        Country: {{ currentUser.country }}
+      </p>
+  </mat-card-content>
+
+  <mat-card-content>
+      <p class="mat-h3">
+        City: {{ currentUser.city }}
+      </p>
+  </mat-card-content>
+
+  <mat-card-content>
+      <p class="mat-h3">
+        Street: {{ currentUser.street }}
+      </p>
+  </mat-card-content>
+
+  <mat-card-content>
+      <p class="mat-h3">
+        House Number: {{ currentUser.houseNum }}
+      </p>
+  </mat-card-content>
+
+  <mat-card-content>
+      <p class="mat-h3">
+        Role: {{ currentUser.role }}
+      </p>
+  </mat-card-content>
+
+  <mat-card-content>
+      <p class="mat-h3">
+        Email: {{ currentUser.email }}
+      </p>
+  </mat-card-content>
+
+  <mat-card-content>
+      <p class="mat-h3">
+        UserId: {{ currentUser.id }}
+      </p>
+  </mat-card-content>
+
+
+
+  <img mat-card-image [src]="currentUser.profile_pic" alt="Photo is Unavailable">
+
+<mat-card *ngIf="currentUser"></mat-card>
