@@ -10,6 +10,7 @@ app.get("/browser", (req, res, next) => {
 	);
 });
 
+// logout
 app.get("/logout", (req, res, next) => {
 	req.session.userId = null;
 	// typescript will redirect
@@ -65,7 +66,7 @@ app.post("/login", (req, res, next) => {
     });
 });
 
-// get all artists ( roll = "Artist" )
+// get all artists ( role = "Artist" )
 app.get("/artists", (req, res, next) => {
     console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
     User.find({ 
