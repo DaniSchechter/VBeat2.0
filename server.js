@@ -60,7 +60,7 @@ const io = socket(server);
 // Listen for client's browser connection
 io.on("connection", socket => {
     let date = new Date();
-    console.log(`${ date.getHours() }:${ date.getMinutes() }:${ date.getSeconds() }, Client connected: ${ socket.id }`);
+    console.log(`${ date.getHours() }:${ date.getMinutes() }:${ date.getSeconds() }, Client connected to server socket: ${ socket.id }`);
 
     socket.on("songLikeAction", song => {
         io.emit("songLikeAction", song);

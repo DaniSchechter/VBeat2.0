@@ -20,7 +20,6 @@ app.get("/logout", (req, res, next) => {
 
 // Create a new user
 app.post("", (req, res, next) => {
-    console.log('888888888888888888888888');
     const user = new User(req.body);
     user.save()
     .then(newUser => {
@@ -30,6 +29,7 @@ app.post("", (req, res, next) => {
             message: "User created successfully",
         });
     }).catch(error => {
+        console.log(error);
         res.status(500).json({
             message: "Could not create a user"
         });
@@ -38,7 +38,6 @@ app.post("", (req, res, next) => {
 
 // User login
 app.post("/login", (req, res, next) => {
-    console.log('999999999999999999999999999');
     User.findOne({
         username: req.body.username,
         password: req.body.password
@@ -67,7 +66,6 @@ app.post("/login", (req, res, next) => {
 
 // get all artists ( roll = "Artist" )
 app.get("/artists", (req, res, next) => {
-    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaa');
     User.find({ 
         role: "ARTIST" 
     })
@@ -88,7 +86,6 @@ app.get("/artists", (req, res, next) => {
 
 // get the current user (connected or not)
 app.get("/currentUser", (req, res, next) => {
-    console.log('bbbbbbbbbbbbbbbbbbbbbbbbbb');
     if(!req.session.userId){
     	res.status(401).json({
 		    message: 'not logged in'
@@ -110,6 +107,7 @@ app.get("/currentUser", (req, res, next) => {
         }
     })
     .catch(error => {
+        console.log(error);
         res.status(400).json({
             message: "Coult not get the status of the user"
         });
@@ -118,7 +116,6 @@ app.get("/currentUser", (req, res, next) => {
 
 // get all users
 app.get("", (req, res, next) => {
-    console.log('cccccccccccccccccccccccccccccc');
     User.find()
     .then(users => {
 	    users.forEach(user => user.password="<censored>");
@@ -128,6 +125,7 @@ app.get("", (req, res, next) => {
         });
     })
     .catch(error => {
+        console.log(error);
         res.status(400).json({
             message: "Could not get all users"
         });
@@ -136,7 +134,6 @@ app.get("", (req, res, next) => {
 
 // get certain user by id
 app.get("/:id", (req, res, next) => {
-    console.log('ddddddddddddddddddddddddd');
     User.findById(req.params.id)
     .then(user => {
         if(user == null || user == undefined) {
@@ -149,6 +146,7 @@ app.get("/:id", (req, res, next) => {
             });
         }
     }).catch(error => {
+        console.log(error);
         res.status(400).json({
             message: "Could not get user"
         });

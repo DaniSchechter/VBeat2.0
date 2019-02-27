@@ -57,7 +57,6 @@ app.get("/all", async (req, res, next) => {
         const playlists = await Playlist.find({
             user: req.session.userId 
         }).populate('songList');
-        
         res.status(200).json({
             playlists: playlists,
         });
@@ -73,7 +72,8 @@ app.get("/all", async (req, res, next) => {
 // get playlist by id
 app.get("/getById/:id", async (req, res, next) => {
     try {
-        const playlist = await Playlist.findById(req.params.id).populate('songList');
+        const playlist = await Playlist.findById(req.params.id).populate({ path:'songList', populate: {path: 'artists'}});
+
         res.status(200).json({
             message: "Playlist fetched successfully",
             playlist: playlist,
@@ -130,6 +130,7 @@ app.get("", (req, res, next) => {
 
     playlistQuery
     .then(playlistsResult => {
+        console.log(playlistsResult.songList);
         fetchedPlaylists = playlistsResult;
         return playlistsResult.length;
     })
@@ -148,20 +149,52 @@ app.get("", (req, res, next) => {
 });
 
 // delete playlist
-app.delete("/:id", (req, res, next) => {
-    Playlist.deleteOne({
-        _id: req.params.id
-    })
-    .then(result => {
+app.delete("/:id", async (req, res, next) => {
+    try{
+        let playlist = await Playlist.findById(req.params.id);
+        // Remove playlist from all songs
+        playlist.songList.forEach( async songId => {
+            const song = await Song.findById(songId);
+            song.playlists = song.playlists.filter( playlistId => playlistId != req.params.id);
+            await song.save();
+        });
+         // Remove playlist from all users
+            const user = await User.findById(playlist.user);
+            user.playlists = user.playlists.filter( playlistId => playlistId != req.params.id);
+            await user.save();
+        await Playlist.remove(playlist);
         res.status(200).json({
             message : "Playlist deleted"
         });
-    }).catch(error => {
+    }
+    catch(error){
         res.status(400).json({
             message: "Error on deleting playlist"
         });
-    });
+    }
 });
+
+// Add song to all selected playlists
+app.put("/updateAll/", async (req, res, next) => {
+    if(denyEntry(req,res)) {
+    	return;
+    }
+    try {
+        req.body.playlists.forEach(playlist => {
+            addSongToPlaylist(playlist.id, req.body.song.id);
+        });
+        res.status(200).json({
+            message: "playlist updated"
+        });
+    }
+    catch(err) {
+        console.log(err);
+        res.status(400).json({
+            message: "Could not update playlist"
+        });
+    }
+});
+
 
 // update playlist
 app.put("/:id", async (req, res, next) => {
@@ -170,7 +203,6 @@ app.put("/:id", async (req, res, next) => {
     }
     try {
         let songList = req.body.songList.map( song => song.id );
-        console.log('list', songList);
 
         const playlist = new Playlist({
             _id: req.body.id,
@@ -178,14 +210,23 @@ app.put("/:id", async (req, res, next) => {
             user: req.session.userId,
             songList:  songList
         });
-    
+        
         await Playlist.findByIdAndUpdate(req.params.id, playlist);
-
         // Add the playlist to each song, added to this playlist
         songList.forEach( async songId => {
             const song = await Song.findById(songId);
-            console.log('song', song);
-            song.playlists.push(playlist._id);
+
+            /* If song alreay in playlist - remove it
+               In likes it like and unlike
+               in regular playlists, remove from playlists also calls this route 
+            */
+            // If already exists, remove using filter
+            newPlaylistList = song.playlists.filter( playlistId => playlistId != req.body.id)
+            if( song.playlists.length == newPlaylistList.length ) // wasnt in the list
+                newPlaylistList.push(playlist._id);
+
+            song.playlists = newPlaylistList
+
             await song.save();
         });
         
@@ -199,5 +240,44 @@ app.put("/:id", async (req, res, next) => {
         });
     }
 });
+
+
+async function addSongToPlaylist(playlistId, songId){
+    const playlist = await Playlist.findById(playlistId);
+
+    let songList = playlist.songList;
+    console.log('got playlist with songs: ',songList);
+    songList.push(songId);
+    console.log('the song id is: ',songId);
+    console.log('after adding the song id: ',songList);
+    playlist.songList = songList;
+    await Playlist.findByIdAndUpdate(playlistId, playlist);
+
+    // Add the playlist to the song, added to this playlist
+    const song = await Song.findById(songId);
+
+    /* If song alreay in playlist - remove it
+        In likes it like and unlike
+        in regular playlists, remove from playlists also calls this route 
+    */
+    // If already exists, remove using filter
+    newPlaylistList = song.playlists.filter( playlistId => playlistId != playlist.id)
+    if( song.playlists.length == newPlaylistList.length ) // wasnt in the list
+        newPlaylistList.push(playlist._id);
+
+    song.playlists = newPlaylistList
+
+    await Song.findByIdAndUpdate(songId, song);
+    while(true){
+        let savedSong = await Song.findById(songId);
+        if(!savedSong.playlists.some(playlist_Id => playlist_Id == playlistId)){
+            savedSong.playlists.push(playlistId);
+            await Song.findByIdAndUpdate(songId, savedSong);
+        }
+        else{
+            break;
+        }
+    }
+}
 
 module.exports = app;

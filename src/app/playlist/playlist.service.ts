@@ -140,7 +140,7 @@ export class PlaylistService{
         return this.playlistUpdated.asObservable();
     }
 
-    // add new playlist !!!!!!!!!!!!!!!!!!!!!!!
+    // add new playlist 
     addPlaylist(name: string, songList: Song[]){
             const playlist: Playlist = {
                 id: null, 
@@ -179,12 +179,10 @@ export class PlaylistService{
 
     // add the specific song to the favorite song playlist
     addSongToFavoritePlaylist(song: Song){
-        // var for showing different massege
-        var isLikedPlaylist = true;
         // If there is a favorite playlist
         if (this.favoritePlaylist){
             this.favoritePlaylist.songList.push(song)
-            this.updatePlaylist(this.favoritePlaylist.id, this.favoritePlaylist.name, this.favoritePlaylist.songList, isLikedPlaylist);
+            this.updatePlaylist(this.favoritePlaylist.id, this.favoritePlaylist.name, this.favoritePlaylist.songList, true);
         }
         // Need to create a new favorite playlist
         else{
@@ -217,27 +215,24 @@ export class PlaylistService{
 
     // remove the song from the favorite song playlist
     removeSongFromFavoritePlaylist(songToRemove: Song){
-        console.log('removeSongFromFavoritePlaylist');
-
         this.favoritePlaylist.songList = this.favoritePlaylist.songList.filter(song => song.id != songToRemove.id);
         this.updatePlaylist(this.favoritePlaylist.id, this.favoritePlaylist.name, this.favoritePlaylist.songList);
     }
 
     // update playlist
     updatePlaylist(id: string, name: string, songList: Song[], isLikedPlaylist=false){
-        console.log('updatePlaylist');
-
-            const playlist: Playlist = {
-                id: id, 
-                name: name, 
-                user: null,
-                songList: songList
-            };
-            this.Http.put<{message: string}>(this.base_url + '/playlist/' + id, playlist).subscribe(res => {
+        const playlist: Playlist = {
+            id: id, 
+            name: name, 
+            user: null,
+            songList: songList
+        };
+        this.Http.put<{message: string}>(this.base_url + '/playlist/' + id, playlist).subscribe(
+            res => {
                 if (isLikedPlaylist){
                     this.notificationService.submitNotification(
                         new Notification("Added to liked songs playlist",NotificationStatus.OK)
-                    )
+                    );
                 }
                 else{
                     this.notificationService.submitNotification(
@@ -245,46 +240,25 @@ export class PlaylistService{
                     )
                 }
             }, 
-            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
-            );
+            error => {
+                this.notificationService.submitNotification(
+                    new Notification(error.message,NotificationStatus.ERROR));
+            }
+        );
     }
 
-    // updateSongFromAllPlaylists(songToEdit: Song){
-    //     console.log('updateSongFromAllPlaylists');
-    //     console.log(songToEdit.num_of_times_liked);
-    //     this.Http.get<{playlists: any}>(this.base_url + '/playlist/all')
-    //     .subscribe(
-    //         playlists => {
-    //             playlists.playlists.forEach(playlist => {
-    //                 if( this.IsSongInPlaylist(playlist, songToEdit) ) {
-    //                     playlist.songList = playlist.songList.filter(song => song._id != songToEdit.id);
-    //                     playlist.songList.push(songToEdit);
-    //                     this.updatePlaylist(playlist._id, playlist.name, playlist.songList);
-    //                 }
-    //             });
-    //         },
-    //         error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
-    //     );
-    // }
-
-    // updateSongFromAllPlaylistsButFav(songToEdit: Song){
-    //     console.log('updateSongFromAllPlaylistsButFav');
-    //     this.Http.get<{playlists: any}>(this.base_url + '/playlist/all')
-    //     .subscribe(
-    //         playlists => {
-    //             playlists.playlists.forEach(playlist => {
-    //                 if(playlist.name != "LIKED SONGS" && this.IsSongInPlaylist(playlist, songToEdit)) {
-    //                     playlist.songList = playlist.songList.filter(song => song._id != songToEdit.id);
-    //                     playlist.songList.push(songToEdit);
-    //                     this.updatePlaylist(playlist._id, playlist.name, playlist.songList);
-    //                 }
-    //             });
-    //         },
-    //         error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
-    //     );
-    // }
-
-    // IsSongInPlaylist(playlist:Playlist, song:Song): boolean {
-    //     return playlist.songList.some( songInPlaylist => songInPlaylist.id == song.id )
-    // }
+    addSongToPlaylists(playlists: Playlist[], songToAdd: Song){
+        console.log(playlists);
+        this.Http.put<{message: string}>(`${this.base_url}/playlist/updateAll`, {playlists: playlists, song: songToAdd}).subscribe(
+            res => {
+                this.notificationService.submitNotification(
+                    new Notification(res.message,NotificationStatus.OK)
+                )
+            }, 
+            error => {
+                this.notificationService.submitNotification(
+                    new Notification(error.message,NotificationStatus.ERROR));
+            }
+        );
+    }
 }

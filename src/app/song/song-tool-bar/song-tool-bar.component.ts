@@ -44,7 +44,6 @@ export class SongToolBarComponent implements OnInit {
   ngOnInit() {
     // Diaplay each song as liked or not as it appears in DB
     this.playlistService.getFavPlaylistUpdateListener().subscribe( likedSongsPlaylist => {
-      console.log(likedSongsPlaylist);
       if (likedSongsPlaylist){
         this.songLiked = likedSongsPlaylist.songList.some( (song:Song) => song.id == this.song.id );
         this.isConnected = true;
@@ -92,7 +91,7 @@ export class SongToolBarComponent implements OnInit {
     this.playlistService.getPlaylistsUpdateListener().subscribe(
       (playlistData: {playlists: Playlist[], totalPlaylists: number}) => {
         this.playlists = playlistData.playlists.filter(playlist => playlist.name != "LIKED SONGS");
-        this.selectedPlaylists = null;
+        this.selectedPlaylists = [];
     })
   }
 
@@ -123,16 +122,17 @@ export class SongToolBarComponent implements OnInit {
   saveToPlaylists(song: Song){
     if (!this.selectedPlaylists || this.selectedPlaylists.length == 0){
       this.notificationService.submitNotification(
-        new Notification("no selected song",NotificationStatus.OK))
+        new Notification("No selected playlists",NotificationStatus.OK))
     }
     else{
-    this.selectedPlaylists.forEach(Playlist => {
-      Playlist.songList.push(song);
-      this.playlistService.updatePlaylist(Playlist.id, Playlist.name, Playlist.songList);
-    });
+      console.log(this.selectedPlaylists);
+      // this.selectedPlaylists.forEach( async Playlist => {
+      //   Playlist.songList.push(song);
+      //   await this.playlistService.updatePlaylist(Playlist.id, Playlist.name, Playlist.songList);
+      this.playlistService.addSongToPlaylists(this.selectedPlaylists, song);
+    }
     this.selectedPlaylists = [];
     }
-  }
 
   loadPermissionToConnectedUser() {
     if(this.userService.connectedUser == undefined)

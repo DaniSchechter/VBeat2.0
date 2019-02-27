@@ -7,6 +7,7 @@ const app = express.Router();
 
 app.post("", async (req, res, next) => {
     try{
+        artistIds = req.body.artists.map( artist => artist.id );
         // Create the new song
         const song = new Song({
             name: req.body.name,
@@ -14,14 +15,14 @@ app.post("", async (req, res, next) => {
             song_path: req.body.song_path,
             image_path: req.body.image_path,
             release_date: req.body.release_date,
-            artists: req.body.artists,
+            artists: artistIds,
             num_of_times_liked: req.body.num_of_times_liked,
             playlists: []
         });
         // Save new song
         const savedSong = await song.save();
         // for each artist update the song list
-        req.body.artists.forEach(async artistId => {
+        artistIds.forEach(async artistId => {
             const artist = await User.findById(artistId);
             artist.songs.push(savedSong._id);
             // Save user's changes
@@ -69,29 +70,32 @@ app.get("", (req, res, next) => {
 });
 
 app.delete("/:id", async (req, res, next) => {
-    const savedSong = await Song.findById(req.params.id);
-    // Remove the song from all playlists
-    savedSong.playlists.forEach( async playlistId => {
-        const playlist = await Playlist.findById(playlistId);
-        playlist.songList = playlist.songList.filter( song => song.id != req.params.id);
-    });
-    // Remove the song from all users
-    savedSong.artists.forEach( async artistId => {
-        const artist = await User.findById(artistId);
-        artist.songs = artist.songs.filter( song => song.id != req.params.id);
-    });
-    Song.remove(savedSong)
-    .then(result => {
-        console.log('result', result);
+    try{
+        const savedSong = await Song.findById(req.params.id);
+        // Remove the song from all playlists
+        savedSong.playlists.forEach( async playlistId => {
+            const playlist = await Playlist.findById(playlistId);
+            playlist.songList = playlist.songList.filter( songId => songId != req.params.id);
+            await playlist.save();
+        });
+
+        // Remove the song from all users
+        savedSong.artists.forEach( async artistId => {
+            const artist = await User.findById(artistId);
+            artist.songs = artist.songs.filter( songId => songId != req.params.id);
+            await artist.save();
+        });
+        await Song.remove(savedSong)
         res.status(200).json({
             message : "Song deleted"
         });
-    }).catch(error => {
+    }
+    catch(error){
         console.log(error);
         res.status(400).json({
             message: "Could not delete this song"
         });
-    });
+    }
 });
 
 app.put("/:id", async (req, res, next) => {
