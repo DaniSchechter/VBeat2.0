@@ -1,8 +1,15 @@
 <mat-card>
-	<form class="quick-search">
+	<form class="quick-search" (submit)="onEnter(searchfield.value)">
 		<mat-form-field>
-			<input matInput placeholder="Enter multiple keywords seperated by a comma (',')." test="hello">
+			<input #searchfield matInput placeholder="Enter multiple keywords seperated by a comma (',')." test="hello">
 		</mat-form-field>
+
+		<button 
+		mat-mini-fab 
+		style="float: right;"
+		type="submit">
+		  <mat-icon title="Quick Search">find_in_page</mat-icon>  
+		</button>
 	</form>
 </mat-card>
 <mat-divider></mat-divider>
