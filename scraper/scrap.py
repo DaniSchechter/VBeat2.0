@@ -26,7 +26,7 @@ def main():
 	for s in songs:
 		s = fix_artists(s)
 		song_dict_list.append(s.__dict__)
-	save(mongoclient, song_dict_list)
+	save(mongoclient, song_dict_list) 
 
 def get_random_username(artist):
 	return artist + uuid.uuid4().__str__()	
@@ -41,8 +41,11 @@ def get_artist_object(artistname):
 		return artist_match_list[0].__dict__
 	
 	artist_object = Artist.create_from_name(artistname)	
+
+
+
 	artist_cache_list.append(artist_object)
-	return artist_object.__dict__
+	return artist_object.__dict__['_id']
 	
 
 def fix_artists(song):
