@@ -161,7 +161,15 @@ class Song():
 		self.artists = artists
 		self.genre = random.choice(['POP', 'JAZZ', 'HIP-HOP', 'ROCK', 'CLASSIC'])  
 		self.release_date = release_date
-		self.song_path = song_url
+		self.song_path = random.choice(['Alessia Cara - Scars To Your Beautiful (Audio).mp3',
+'Anne-Marie - 2002 [Official Video].mp3',
+'Clean Bandit - Symphony (feat. Zara Larsson) [Official Video].mp3',
+'Hailee Steinfeld, Alesso - Let Me Go ft. Florida Georgia Line, WATT.mp3',
+'Lauv - I Like Me Better [Official Audio].mp3',
+'Marshmello & Anne-Marie - FRIENDS (Music Video) OFFICIAL FRIENDZONE ANTHEM.mp3',
+'Marshmello ft. Bastille - Happier (Official Music Video).mp3',
+'Selena Gomez, Marshmello - Wolves (Official Music Video).mp3',
+'Zedd, Grey - The Middle (Lyrics) ft. Maren Morris.mp3']) 
 		images = ['https://www.thoughtco.com/thmb/oXOWMUKShSv3ym-a1xMVGPoabPM=/1200x800/filters:fill(auto,1)/archer_closeup-56a00f9f3df78cafda9fde1c.png','https://comedycentral.mtvnimages.com/images/tve/archer/tve_series_page/ARCHER_NextGen_Spotlight_NoLogo_1920x1080.jpg?width=640&height=360&crop=true', 'https://cdn.techadvisor.co.uk/cmsdata/features/3684524/archer_season_10_thumb800.jpg', 'https://tribzap2it.files.wordpress.com/2016/04/archer-season-7-ray-adam-reed.jpg?w=900', 'https://media.comicbook.com/2018/09/burt-reyonds-death-archer-fans-reaction-1132320-1280x0.jpeg']
 		self.image_path = random.choice(images) # just because
 		self.scraped = True
