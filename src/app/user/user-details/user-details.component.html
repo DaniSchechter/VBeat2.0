@@ -53,3 +53,15 @@
   <img mat-card-image [src]="currentUser.profile_pic" alt="Photo is Unavailable">
 
 </mat-card>
+
+<agm-map
+[latitude]="lat"
+[longitude]="lng"
+[zoom]="8"
+[disableDefaultUI]="false"
+[zoomControl]="false">
+<agm-marker
+    [latitude]="lat"
+    [longitude]="lng">
+</agm-marker>
+</agm-map>
