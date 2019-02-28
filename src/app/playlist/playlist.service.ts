@@ -6,7 +6,8 @@ import { Playlist } from './playlist.model';
 import { NotificationPopupService } from '../notification/notification-popup.service'
 import { NotificationStatus, Notification } from '../notification/notification.model'
 import { Router } from '@angular/router';
-import {Song } from "../song/song.model";
+import { Song } from "../song/song.model";
+import { UserService } from '../user/user.service';
 
 @Injectable({providedIn: 'root'})
 export class PlaylistService{
@@ -24,6 +25,7 @@ export class PlaylistService{
     private playlistUpdated = new Subject<Playlist>();
 
     constructor(private Http: HttpClient,
+                private userService: UserService,
                 private notificationService:NotificationPopupService, private router:Router){
     }
 
@@ -64,6 +66,9 @@ export class PlaylistService{
     }
 
     getFavPlaylist(){
+        if(!this.userService.isLoggedIn){
+            return;
+        }
         // get the favorite playlist id if there is one
         this.Http.get<{message: string; playlist: any}>(this.base_url + '/playlist/' + "LIKED SONGS")
         .pipe(
@@ -260,4 +265,16 @@ export class PlaylistService{
             }
         );
     }
+
+    IsSongInPlaylist(playlist:Playlist, song:Song): boolean {
+        return playlist.songList.some( songInPlaylist => songInPlaylist.id == song.id )
+    }
+
+    deleteSongFromPlaylist(playlist: Playlist, songId: string){
+        let isFavorite: boolean = playlist.name == "LIKED SONGS";
+        let songlist = playlist.songList.filter (song => song.id !== songId);
+        this.updatePlaylist(playlist.id, playlist.name, songlist, isFavorite);
+        this.router.navigate(["/"]);
+    }
+]
 }
