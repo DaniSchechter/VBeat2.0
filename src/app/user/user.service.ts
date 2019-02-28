@@ -22,16 +22,16 @@ export class UserService {
   isLoggedIn = false;
 
 
-  //userDetailsFetched = new Subject<User>();
+  userDetailsFetched = new Subject<User>();
 
 	constructor(private Http: HttpClient,
 				private notificationService: NotificationPopupService, private router:Router) { }
 
 
 
-  // getUserDetailsUpdateListener(){
-  //   return this.userDetailsFetched.asObservable();
-  // }
+  getUserDetailsUpdateListener(){
+    return this.userDetailsFetched.asObservable();
+  }
 
 
 	getArtistsUpdateListener(){
@@ -206,16 +206,16 @@ export class UserService {
   }
 
 
-  // getCurrentUser(){
-  //   this.Http.get<{user: User}>(`${this.base_url}/user/currentUser`)
-	// 	.subscribe(userData => {
-	// 		this.userDetailsFetched.next(userData.user);
-	// 	},
-	// 	error => {
-	// 		this.notificationService.submitNotification(
-	// 			new Notification(error.message, NotificationStatus.ERROR));
-  //   });
-  // }
+  getCurrentUser(){
+    this.Http.get<{user: User}>(`${this.base_url}/user/currentUser`)
+		.subscribe(userData => {
+			this.userDetailsFetched.next(userData.user);
+		},
+		error => {
+			this.notificationService.submitNotification(
+				new Notification(error.message, NotificationStatus.ERROR));
+    });
+  }
 
 
 
