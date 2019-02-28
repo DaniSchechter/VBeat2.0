@@ -61,7 +61,6 @@
         ngModel
         required
         #path = "ngModel">
-      <!--TODO ???? maybe change to local file upload ?????????-->
       <mat-hint> Please enter profile pic to be uploaded </mat-hint> 
       <mat-error *ngIf="path.invalid"> Not a valid URL </mat-error>
     </mat-form-field>
@@ -77,7 +76,6 @@
         required
         minlength = {{userConfig.nameLength}}
         #displayname = "ngModel">
-        <!-- ! TODO change every hard coded number -->
       <mat-hint> At least {{userConfig.nameLength}} characters </mat-hint>
       <mat-error *ngIf = "displayname.invalid"> Name is should be at least {{userConfig.nameLength}} characters long </mat-error>
     </mat-form-field>

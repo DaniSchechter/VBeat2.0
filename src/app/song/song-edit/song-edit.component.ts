@@ -45,7 +45,6 @@ export class SongEditComponent implements OnInit, OnDestroy {
 
   constructor(private songService: SongService, private route: ActivatedRoute,  private userService:UserService, private notificationService:NotificationPopupService) {}
 
-  // !!!! TODO change to load only one song and not the entire songs
   ngOnInit() {
     this.selected_artists = [];
     this.filtered_artists = [];  //gets an actual value only from pre-defined length - see updates below
@@ -136,7 +135,7 @@ export class SongEditComponent implements OnInit, OnDestroy {
     const currentDate = new Date();
     if(!form.valid) {
       this.notificationService.submitNotification(
-        new Notification("Form is not valid",NotificationStatus.ERROR)); //! TODO - display popup message to correct 
+        new Notification("Form is not valid",NotificationStatus.ERROR)); 
     }
     else if(form.value.release_date > currentDate){
       this.notificationService.submitNotification(

@@ -1,7 +1,5 @@
 <mat-card *ngIf="song">
   <form (submit)="onSend(newForm)" #newForm="ngForm">
-      <!-- ! TODO fix to when edit song the image path and the artist list will also bing to the text boxes -->
-      <!-- ! TODO fix the create new song to work -->
       <!-- NAME -->
       <mat-form-field appearance = "legacy" color = "accent">
           <input 
@@ -58,13 +56,11 @@
             [ngModel] = "song.image_path"
             required
             #image="ngModel">
-          <!--TODO ???? maybe change to local file upload ?????????-->
           <mat-hint> Please enter image url to be uploaded </mat-hint> 
           <mat-error *ngIf = "image.invalid"> Not a valid URL </mat-error>
       </mat-form-field>
 
       <!-- RELEASE DATE -->
-      <!-- TODO add validation for future date-->
       <mat-form-field appearance = "legacy" color = "accent">
           <input 
             matInput 
@@ -81,10 +77,7 @@
       </mat-form-field>
 
       <!-- ARTISTS -->
-      <!--! TODO validation think of rules -->
-      <!--TODO Steps: (1)first two letters -> (2)db query-> (3)auto complete: propagate with naswer form db query -->
       <mat-form-field appearance = "legacy" color = "accent">
-          <!--TODO display loading gif on db querying - if need add async pipe after onSearchArtistChange func -->
           <input 
             type="text" 
             placeholder="Artists" 
