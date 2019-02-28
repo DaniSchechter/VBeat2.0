@@ -24,6 +24,13 @@ export class PlaylistService{
     private playlistsUpdated = new Subject<{playlists: Playlist[], totalPlaylists: number}>();
     private playlistUpdated = new Subject<Playlist>();
 
+    //search playlist variables
+    private searchPlaylistUpdated = new Subject<{
+      playlists: Playlist[], totalPlaylists: number
+    }>();
+    private searchPlaylists: Playlist[] = [];
+    private searchPlaylistsCount = 0;
+
     constructor(private Http: HttpClient,
                 private userService: UserService,
                 private notificationService:NotificationPopupService, private router:Router){
@@ -32,7 +39,11 @@ export class PlaylistService{
     getPlaylistsUpdateListener(){
         return this.playlistsUpdated.asObservable();
     }
-    
+
+    getSearchPlaylistUpdateListener(){
+      return this.searchPlaylistUpdated.asObservable();
+    }
+
     // get all playlists
     getPlaylists(playlistsPerPage = 10, currentPage = 1){
         const queryParams = `?pageSize=${playlistsPerPage}&page=${currentPage}`;
@@ -53,8 +64,8 @@ export class PlaylistService{
                     };
                 })
                 return {
-                    name: playlist.name, 
-                    user: playlist.user, 
+                    name: playlist.name,
+                    user: playlist.user,
                     songList: songs,
                     id: playlist._id
                 };
@@ -65,7 +76,7 @@ export class PlaylistService{
                 this.playlistsCount = playlistsAfterChange.totalPlaylists;
                 this.playlists = playlistsAfterChange.playlists;
                 this.playlistsUpdated.next({
-                    playlists: [...this.playlists], 
+                    playlists: [...this.playlists],
                     totalPlaylists: playlistsAfterChange.totalPlaylists
                 });
             },
@@ -78,6 +89,10 @@ export class PlaylistService{
     }
 
     getFavPlaylist(){
+        // if we're not logged in
+        if(!this.userService.isLoggedIn) {
+            return;
+        }
         // get the favorite playlist id if there is one
         this.Http.get<{message: string; playlist: any}>(this.base_url + '/playlist/' + "LIKED SONGS")
         .pipe(
@@ -96,8 +111,8 @@ export class PlaylistService{
                         }
                     })
                     return {
-                        name: playlistData.playlist.name, 
-                        user: playlistData.playlist.user, 
+                        name: playlistData.playlist.name,
+                        user: playlistData.playlist.user,
                         songList: songs,
                         id: playlistData.playlist._id
                     };
@@ -130,8 +145,8 @@ export class PlaylistService{
                         }
                     })
                     return {
-                        name: playlistData.playlist.name, 
-                        user: playlistData.playlist.user, 
+                        name: playlistData.playlist.name,
+                        user: playlistData.playlist.user,
                         songList: songs,
                         id: playlistData.playlist._id
                     };
@@ -152,11 +167,11 @@ export class PlaylistService{
         return this.playlistUpdated.asObservable();
     }
 
-    // add new playlist 
+    // add new playlist
     addPlaylist(name: string, songList: Song[]){
             const playlist: Playlist = {
-                id: null, 
-                name: name, 
+                id: null,
+                name: name,
                 user: null,
                 songList: songList
             };
@@ -184,6 +199,7 @@ export class PlaylistService{
                 this.notificationService.submitNotification(
                     new Notification(responseData.message,NotificationStatus.OK)
                 )
+                this.router.navigate(["/"]);
             },
             error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
         );
@@ -199,9 +215,9 @@ export class PlaylistService{
         // Need to create a new favorite playlist
         else{
             const playlist: Playlist = {
-                id: null, 
+                id: null,
                 name: "LIKED SONGS",
-                user: null, 
+                user: null,
                 songList: [song]
             };
             this.Http.post<{message: string, playlistId: string}>(this.base_url + '/playlist', playlist)
@@ -234,8 +250,8 @@ export class PlaylistService{
     // update playlist
     updatePlaylist(id: string, name: string, songList: Song[], isLikedPlaylist=false){
         const playlist: Playlist = {
-            id: id, 
-            name: name, 
+            id: id,
+            name: name,
             user: null,
             songList: songList
         };
@@ -251,7 +267,7 @@ export class PlaylistService{
                         new Notification(res.message,NotificationStatus.OK)
                     )
                 }
-            }, 
+            },
             error => {
                 this.notificationService.submitNotification(
                     new Notification(error.message,NotificationStatus.ERROR));
@@ -265,7 +281,7 @@ export class PlaylistService{
                 this.notificationService.submitNotification(
                     new Notification(res.message,NotificationStatus.OK)
                 )
-            }, 
+            },
             error => {
                 this.notificationService.submitNotification(
                     new Notification(error.message,NotificationStatus.ERROR));
@@ -275,6 +291,35 @@ export class PlaylistService{
 
     IsSongInPlaylist(playlist:Playlist, song:Song): boolean {
         return playlist.songList.some( songInPlaylist => songInPlaylist.id == song.id )
+    }
+
+
+
+    searchPlaylist(playlistsPerPage = 10, currentPage = 1, playlistName:string, songName:string, minimumSongs:number){
+      const queryParams = `?pageSize=${playlistsPerPage}&page=${currentPage}&minSongs=${minimumSongs}&playlistName=${playlistName}&songName=${songName}`;
+      this.Http.get<{message: string; playlists: any, totalPlaylists: number}>(this.base_url + '/playlist/search' + queryParams)
+      .pipe(
+          map(playlistData => {
+          return {playlists: playlistData.playlists.map(playlist => {
+              return {
+                  name: playlist.name,
+                  UserId: playlist.UserId,
+                  songList: playlist.songList,
+                  id: playlist._id
+              };
+          }), totalPlaylists: playlistData.totalPlaylists};
+      }))
+      .subscribe(
+          (playlistsAfterChange) => {
+              this.searchPlaylistsCount = playlistsAfterChange.totalPlaylists;
+              this.searchPlaylists = playlistsAfterChange.playlists;
+              this.searchPlaylistUpdated.next({
+                  playlists: [...this.searchPlaylists],
+                  totalPlaylists: this.searchPlaylistsCount
+              });
+          },
+          error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+      );
     }
 
     deleteSongFromPlaylist(playlist: Playlist, songId: string){
