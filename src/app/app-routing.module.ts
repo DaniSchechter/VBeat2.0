@@ -10,6 +10,9 @@ import { BrowserStatsComponent } from './stats/browser-stats/browser-stats.compo
 import { PlaylistListComponent } from './playlist/playlist-list/playlist-list.component';
 import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-create.component';
 import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-details.component';
+import { PlaylistSearchComponent } from './playlist/playlist-search/playlist-search.component';
+import { UserDetailsComponent } from './user/user-details/user-details.component';
+import { UserLocationComponent } from './user/user-location/user-location.component';
 
 const routes: Routes = [
   {path: '', component: SongListComponent},
@@ -21,7 +24,10 @@ const routes: Routes = [
   {path: 'playlist/details/:id', component: PlaylistDetailsComponent},
   {path: 'playlist', component: PlaylistListComponent},
   {path: 'create_playlist', component: PlaylistCreateComponent},
-  {path: 'song_search', component: SongSearchComponent}
+  {path: 'song_search', component: SongSearchComponent},
+  {path: 'playlist_search', component: PlaylistSearchComponent},
+  {path: 'user_details', component: UserDetailsComponent},
+  {path: 'user_location', component: UserLocationComponent}
 ];
 
 @NgModule({

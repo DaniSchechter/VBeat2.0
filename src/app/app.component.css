@@ -3,8 +3,10 @@
     background-image: linear-gradient(to right bottom, #336600, rgb(18, 18, 18)), linear-gradient(transparent, rgb(0, 0, 0) 70%);
     background-size: cover;
     height: 100vh;
+    overflow-y: scroll;
 }
 .container {
+    height: calc(100vh - 64px - 70px);
     width: 90vw;
     margin: auto;
     padding: 20px 0 0 0;

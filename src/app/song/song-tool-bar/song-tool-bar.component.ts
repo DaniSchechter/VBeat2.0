@@ -9,6 +9,8 @@ import { SongService } from '../songs.service';
 import { HttpClient } from '@angular/common/http';
 import { NotificationPopupService } from '../../notification/notification-popup.service';
 import { NotificationStatus, Notification } from '../../notification/notification.model';
+import { MusicPlayerService } from '../../player/music-player/music-player.service';
+import { SongPlayAction } from '../../player/music-player/songPlayAction';
 
 @Component({
   selector: 'app-song-tool-bar',
@@ -36,6 +38,7 @@ export class SongToolBarComponent implements OnInit {
     private notificationService: NotificationPopupService,
     private songsService : SongService,
     private playlistService: PlaylistService,
+    private musicPlayerService: MusicPlayerService,
     private http: HttpClient)
   {
     this.songActionService = SongActionService.getInstance(http);
@@ -86,39 +89,36 @@ export class SongToolBarComponent implements OnInit {
     }
   }
 
-  onAddToPlaylist() {
+  onAddToPlaylist(song: Song) {
     this.playlistService.getPlaylists();
     this.playlistService.getPlaylistsUpdateListener().subscribe(
       (playlistData: {playlists: Playlist[], totalPlaylists: number}) => {
         this.playlists = playlistData.playlists.filter(playlist => playlist.name != "LIKED SONGS");
-        this.selectedPlaylists = null;
+        this.playlists.forEach(playlistToRemove => {
+          if(playlistToRemove.songList.some( songInPlaylist => songInPlaylist.id == song.id )){
+            this.playlists = this.playlists.filter( playlist => playlist.id != playlistToRemove.id );
+          }
+        })
+        this.selectedPlaylists = [];
     })
   }
 
 
-    //TODO change to real action for the next 2 buttons 
-  onPlay() {alert("song "+ this.song.name +" playnow")}
-  onAddToQueue() {alert("song "+ this.song.name +" queue")}
+  onPlay() { this.musicPlayerService.play([this.song], SongPlayAction.PLAY_SONG_NOW); }
+  onAddToQueue() { this.musicPlayerService.play([this.song], SongPlayAction.ADD_SONG_TO_QUEUE); }
   onLikeToggle() { 
-    let song = this.song;
     //If songLiked is true => click is to dislike => we want to decrease the num of likes
     if(this.songLiked) {
       // deactivate the like button
       this.songActionService.unlike(this.song);
       // remove the song from the favorite playlist
       this.playlistService.removeSongFromFavoritePlaylist(this.song);
-      // update in all playlists
-      song.num_of_times_liked--;
-      this.playlistService.updateSongFromAllPlaylistsButFav(song);
     }
     else {
       // activate the like button
       this.songActionService.like(this.song);
       // create or update favorite playlist
       this.playlistService.addSongToFavoritePlaylist(this.song);  
-      // update in all playlists
-      song.num_of_times_liked++;
-      this.playlistService.updateSongFromAllPlaylistsButFav(song);
     }
   }
 
@@ -129,15 +129,17 @@ export class SongToolBarComponent implements OnInit {
   saveToPlaylists(song: Song){
     if (!this.selectedPlaylists || this.selectedPlaylists.length == 0){
       this.notificationService.submitNotification(
-        new Notification("no selected song",NotificationStatus.OK))
+        new Notification("No selected playlists",NotificationStatus.OK))
     }
     else{
-    this.selectedPlaylists.forEach(Playlist => {
-      Playlist.songList.push(song);
-      this.playlistService.updatePlaylist(Playlist.id, Playlist.name, Playlist.songList);
+      this.playlistService.addSongToPlaylists(this.selectedPlaylists, song);
+    }
+    this.playlists.forEach(playlist => {
+      if (this.selectedPlaylists.includes(playlist)){
+        this.playlists = this.playlists.filter(playlistToRemove => playlistToRemove.id != playlist.id);
+      }
     });
     this.selectedPlaylists = [];
-    }
   }
 
   loadPermissionToConnectedUser() {

@@ -4,7 +4,7 @@ export class Playlist {
 	constructor(
 		public id: string,
 		public name: string,
-		public UserId: string, 
+		public user: string,
 		public songList: Song[],
-		) { }
+	) { }
 }
