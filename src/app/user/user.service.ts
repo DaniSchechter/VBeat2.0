@@ -18,8 +18,8 @@ export class UserService {
 	artists: User[];
 	artistsUpdated = new Subject<User[]>();
 	userFetched = new Subject<User>();
-	userId: string;
 	connectedUser: User;
+	isLoggedIn = false;
 
 	constructor(private Http: HttpClient,
 				private notificationService: NotificationPopupService, private router:Router) { }
@@ -80,6 +80,7 @@ export class UserService {
 		password: string,
 	) 
 	{
+
 		const user: User = {
 			id: null,
 			username: username,
@@ -101,6 +102,7 @@ export class UserService {
 							this.notificationService.submitNotification(
 									new Notification(responseData.message, NotificationStatus.OK)
 							);
+							this.isLoggedIn = true;
 							resolve();
 							this.router.navigate(["/"]);
 						},
@@ -149,6 +151,9 @@ export class UserService {
 	}
 
 	getUserPermissions(){
+		if(!this.isLoggedIn){
+			return;
+		}
 		this.Http.get<{user: User}>(`${this.base_url}/user/currentUser`)
 		.subscribe(userData => {
 			this.connectedUser = userData.user;
@@ -160,4 +165,19 @@ export class UserService {
 		})
 	}
 
+	getIsLoggedIn(){
+		return this.isLoggedIn;
+	}
+	
+	logout(onSuccess: Function){
+		this.Http.get(`${this.base_url}/user/logout`)
+			.subscribe(data => {
+				this.notificationService.submitNotification(new Notification("logged out!", NotificationStatus.OK));
+				this.isLoggedIn = false;
+				onSuccess();
+			}, 
+			error => {
+				this.notificationService.submitNotification(new Notification("unable to logout", NotificationStatus.ERROR));
+			});
+	}
 }

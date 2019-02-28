@@ -1,13 +1,13 @@
-<mat-card *ngIf="playlist">
-  <mat-card-header>
-    <mat-card-title >{{ playlist.name }}</mat-card-title>
-    <mat-card-subtitle mat-display-4>
-      <span class="mat-h3"> 
-        Songs:
-      </span>
-      <span class="mat-h3" *ngFor="let song of playlist.songList">
-        {{ song.name | uppercase }}, 
-      </span>
-    </mat-card-subtitle>
-  </mat-card-header>
-</mat-card> 
+<div id="name-container" *ngIf="playlist">
+    <h1> {{playlist.name | uppercase}} </h1> 
+</div>
+
+<div id="songs-container" *ngIf="playlist">
+    <div *ngFor="let song of playlist.songList">
+            <button type="button" mat-mini-fab (click)="onDeleteFromPlaylist(song.id)" color="warn">
+                    <mat-icon title="Delete from playlist">delete</mat-icon>  
+            </button>
+            <app-song-details [song]="song"></app-song-details>
+    </div>
+</div>
+ 

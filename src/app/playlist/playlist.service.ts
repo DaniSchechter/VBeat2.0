@@ -6,13 +6,15 @@ import { Playlist } from './playlist.model';
 import { NotificationPopupService } from '../notification/notification-popup.service'
 import { NotificationStatus, Notification } from '../notification/notification.model'
 import { Router } from '@angular/router';
-import {Song } from "../song/song.model";
+import { Song } from "../song/song.model";
+import { UserService } from '../user/user.service';
 
 @Injectable({providedIn: 'root'})
 export class PlaylistService{
     private base_url = 'http://localhost:3000/api';
 
     private playlists: Playlist[] = [];
+    private playlist: Playlist;
 
     // Liked Songs Playlist
     private favoritePlaylist: Playlist;
@@ -20,8 +22,10 @@ export class PlaylistService{
 
     private playlistsCount = 0;
     private playlistsUpdated = new Subject<{playlists: Playlist[], totalPlaylists: number}>();
+    private playlistUpdated = new Subject<Playlist>();
 
     constructor(private Http: HttpClient,
+                private userService: UserService,
                 private notificationService:NotificationPopupService, private router:Router){
         this.getFavPlaylist();
     }
@@ -63,6 +67,9 @@ export class PlaylistService{
     }
 
     getFavPlaylist(){
+        if(!this.userService.isLoggedIn){
+            return;
+        }
         // get the favorite playlist id if there is one
         this.Http.get<{message: string; playlist: any}>(this.base_url + '/playlist/' + "LIKED SONGS")
         .pipe(
@@ -99,8 +106,44 @@ export class PlaylistService{
     }
 
     // get playlist by id
-    getPlaylist(playlists: Playlist[], playlistId: string){
-        return {...this.playlists.find(playlist => playlist.id === playlistId)};
+    getPlaylistById(playlistId: string){
+        this.Http.get<{message: string; playlist: any}>(`${this.base_url}/playlist/getById/${playlistId}`)
+        .pipe(
+            map(playlistData => {
+                if(playlistData.playlist){
+                    let songs = playlistData.playlist.songList.map( song => {
+                        return {
+                            id: song._id,
+                            name: song.name,
+                            genre: song.genre,
+                            song_path: song.song_path,
+                            image_path: song.image_path,
+                            release_date: song.release_date,
+                            artists: song.artists,
+                            num_of_times_liked: song.num_of_times_liked
+                        }
+                    })
+                    return {
+                        name: playlistData.playlist.name, 
+                        UserId: playlistData.playlist.UserId, 
+                        songList: songs,
+                        id: playlistData.playlist._id
+                    };
+                }
+            }
+        ))
+        .subscribe(
+            playlistsAfterChange => {
+                this.playlist = playlistsAfterChange;
+                this.playlistUpdated.next(this.playlist);
+            },
+            error => this.notificationService.submitNotification(
+                new Notification(error.message,NotificationStatus.ERROR))
+        );
+    }
+
+    getPlaylistUpdateListener(){
+        return this.playlistUpdated.asObservable();
     }
 
     // add new playlist
@@ -203,10 +246,66 @@ export class PlaylistService{
                         new Notification(res.message,NotificationStatus.OK)
                     )
                 }
-                this.router.navigate(["/"])            
             }, 
             error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
             );
     }
 
+    removeSongFromAllPlaylists(songToRemove: string){
+        this.Http.get<{playlists: any}>(this.base_url + '/playlist/all')
+        .subscribe(
+            playlists => {
+                playlists.playlists.forEach(playlist => {
+                    playlist.songList = playlist.songList.filter(song => song._id != songToRemove);
+                    this.updatePlaylist(playlist._id, playlist.name, playlist.songList);
+                });
+            },
+            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+        );
+    }
+
+    updateSongFromAllPlaylists(songToEdit: Song){
+        console.log(songToEdit.num_of_times_liked);
+        this.Http.get<{playlists: any}>(this.base_url + '/playlist/all')
+        .subscribe(
+            playlists => {
+                playlists.playlists.forEach(playlist => {
+                    if( this.IsSongInPlaylist(playlist, songToEdit) ) {
+                        playlist.songList = playlist.songList.filter(song => song._id != songToEdit.id);
+                        playlist.songList.push(songToEdit);
+                        this.updatePlaylist(playlist._id, playlist.name, playlist.songList);
+                    }
+                });
+            },
+            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+        );
+    }
+
+    updateSongFromAllPlaylistsButFav(songToEdit: Song){
+        console.log(songToEdit.num_of_times_liked);
+        this.Http.get<{playlists: any}>(this.base_url + '/playlist/all')
+        .subscribe(
+            playlists => {
+                playlists.playlists.forEach(playlist => {
+                    if(playlist.name != "LIKED SONGS" && this.IsSongInPlaylist(playlist, songToEdit)) {
+                        playlist.songList = playlist.songList.filter(song => song._id != songToEdit.id);
+                        playlist.songList.push(songToEdit);
+                        this.updatePlaylist(playlist._id, playlist.name, playlist.songList);
+                    }
+                });
+            },
+            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+        );
+    }
+
+    IsSongInPlaylist(playlist:Playlist, song:Song): boolean {
+        return playlist.songList.some( songInPlaylist => songInPlaylist.id == song.id )
+    }
+
+    deleteSongFromPlaylist(playlist: Playlist, songId: string){
+        let isFavorite: boolean = playlist.name == "LIKED SONGS";
+        let songlist = playlist.songList.filter (song => song.id !== songId);
+        this.updatePlaylist(playlist.id, playlist.name, songlist, isFavorite);
+        this.router.navigate(["/"]);
+    }
 }

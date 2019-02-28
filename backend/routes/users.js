@@ -3,12 +3,20 @@ const User = require('../models/user');
 const app = express.Router();
 const browserCounter = require('../algo/count-user-agent');
 
+// browser stats from CMS
 app.get("/browser", (req, res, next) => {
 	res.status(200).json(
 		browserCounter.getData()
 	);
 });
 
+app.get("/logout", (req, res, next) => {
+	req.session.userId = null;
+	// typescript will redirect
+	res.status(200).json({
+		message: "logged out",
+	});
+});
 
 app.post("", (req, res, next) => {
     const user = new User({
@@ -32,7 +40,7 @@ app.post("", (req, res, next) => {
         });
     }).catch(error => {
         res.status(500).json({
-            message: error.message
+            message: "Could not create a user"
         });
     });
 });
@@ -80,6 +88,12 @@ app.get("/artists", (req, res, next) => {
 
 // get the current user (connected or not)
 app.get("/currentUser", (req, res, next) => {
+    if(!req.session.userId){
+    	res.status(401).json({
+		message: 'not logged in'
+	});
+    	return;
+    }
     User.findOne({_id:req.session.userId})
         .then(userResult => {
             if(userResult){
@@ -93,18 +107,27 @@ app.get("/currentUser", (req, res, next) => {
                 });
             }
         }
-    );
+    ).catch(error => {
+        res.status(400).json({
+            message: "Coult not get the status of the user"
+        });
+    });
 })
 
 // get users
 app.get("", (req, res, next) => {
     User.find(
         ).then(userResult => {
+	userResult.forEach(user => user.password="<censored>");
         res.status(200).json({
             message: "ok",
             users: userResult
         });
-    });
+    }).catch(error => {
+        res.status(400).json({
+            message: "Could not get all users"
+        });
+    });;
 });
 
 // get certain user by id
@@ -121,7 +144,11 @@ app.get("/:id", (req, res, next) => {
                 message: "ok",
             });
         }
-    });
+    }).catch(error => {
+        res.status(400).json({
+            message: "Could not get user"
+        });
+    });;
 });
 
 
@@ -136,7 +163,7 @@ app.delete("/:id", (req, res, next) => {
     }).catch(error => {
         console.log(error.message);
         res.status(400).json({
-            message: error.message
+            message: "Could not delete user"
         });
     });
 });

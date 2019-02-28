@@ -1,4 +1,5 @@
 mat-card {
     overflow-y: hidden;
     margin: 10px;
+    box-shadow: none !important;
 }

@@ -15,7 +15,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input' 
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
@@ -42,7 +42,7 @@ import { BrowserPipe } from './stats/browser.pipe';
 // interceptor related imports
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CookieInterceptor } from './cookie-interceptor';
-// end of interceptors 
+// end of interceptors
 import { NotificationPopupComponent } from './notification/notification-popup/notification-popup.component';
 import { HeaderComponent } from './header/header.component';
 
@@ -50,7 +50,9 @@ import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-cre
 import { PlaylistEditComponent } from './playlist/playlist-edit/playlist-edit.component';
 import { PlaylistListComponent } from './playlist/playlist-list/playlist-list.component';
 import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-details.component';
-import { GraphComponent } from './stats/graph/graph.component';
+import { UserLocationComponent } from './user/user-location/user-location.component';
+import { SongSearchComponent } from './song/song-search/song-search.component';
+import { MusicPlayerComponent } from './player/music-player/music-player.component';
 
 // D3 graph
 import { DoughnutChartComponent, PieChartComponent, BarChartComponent } from 'angular-d3-charts'; // this is needed!
@@ -73,10 +75,12 @@ import { DoughnutChartComponent, PieChartComponent, BarChartComponent } from 'an
     PlaylistEditComponent,
     PlaylistListComponent,
     PlaylistDetailsComponent,
-    GraphComponent,
     DoughnutChartComponent, 
     PieChartComponent, 
-    BarChartComponent
+    BarChartComponent,
+    UserLocationComponent,
+    SongSearchComponent,
+    MusicPlayerComponent,
   ],
   imports: [
     BrowserModule,
@@ -89,7 +93,7 @@ import { DoughnutChartComponent, PieChartComponent, BarChartComponent } from 'an
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatExpansionModule, 
+    MatExpansionModule,
     HttpClientModule,
     MatButtonToggleModule,
     MatBadgeModule,

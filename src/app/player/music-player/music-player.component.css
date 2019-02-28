@@ -1,0 +1,33 @@
+
+#player{
+    position: absolute;
+    bottom: 10px;
+    left: 1%;
+    width:69%;
+}
+
+#song-name-wrapper {
+    position: absolute;
+    bottom: 10px;
+    right: 1%;
+    width: 28%;
+    background-color: white;
+    border-radius: 30px;
+    line-height: 54px;
+    height: 54px; /* same hight as audio player - it is a const height */
+}
+#song-name-wrapper p {
+    width:70%;
+    display: inline-flex;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#song-name-wrapper img {
+    height: 40px;
+    width: 40px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: 22px;
+}

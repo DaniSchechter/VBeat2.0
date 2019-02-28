@@ -21,8 +21,9 @@ app.post("", (req, res, next) => {
             songId: newSong._id
         });
     }).catch(error => {
+        console.log(error);
         res.status(500).json({
-            message: error.message
+            message: "Could not create a new song"
         });
     });
 });
@@ -50,7 +51,7 @@ app.get("", (req, res, next) => {
     }).catch(error => {
         console.log(error.message);
         res.status(500).json({
-            message: error.message
+            message: "Could not get the songs"
         });
     });
 });
@@ -64,13 +65,13 @@ app.delete("/:id", (req, res, next) => {
     }).catch(error => {
         console.log(error.message);
         res.status(400).json({
-            message: error.message
+            message: "Could not delete this song"
         });
     });
 });
 
 app.put("/:id", (req, res, next) => {
-    
+
     const song = new Song({
         _id: req.body.id,
         name: req.body.name,
@@ -88,7 +89,7 @@ app.put("/:id", (req, res, next) => {
         });
     }).catch(error => {
         res.status(400).json({
-            message: error.message
+            message: "Could not update this song"
         });
     });
 });
@@ -105,7 +106,7 @@ app.put("/likes/:id", (req, res, next) => {
         artists:  req.body.artists,
         num_of_times_liked: req.body.num_of_times_liked
     });
-    
+
     Song.updateOne({_id: req.params.id}, song)
     .then(
         result => {
@@ -114,9 +115,79 @@ app.put("/likes/:id", (req, res, next) => {
         });
     }).catch(error => {
         res.status(400).json({
-            message: error.message
+            message: "Could not update num of likes"
         });
     });
+});
+
+
+
+
+
+app.get("/search", (req, res, next) => {
+    const pageSize = +req.query.pageSize;
+    const currPage = +req.query.page;
+    const songName = req.query.songName;
+    const artistName = req.query.artistName;
+    const genreName = req.query.genreName;
+
+    let fetchedSongs;
+    let query = {};
+
+    if(songName!=='') query["name"] = songName;
+    if(artistName!=='') query["artists.display_name"] = artistName;
+    if(genreName!=='') query["genre"] = genreName;
+
+
+    const songQuery = Song.find(query);
+
+
+    if (pageSize && currPage){
+        songQuery.skip(pageSize * (currPage - 1)).limit(pageSize);
+    }
+    songQuery
+    .then(songsResult => {
+        fetchedSongs = songsResult;
+        return Song.find(query).countDocuments();
+    })
+    .then(count => {
+        res.status(200).json({
+                message: "Songs fetched successfully",
+                songs: fetchedSongs,
+                totalSongs: count
+            });
+    }).catch(error => {
+        res.status(500).json({
+            message: "error on search songs"
+        });
+    });
+});
+
+
+
+
+
+app.get("/mapreduce", (req, res, next) => {
+	const o = {};
+
+	o.map = function(){
+		emit(this.genre, this.num_of_times_liked)
+	};
+
+	o.reduce = function(id, num_of_times_liked){
+		return Array.sum(num_of_times_liked);
+	};
+
+	Song.mapReduce(o, function(err, results, stats){
+		if(err != undefined || err != null){
+			res.status(500).json({
+				message: err
+			});
+			return;
+		}
+
+		res.status(200).json(results);
+	});
 });
 
 module.exports = app;

@@ -90,7 +90,7 @@ export class SongToolBarComponent implements OnInit {
     this.playlistService.getPlaylists();
     this.playlistService.getPlaylistsUpdateListener().subscribe(
       (playlistData: {playlists: Playlist[], totalPlaylists: number}) => {
-        this.playlists = playlistData.playlists;
+        this.playlists = playlistData.playlists.filter(playlist => playlist.name != "LIKED SONGS");
         this.selectedPlaylists = null;
     })
   }
@@ -100,18 +100,25 @@ export class SongToolBarComponent implements OnInit {
   onPlay() {alert("song "+ this.song.name +" playnow")}
   onAddToQueue() {alert("song "+ this.song.name +" queue")}
   onLikeToggle() { 
+    let song = this.song;
     //If songLiked is true => click is to dislike => we want to decrease the num of likes
     if(this.songLiked) {
-      //  deactivate the like button
+      // deactivate the like button
       this.songActionService.unlike(this.song);
-      //remove the song from the favorite playlist
+      // remove the song from the favorite playlist
       this.playlistService.removeSongFromFavoritePlaylist(this.song);
+      // update in all playlists
+      song.num_of_times_liked--;
+      this.playlistService.updateSongFromAllPlaylistsButFav(song);
     }
     else {
       // activate the like button
       this.songActionService.like(this.song);
       // create or update favorite playlist
       this.playlistService.addSongToFavoritePlaylist(this.song);  
+      // update in all playlists
+      song.num_of_times_liked++;
+      this.playlistService.updateSongFromAllPlaylistsButFav(song);
     }
   }
 
