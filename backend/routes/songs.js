@@ -110,6 +110,7 @@ app.put("/:id", async (req, res, next) => {
     try {
         // Get the song from DB so we can fetch the playlist from it
         const savedSong = await Song.findById(req.body.id);
+        artistIds = req.body.artists.map( artist => artist.id );
         const song = new Song({
             _id: req.body.id,
             name: req.body.name,
@@ -117,7 +118,7 @@ app.put("/:id", async (req, res, next) => {
             song_path: req.body.song_path,
             image_path: req.body.image_path,
             release_date: req.body.release_date,
-            artists:  req.body.artists,
+            artists:  artistIds,
             num_of_times_liked: req.body.num_of_times_liked,
             playlists: savedSong.playlists
         });
