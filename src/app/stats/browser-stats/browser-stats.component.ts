@@ -27,7 +27,6 @@ export class BrowserStatsComponent implements OnInit {
   	}
     this.zone.run(() => {
       this.browserData = data; 
-      console.log('received browser data => ', data);
     });
   }
 

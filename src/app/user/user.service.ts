@@ -38,7 +38,7 @@ export class UserService {
 		display_name: string,
 		email: string,
 		country: string,
-    city: string,
+    	city: string,
 		street: string,
 		houseNum: number
 	)
@@ -52,13 +52,13 @@ export class UserService {
 			display_name: display_name,
 			email: email,
 			country: country,
-      city: city,
+      		city: city,
 			street: street,
 			houseNum: houseNum,
 		};
 		
 		return new Promise( (resolve, reject) => {
-			this.Http.post<{message: string, userId: string}>(this.base_url + '/user',user)
+			this.Http.post<{message: string, userId: string}>(`${this.base_url}/user`,user)
 			.subscribe(
 				responseData => {
 					this.notificationService.submitNotification(
@@ -154,10 +154,24 @@ export class UserService {
 		if(!this.isLoggedIn){
 			return;
 		}
-		this.Http.get<{user: User}>(`${this.base_url}/user/currentUser`)
+		this.Http.get<{user: any}>(`${this.base_url}/user/currentUser`)
+
 		.subscribe(userData => {
-			this.connectedUser = userData.user;
-			this.userFetched.next(userData.user);
+			const newUser: User = new User(
+				userData.user._id,
+				userData.user.username,
+				userData.user.role,
+				userData.user.password,
+				userData.user.profile_pic,
+				userData.user.display_name,
+				userData.user.email,
+				userData.user.country,
+				userData.user.city,
+				userData.user.street,
+				userData.user.houseNum,
+			);
+			this.connectedUser = newUser;
+			this.userFetched.next(newUser);
 		},
 		error => {
 			this.notificationService.submitNotification(
