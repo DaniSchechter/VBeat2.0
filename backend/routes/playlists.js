@@ -55,10 +55,10 @@ app.post("", async (req, res, next) => {
 
 
 
-app.get("/search", (req, res, next) => {
-  if(denyEntry(req,res)) {
-    return;
-  }
+app.get("/search", async(req, res, next) => {
+  // if(denyEntry(req,res)) {
+  //   return;
+  // }
 
   const pageSize = +req.query.pageSize;
   const currPage = +req.query.page;
@@ -69,17 +69,24 @@ app.get("/search", (req, res, next) => {
 
   let fetchedPlaylists;
   let query = {};
+  let song;
 
-  if(songName!=='') query["songList.name"] = songName;
+  if(songName!=='') {
+    song = await Song.findOne({
+      name:songName
+    });
+    console.log(song);
+  }
+
+  if(song) query["songList"] = song._id;
   if(playlistName!=='') query["name"] = playlistName;
   if(!isNaN(minSongs)){ // if it is not a number, considered like empty string, not filtering with that parameter
     if(minSongs!==null && minSongs > 0) {
       query["songList." + (minSongs - 1).toString()] = { "$exists": true };
     }
   }
-
-  query["UserId"] = req.session.userId;
-
+  console.log(query);
+  //query["UserId"] = req.session.userId;
   const playlistQuery = Playlist.find(query);
   if (pageSize && currPage){
       playlistQuery.skip(pageSize * (currPage - 1)).limit(pageSize);
@@ -115,12 +122,12 @@ app.get("/all", async (req, res, next) => {
     }
     try {
         const playlists = await Playlist.find({
-            user: req.session.userId 
+            user: req.session.userId
         }).populate('songList');
         res.status(200).json({
             playlists: playlists,
         });
-    } 
+    }
     catch(err) {
         console.log(err);
         res.status(500).json({
@@ -181,9 +188,9 @@ app.get("", (req, res, next) => {
     }
 
     const playlistQuery = Playlist.find({
-        user: req.session.userId 
+        user: req.session.userId
     }).populate('songList');
-    
+
     if (pageSize && currPage){
         playlistQuery.skip(pageSize * (currPage - 1)).limit(pageSize);
     }
@@ -269,7 +276,7 @@ app.put("/:id", async (req, res, next) => {
             user: req.session.userId,
             songList:  songList
         });
-        
+
         await Playlist.findByIdAndUpdate(req.params.id, playlist);
         // Add the playlist to each song, added to this playlist
         songList.forEach( async songId => {
@@ -277,7 +284,7 @@ app.put("/:id", async (req, res, next) => {
 
             /* If song alreay in playlist - remove it
                In likes it like and unlike
-               in regular playlists, remove from playlists also calls this route 
+               in regular playlists, remove from playlists also calls this route
             */
             // If already exists, remove using filter
             newPlaylistList = song.playlists.filter( playlistId => playlistId != req.body.id)
@@ -288,7 +295,7 @@ app.put("/:id", async (req, res, next) => {
 
             await song.save();
         });
-        
+
         res.status(200).json({
             message: "playlist updated"
         });
@@ -314,7 +321,7 @@ async function addSongToPlaylist(playlistId, songId){
 
     /* If song alreay in playlist - remove it
         In likes it like and unlike
-        in regular playlists, remove from playlists also calls this route 
+        in regular playlists, remove from playlists also calls this route
     */
     // If already exists, remove using filter
     newPlaylistList = song.playlists.filter( playlistId => playlistId != playlist.id)
