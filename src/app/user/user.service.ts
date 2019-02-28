@@ -205,7 +205,7 @@ export class UserService {
 			.subscribe(data => {
 				this.notificationService.submitNotification(new Notification("logged out!", NotificationStatus.OK));
 				this.isLoggedIn = false;
-				document.cookie = '';
+				document.cookie = 'loggedin' + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 				onSuccess();
 			},
 			error => {
