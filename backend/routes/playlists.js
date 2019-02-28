@@ -4,7 +4,7 @@ const Song = require('../models/song');
 const Playlist = require('../models/playlist');
 const app = express.Router();
 
-// denies entry for when user id is needed 
+// denies entry for when user id is needed
 function denyEntry(req, res){
 	if(req.session.userId) {
 		return false;
@@ -48,6 +48,71 @@ app.post("", async (req, res, next) => {
     }
 });
 
+
+
+
+
+
+
+
+app.get("/search", async(req, res, next) => {
+  // if(denyEntry(req,res)) {
+  //   return;
+  // }
+
+  const pageSize = +req.query.pageSize;
+  const currPage = +req.query.page;
+  let minSongs = +req.query.minSongs;
+  if(req.query.minSongs==='') minSongs = null //if empty num is passed in request, make it null
+  const playlistName = req.query.playlistName;
+  let songName = req.query.songName;
+
+  let fetchedPlaylists;
+  let query = {};
+  let songId;
+
+  if(songName!=='') {
+    const song = await Song.findOne({name:songName});
+    if(song!==null) songId = song._id;
+  }
+
+  if(songName!=='') query["songList"] = songId;
+  if(playlistName!=='') query["name"] = playlistName;
+  if(!isNaN(minSongs)){ // if it is not a number, considered like empty string, not filtering with that parameter
+    if(minSongs!==null && minSongs > 0) {
+      query["songList." + (minSongs - 1).toString()] = { "$exists": true };
+    }
+  }
+
+  //query["UserId"] = req.session.userId; // IF YOU SEE IT DONT MERGE, THIS LINE NEEDS TO BE IN THE CODE
+  const playlistQuery = Playlist.find(query);
+  if (pageSize && currPage){
+      playlistQuery.skip(pageSize * (currPage - 1)).limit(pageSize);
+  }
+  playlistQuery
+  .then(playlistsResult => {
+      fetchedPlaylists = playlistsResult;
+      return Playlist.find(query).countDocuments();
+  })
+  .then(count => {
+      res.status(200).json({
+              message: "Playlists fetched successfully",
+              playlists: fetchedPlaylists,
+              totalPlaylists: count
+          });
+  }).catch(error => {
+      res.status(500).json({
+          message: "Could not get the playlists"
+      });
+  });
+
+});
+
+
+
+
+
+
 // get all playlists
 app.get("/all", async (req, res, next) => {
     if(denyEntry(req,res)) {
@@ -55,12 +120,12 @@ app.get("/all", async (req, res, next) => {
     }
     try {
         const playlists = await Playlist.find({
-            user: req.session.userId 
+            user: req.session.userId
         }).populate('songList');
         res.status(200).json({
             playlists: playlists,
         });
-    } 
+    }
     catch(err) {
         console.log(err);
         res.status(500).json({
@@ -121,9 +186,9 @@ app.get("", (req, res, next) => {
     }
 
     const playlistQuery = Playlist.find({
-        user: req.session.userId 
+        user: req.session.userId
     }).populate('songList');
-    
+
     if (pageSize && currPage){
         playlistQuery.skip(pageSize * (currPage - 1)).limit(pageSize);
     }
@@ -209,7 +274,7 @@ app.put("/:id", async (req, res, next) => {
             user: req.session.userId,
             songList:  songList
         });
-        
+
         await Playlist.findByIdAndUpdate(req.params.id, playlist);
         // Add the playlist to each song, added to this playlist
         songList.forEach( async songId => {
@@ -217,7 +282,7 @@ app.put("/:id", async (req, res, next) => {
 
             /* If song alreay in playlist - remove it
                In likes it like and unlike
-               in regular playlists, remove from playlists also calls this route 
+               in regular playlists, remove from playlists also calls this route
             */
             // If already exists, remove using filter
             newPlaylistList = song.playlists.filter( playlistId => playlistId != req.body.id)
@@ -228,7 +293,7 @@ app.put("/:id", async (req, res, next) => {
 
             await song.save();
         });
-        
+
         res.status(200).json({
             message: "playlist updated"
         });
@@ -254,7 +319,7 @@ async function addSongToPlaylist(playlistId, songId){
 
     /* If song alreay in playlist - remove it
         In likes it like and unlike
-        in regular playlists, remove from playlists also calls this route 
+        in regular playlists, remove from playlists also calls this route
     */
     // If already exists, remove using filter
     newPlaylistList = song.playlists.filter( playlistId => playlistId != playlist.id)

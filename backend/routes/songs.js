@@ -134,18 +134,26 @@ app.put("/:id", async (req, res, next) => {
     }
 });
 
-app.get("/search", (req, res, next) => {
+app.get("/search",async (req, res, next) => {
     const pageSize = +req.query.pageSize;
     const currPage = +req.query.page;
     const songName = req.query.songName;
-    const artistName = req.query.artistName;
+    let artistName = req.query.artistName;
     const genreName = req.query.genreName;
 
     let fetchedSongs;
     let query = {};
+    let artistId;
+
+    if (artistName !== ''){
+        const user = await User.findOne({display_name:artistName});
+        if(user!==null) artistId = user._id;
+    }
+
+
 
     if(songName!=='') query["name"] = songName;
-    if(artistName!=='') query["artists.display_name"] = artistName;
+    if(artistName!=='') query["artists"] = artistId;
     if(genreName!=='') query["genre"] = genreName;
 
 
