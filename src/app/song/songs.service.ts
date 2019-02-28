@@ -203,6 +203,21 @@ export class SongService{
                     new Notification(error.message,NotificationStatus.ERROR))
             );
     }
+
+  quickSearch(
+    query: string,
+    callback: Function
+      ) {
+    this.Http.post<{results:any, err: String}>(this.base_url + '/song/quick_search', {'query': query})
+      .subscribe(
+          res => {
+            callback(res);
+          },
+          error => this.notificationService.submitNotification(
+              new Notification(error, NotificationStatus.ERROR)
+            )
+        )
+  }
 }
 
 
