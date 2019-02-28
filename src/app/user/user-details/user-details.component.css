@@ -11,3 +11,8 @@ img {
   height: calc(100vh- 60px);
   width: 40%;
 }
+
+
+agm-map{
+  height: 80%;
+}

@@ -15,6 +15,9 @@ export class CookieInterceptor implements HttpInterceptor {
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        if(request.url.indexOf("maps.googleapis.com") != -1) {
+          return next.handle(request);
+        }
         request = request.clone({
             withCredentials: true
         });
