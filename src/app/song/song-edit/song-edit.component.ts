@@ -138,8 +138,8 @@ export class SongEditComponent implements OnInit, OnDestroy {
         this.songId, 
         form.value.name,
         form.value.genre,
-        form.value.song_path,
-        form.value.song_image,
+        encodeURI(form.value.song_path),
+        encodeURI(form.value.song_image),
         form.value.release_date,
         this.selected_artists, 
         this.song.num_of_times_liked

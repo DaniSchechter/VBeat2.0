@@ -115,8 +115,8 @@ export class SongCreateComponent implements OnInit {
     this.songService.addSong(
       form.value.name,
       form.value.genre,
-      form.value.song_path,
-      form.value.song_image,
+      encodeURI(form.value.song_path),
+      encodeURI(form.value.song_image),
       form.value.release_date,
       this.selected_artists,
       0
