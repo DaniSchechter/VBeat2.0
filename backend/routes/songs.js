@@ -1,6 +1,7 @@
 const express = require("express");
 
 const Song = require('../models/song');
+const SongSearch = require('../algo/aho-corasick');
 const Playlist = require('../models/playlist');
 const User = require('../models/user');
 
@@ -182,8 +183,30 @@ app.get("/search",async (req, res, next) => {
 });
 
 
+app.post("/quick_search", (req, res, next) => {
+	if(!req.body.query) {
+		res.status(400).json({
+			message: "missing query string"
+		});
+		return;
+	}
 
-
+	var query = req.body.query;
+	var queryArray = query.split(',');
+	console.log('performing an efficient search for', queryArray);
+	// using efficient search
+	SongSearch.searchSongs(queryArray, (results,err) => {
+		console.log('searchSongs callback called from /new_search_user', results, err);
+		if(err) {
+			res.status(500).json({
+				message: err.message
+			});
+			return;
+		} else {
+			res.status(200).json(results);
+		}
+	});
+});
 
 app.get("/mapreduce", (req, res, next) => {
 	const o = {};
