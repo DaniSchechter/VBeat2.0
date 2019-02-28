@@ -45,16 +45,18 @@ export class SongToolBarComponent implements OnInit {
   }
 
   ngOnInit() {
+
     // Diaplay each song as liked or not as it appears in DB
     this.playlistService.getFavPlaylistUpdateListener().subscribe( likedSongsPlaylist => {
       if (likedSongsPlaylist){
         this.songLiked = likedSongsPlaylist.songList.some( (song:Song) => song.id == this.song.id );
-        this.isConnected = true;
+        // this.isConnected = true;
       }
       else{
-        this.isConnected = false;
+        // this.isConnected = false;
       }
     });
+    this.isConnected = this.userService.isLoggedIn;
     this.playlistService.getFavPlaylist();
     // Listen for updates in num of likes through web sockets
     this.songActionService.getSongUpdatedSubject().subscribe( 
@@ -147,12 +149,19 @@ export class SongToolBarComponent implements OnInit {
     {
         this.userService.getUserPermissionsUpdateListener().subscribe(user => {
           this.hasOwnerPermissions = this.song.artists.some( 
-            artist => artist.username == user.username);
+              (artist) => {
+                return artist.username == user.username;
+              }
+            );
         });
     }
     else {
       this.hasOwnerPermissions = this.song.artists.some( 
-        artist => artist.username == this.userService.connectedUser.username);
+          (artist) => {
+            return artist.username == this.userService.connectedUser.username
+          }
+        );
+      console.log('owner permissions for song => ',this.song.name, this.hasOwnerPermissions);
     }
   }
 }
