@@ -142,20 +142,17 @@ app.get("/search",async (req, res, next) => {
 
     let fetchedSongs;
     let query = {};
+    let artistId;
 
-    try{
     if (artistName !== ''){
         const user = await User.findOne({display_name:artistName});
-        artistName = user._id;
+        if(user!==null) artistId = user._id;
     }
-    }
-    catch (err){
-        console.log(err);
-    }
+
 
 
     if(songName!=='') query["name"] = songName;
-    if(artistName!=='') query["artists"] = artistName;
+    if(artistName!=='') query["artists"] = artistId;
     if(genreName!=='') query["genre"] = genreName;
 
 

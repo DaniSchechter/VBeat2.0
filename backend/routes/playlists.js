@@ -65,28 +65,26 @@ app.get("/search", async(req, res, next) => {
   let minSongs = +req.query.minSongs;
   if(req.query.minSongs==='') minSongs = null //if empty num is passed in request, make it null
   const playlistName = req.query.playlistName;
-  const songName = req.query.songName;
+  let songName = req.query.songName;
 
   let fetchedPlaylists;
   let query = {};
-  let song;
+  let songId;
 
   if(songName!=='') {
-    song = await Song.findOne({
-      name:songName
-    });
-    console.log(song);
+    const song = await Song.findOne({name:songName});
+    if(song!==null) songId = song._id;
   }
 
-  if(song) query["songList"] = song._id;
+  if(songName!=='') query["songList"] = songId;
   if(playlistName!=='') query["name"] = playlistName;
   if(!isNaN(minSongs)){ // if it is not a number, considered like empty string, not filtering with that parameter
     if(minSongs!==null && minSongs > 0) {
       query["songList." + (minSongs - 1).toString()] = { "$exists": true };
     }
   }
-  console.log(query);
-  //query["UserId"] = req.session.userId;
+
+  //query["UserId"] = req.session.userId; // IF YOU SEE IT DONT MERGE, THIS LINE NEEDS TO BE IN THE CODE
   const playlistQuery = Playlist.find(query);
   if (pageSize && currPage){
       playlistQuery.skip(pageSize * (currPage - 1)).limit(pageSize);
