@@ -54,8 +54,6 @@ export class MusicPlayerComponent implements OnInit {
   }
 
   playPlaylist(songs: Song[]): void {
-    if(!this.songs)
-      this.songs = [];
     this.songs = songs;
     this.player.nativeElement.load();
     this.player.nativeElement.play();
