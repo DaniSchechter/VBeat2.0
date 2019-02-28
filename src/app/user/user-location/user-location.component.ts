@@ -31,9 +31,11 @@ export class UserLocationComponent implements OnInit {
   findLocation(houseNumber:Number, streetName: string, cityName: string, countryName: string){
     const address: string = houseNumber.toString() + ',' + streetName + ',' + cityName + ',' + countryName;
     const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=AIzaSyD_SmdSZQy58OQhbGxJN9fi_SbTT2sBVf4';
-    this.Http.get<''>(url).subscribe((json) => {
-      console.log(json);
-    });
+    this.Http.get<{res:any}>(url).subscribe(
+        (json) => {
+          console.log(json);
+        }
+      );
   }
 
 }
