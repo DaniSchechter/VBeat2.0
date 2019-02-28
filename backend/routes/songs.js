@@ -111,7 +111,8 @@ app.put("/:id", async (req, res, next) => {
     try {
         // Get the song from DB so we can fetch the playlist from it
         const savedSong = await Song.findById(req.body.id);
-        artistIds = req.body.artists.map( artist => artist.id );
+        artistIds = req.body.artists.map( artist => { return artist._id || artist.id } );
+        console.log('artist id array for put request', artistIds);
         const song = new Song({
             _id: req.body.id,
             name: req.body.name,
