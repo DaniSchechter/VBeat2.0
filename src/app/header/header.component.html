@@ -2,9 +2,23 @@
     <div class="header-item">
         <a mat-raised-button class="link" routerLink="/">Vbeat</a>
     </div>
-    
+
     <div id="rightSide" class = "space">
         <ul>
+
+            <li>
+                <a class="link" *ngIf="loggedIn" mat-raised-button routerLink="/user_details">User Details</a>
+            </li>
+
+            <li>
+                <a class="link" *ngIf="loggedIn" mat-raised-button routerLink="/song_search">Search Song</a>
+            </li>
+
+
+            <li>
+                <a class="link" *ngIf="loggedIn" mat-raised-button routerLink="/playlist_search">Search Playlist</a>
+            </li>
+
             <li>
                 <a class="link" *ngIf="loggedIn && user.role==artistRole" mat-raised-button routerLink="/create_song">New Song</a>
             </li>

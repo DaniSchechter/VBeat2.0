@@ -54,6 +54,14 @@ import { UserLocationComponent } from './user/user-location/user-location.compon
 import { SongSearchComponent } from './song/song-search/song-search.component';
 import { MusicPlayerComponent } from './player/music-player/music-player.component';
 import { QuickSearchComponent } from './quick-search/quick-search.component';
+import { PlaylistSearchComponent } from './playlist/playlist-search/playlist-search.component';
+import { UserDetailsComponent } from './user/user-details/user-details.component';
+
+//google maps
+import { AgmCoreModule } from '@agm/core';
+
+// D3 graph
+import { DoughnutChartComponent, PieChartComponent, BarChartComponent } from 'angular-d3-charts'; // this is needed!
 
 @NgModule({
   declarations: [
@@ -73,10 +81,15 @@ import { QuickSearchComponent } from './quick-search/quick-search.component';
     PlaylistEditComponent,
     PlaylistListComponent,
     PlaylistDetailsComponent,
+    DoughnutChartComponent,
+    PieChartComponent,
+    BarChartComponent,
     UserLocationComponent,
     SongSearchComponent,
     MusicPlayerComponent,
     QuickSearchComponent,
+    PlaylistSearchComponent,
+    UserDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -102,6 +115,9 @@ import { QuickSearchComponent } from './quick-search/quick-search.component';
     MatAutocompleteModule,
     MatPaginatorModule,
     MatSnackBarModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyD_SmdSZQy58OQhbGxJN9fi_SbTT2sBVf4'
+    }), //google maps
   ],
   exports: [
   	BrowserPipe

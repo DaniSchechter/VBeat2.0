@@ -4,6 +4,8 @@ import { NgForm } from '@angular/forms';
 import { SongService } from '../songs.service'
 import { User } from '../../user/user.model';
 import { UserService } from '../../user/user.service';
+import { NotificationPopupService } from '../../notification/notification-popup.service';
+import { NotificationStatus, Notification } from '../../notification/notification.model';
 
 @Component({
   selector: 'app-song-create',
@@ -32,10 +34,14 @@ export class SongCreateComponent implements OnInit {
 
   // Will be automatically added as an artist for the new song
   connectedArtist: User;
+  
+  // Get the current date for release date validation
+  currentDate: Date;
 
-  constructor(private songService: SongService, private userService:UserService) {}
+  constructor(private songService: SongService, private userService:UserService,private notificationService:NotificationPopupService) {}
 
   ngOnInit() {
+    this.currentDate = new Date();
     this.selected_artists = [];
     this.filtered_artists = [];  //gets an actual value only from pre-defined length - see updates below
     this.name_length_to_query = 2;
@@ -111,12 +117,18 @@ export class SongCreateComponent implements OnInit {
     if(!form.valid) {
       return;
     }
+    const currentDate = new Date();
+    if(form.value.release_date > currentDate){
+      this.notificationService.submitNotification(
+        new Notification("Cannot pick future date",NotificationStatus.ERROR))
+      return;
+    }
     // if(this.mode === 'create'){
     this.songService.addSong(
       form.value.name,
       form.value.genre,
-      form.value.song_path,
-      form.value.song_image,
+      encodeURI(form.value.song_path),
+      encodeURI(form.value.song_image),
       form.value.release_date,
       this.selected_artists,
       0

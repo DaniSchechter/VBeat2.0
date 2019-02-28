@@ -26,7 +26,7 @@ def main():
 	for s in songs:
 		s = fix_artists(s)
 		song_dict_list.append(s.__dict__)
-	save(mongoclient, song_dict_list)
+	save(mongoclient, song_dict_list) 
 
 def get_random_username(artist):
 	return artist + uuid.uuid4().__str__()	
@@ -35,14 +35,15 @@ artist_cache_list = []
 
 def get_artist_object(artistname):
 	global artist_cache_list
-	artist_match_list = [x for x in artist_cache_list if x.display_name == artistname]
+	artist_match_list = [x for x in artist_cache_list if x['display_name'] == artistname]
 	if len(artist_match_list) == 1:
 		logger.debug('used artist from cache')
-		return artist_match_list[0].__dict__
+		return artist_match_list[0]['_id']
 	
 	artist_object = Artist.create_from_name(artistname)	
-	artist_cache_list.append(artist_object)
-	return artist_object.__dict__
+	artist_object.songs = []
+	artist_cache_list.append(artist_object.__dict__)
+	return artist_object.__dict__['_id']
 	
 
 def fix_artists(song):
@@ -63,13 +64,26 @@ def fix_artists(song):
 	song.artists = [get_artist_object(a.strip()) for a in comma_split]
 	return song
 	
+def insert_song_ids_to_artist(song):
+	global artist_cache_list
+	for artistId in song['artists']:
+		artist_obj = [x for x in artist_cache_list if x['_id'] == artistId]
+		if len(artist_obj) != 1:
+			continue
+		artist_obj = artist_obj[0]
+		artist_obj['songs'].append(song['_id'])
+
 
 def save(mongoclient, song_dict_list):
+	global artist_cache_list
 	logger.info('saving songs to database')
 	first_node = mongoclient['first-node']
-	top_songs = first_node['songs']
-	mongo_object = top_songs.insert_many(song_dict_list)
-	#logger.info('songs saved under id %s' % mongo_object.inserted_ids)
+	top_song_collection = first_node['songs']
+	mongo_object = top_song_collection.insert_many(song_dict_list)
+	user_collection = first_node['users']
+	for song in song_dict_list:
+		insert_song_ids_to_artist(song)
+	user_collection.insert_many(artist_cache_list)
 	logger.info('songs sent to db')
 
 def filter_lines(page_html):
@@ -147,7 +161,15 @@ class Song():
 		self.artists = artists
 		self.genre = random.choice(['POP', 'JAZZ', 'HIP-HOP', 'ROCK', 'CLASSIC'])  
 		self.release_date = release_date
-		self.song_path = song_url
+		self.song_path = random.choice(['Alessia Cara - Scars To Your Beautiful (Audio).mp3',
+'Anne-Marie - 2002 [Official Video].mp3',
+'Clean Bandit - Symphony (feat. Zara Larsson) [Official Video].mp3',
+'Hailee Steinfeld, Alesso - Let Me Go ft. Florida Georgia Line, WATT.mp3',
+'Lauv - I Like Me Better [Official Audio].mp3',
+'Marshmello & Anne-Marie - FRIENDS (Music Video) OFFICIAL FRIENDZONE ANTHEM.mp3',
+'Marshmello ft. Bastille - Happier (Official Music Video).mp3',
+'Selena Gomez, Marshmello - Wolves (Official Music Video).mp3',
+'Zedd, Grey - The Middle (Lyrics) ft. Maren Morris.mp3']) 
 		images = ['https://www.thoughtco.com/thmb/oXOWMUKShSv3ym-a1xMVGPoabPM=/1200x800/filters:fill(auto,1)/archer_closeup-56a00f9f3df78cafda9fde1c.png','https://comedycentral.mtvnimages.com/images/tve/archer/tve_series_page/ARCHER_NextGen_Spotlight_NoLogo_1920x1080.jpg?width=640&height=360&crop=true', 'https://cdn.techadvisor.co.uk/cmsdata/features/3684524/archer_season_10_thumb800.jpg', 'https://tribzap2it.files.wordpress.com/2016/04/archer-season-7-ray-adam-reed.jpg?w=900', 'https://media.comicbook.com/2018/09/burt-reyonds-death-archer-fans-reaction-1132320-1280x0.jpeg']
 		self.image_path = random.choice(images) # just because
 		self.scraped = True
