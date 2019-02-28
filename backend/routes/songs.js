@@ -219,7 +219,6 @@ app.get("/mapreduce", (req, res, next) => {
 	};
 
 	o.reduce = function(id, num_of_times_liked){
-        console.log('map reduce', num_of_times_liked);
 		return Array.sum(num_of_times_liked);
 	};
 
