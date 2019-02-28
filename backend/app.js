@@ -8,7 +8,7 @@ const usersRoutes = require("./routes/users");
 const playlistRoutes = require("./routes/playlists");
 const app = express();
 
-mongoose.connect("mongodb+srv://alex:nE7fHawuXIMUmwlX@cluster0-k5m05.mongodb.net/first-node?retryWrites=true")
+mongoose.connect("mongodb://alex:nE7fHawuXIMUmwlX@198.46.188.120/first-node?retryWrites=true")
 .then(()=>{
     console.log("connected to db!");
 }).catch(()=>{
