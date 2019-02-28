@@ -53,7 +53,7 @@ module.exports.searchSongs = function(displayNames, callback){
 		// iterate each song
 		results.forEach(result => {
 			// search the name of the song for one of the keywords
-			console.log('searching in', result.name);
+			// console.log('searching in', result.name);
 			hits = searchEngine.search(result.name.toLowerCase());
 			// do we have at least one hit?
 			if(hits.length != 0) {
