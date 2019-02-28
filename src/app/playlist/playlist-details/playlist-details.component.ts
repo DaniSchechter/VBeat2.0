@@ -31,6 +31,10 @@ export class PlaylistDetailsComponent implements OnInit, OnDestroy {
     this.playlistService.getPlaylistById(playlistId);
   }
 
+  onDeleteFromPlaylist(songId : string){
+    this.playlistService.deleteSongFromPlaylist(this.playlist, songId);
+  }
+
   ngOnDestroy(): void {
     this.playlistSub.unsubscribe();
   }

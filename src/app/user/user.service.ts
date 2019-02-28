@@ -14,31 +14,41 @@ import { User, UserRole } from './user.model'
 })
 export class UserService {
 
-	private base_url = 'http://localhost:3000/api'; /* TODO need to move this out */ 
+	private base_url = 'http://localhost:3000/api'; /* TODO need to move this out */
 	artists: User[];
 	artistsUpdated = new Subject<User[]>();
 	userFetched = new Subject<User>();
-	userId: string;
 	connectedUser: User;
+  isLoggedIn = false;
+
+
+  userDetailsFetched = new Subject<User>();
 
 	constructor(private Http: HttpClient,
 				private notificationService: NotificationPopupService, private router:Router) { }
 
+
+
+  getUserDetailsUpdateListener(){
+    return this.userDetailsFetched.asObservable();
+  }
+
+
 	getArtistsUpdateListener(){
 		return this.artistsUpdated.asObservable();
-	}
+  }
 
 	/* this function sends the information to the server
 	   and submits a notification regarding the response*/
 	addUser(
-		username: string, 
+		username: string,
 		password: string,
 		role: UserRole,
 		profile_pic: string,
 		display_name: string,
 		email: string,
 		country: string,
-    city: string,
+    	city: string,
 		street: string,
 		houseNum: number
 	)
@@ -47,18 +57,18 @@ export class UserService {
 			id: null,
 			username: username,
 			role: role,
-			password: password, 
+			password: password,
 			profile_pic: profile_pic,
 			display_name: display_name,
 			email: email,
 			country: country,
-      city: city,
+      		city: city,
 			street: street,
 			houseNum: houseNum,
 		};
-		
+
 		return new Promise( (resolve, reject) => {
-			this.Http.post<{message: string, userId: string}>(this.base_url + '/user',user)
+			this.Http.post<{message: string, userId: string}>(`${this.base_url}/user`,user)
 			.subscribe(
 				responseData => {
 					this.notificationService.submitNotification(
@@ -78,8 +88,9 @@ export class UserService {
 	login(
 		username: string,
 		password: string,
-	) 
+	)
 	{
+
 		const user: User = {
 			id: null,
 			username: username,
@@ -101,6 +112,7 @@ export class UserService {
 							this.notificationService.submitNotification(
 									new Notification(responseData.message, NotificationStatus.OK)
 							);
+							this.isLoggedIn = true;
 							resolve();
 							this.router.navigate(["/"]);
 						},
@@ -149,25 +161,63 @@ export class UserService {
 	}
 
 	getUserPermissions(){
-		this.Http.get<{user: User}>(`${this.base_url}/user/currentUser`)
+		if(!this.isLoggedIn){
+			return;
+		}
+		this.Http.get<{user: any}>(`${this.base_url}/user/currentUser`)
+
 		.subscribe(userData => {
-			this.connectedUser = userData.user;
-			this.userFetched.next(userData.user);
+			const newUser: User = new User(
+				userData.user._id,
+				userData.user.username,
+				userData.user.role,
+				userData.user.password,
+				userData.user.profile_pic,
+				userData.user.display_name,
+				userData.user.email,
+				userData.user.country,
+				userData.user.city,
+				userData.user.street,
+				userData.user.houseNum,
+			);
+			this.connectedUser = newUser;
+			this.userFetched.next(newUser);
 		},
 		error => {
 			this.notificationService.submitNotification(
 				new Notification(error.message, NotificationStatus.ERROR));
 		})
 	}
-	
+
+	getIsLoggedIn(){
+		return this.isLoggedIn;
+	}
+
 	logout(onSuccess: Function){
 		this.Http.get(`${this.base_url}/user/logout`)
 			.subscribe(data => {
 				this.notificationService.submitNotification(new Notification("logged out!", NotificationStatus.OK));
+				this.isLoggedIn = false;
 				onSuccess();
-			}, 
+			},
 			error => {
 				this.notificationService.submitNotification(new Notification("unable to logout", NotificationStatus.ERROR));
 			});
-	}
+  }
+
+
+  getCurrentUser(){
+    this.Http.get<{user: User}>(`${this.base_url}/user/currentUser`)
+		.subscribe(userData => {
+			this.userDetailsFetched.next(userData.user);
+		},
+		error => {
+			this.notificationService.submitNotification(
+				new Notification(error.message, NotificationStatus.ERROR));
+    });
+  }
+
+
+
+
 }

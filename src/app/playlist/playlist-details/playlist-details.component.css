@@ -25,4 +25,10 @@ app-song-details mat-card{
 
 #songs-container div{
     background-color: #424242;
+    align-items: flex-end;
+}
+
+button {
+    z-index: 10;
+    float:right;
 }

@@ -4,7 +4,8 @@ import { Playlist } from '../playlist.model'
 import { Subscription } from 'rxjs';
 
 import { PlaylistService } from '../playlist.service';
-
+import { MusicPlayerService } from '../../player/music-player/music-player.service';
+import { SongPlayAction } from '../../player/music-player/songPlayAction';
 
 
 @Component({
@@ -21,7 +22,8 @@ export class PlaylistListComponent implements OnInit, OnDestroy {
   currentPage:number = 1;
   private playlistSub: Subscription;
 
-  constructor(public playlistsService : PlaylistService) { }
+  constructor(private playlistsService : PlaylistService,
+              private musicPlayerService: MusicPlayerService) { }
 
   ngOnInit() {
     // get the playlists
@@ -43,7 +45,10 @@ export class PlaylistListComponent implements OnInit, OnDestroy {
     this.playlistsService.getPlaylists(this.playlistsPerPage, this.currentPage);
   }
   
-
+  onPlay(playlist: Playlist){
+    this.musicPlayerService.play(playlist.songList, SongPlayAction.PLAY_PLAYLIST);
+  }
+  
   onDelete(playlistId: string) {
     this.playlistsService.deletePlaylist(playlistId);
   }
