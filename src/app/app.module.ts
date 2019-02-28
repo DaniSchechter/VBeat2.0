@@ -50,7 +50,6 @@ import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-cre
 import { PlaylistEditComponent } from './playlist/playlist-edit/playlist-edit.component';
 import { PlaylistListComponent } from './playlist/playlist-list/playlist-list.component';
 import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-details.component';
-import { UserLocationComponent } from './user/user-location/user-location.component';
 import { SongSearchComponent } from './song/song-search/song-search.component';
 import { MusicPlayerComponent } from './player/music-player/music-player.component';
 import { QuickSearchComponent } from './quick-search/quick-search.component';
@@ -84,7 +83,6 @@ import { DoughnutChartComponent, PieChartComponent, BarChartComponent } from 'an
     DoughnutChartComponent,
     PieChartComponent,
     BarChartComponent,
-    UserLocationComponent,
     SongSearchComponent,
     MusicPlayerComponent,
     QuickSearchComponent,
