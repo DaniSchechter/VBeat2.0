@@ -15,10 +15,10 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.userSub = this.userService.getUserDetailsUpdateListener().subscribe((user: User) => {
+    this.userSub = this.userService.getUserPermissionsUpdateListener().subscribe((user: User) => {
       this.currentUser = user;
     });
-    this.userService.getCurrentUser();
+    this.userService.getUserPermissions();
   }
 
   ngOnDestroy(): void {
