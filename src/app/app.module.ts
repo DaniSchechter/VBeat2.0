@@ -54,6 +54,9 @@ import { UserLocationComponent } from './user/user-location/user-location.compon
 import { SongSearchComponent } from './song/song-search/song-search.component';
 import { MusicPlayerComponent } from './player/music-player/music-player.component';
 
+// D3 graph
+import { DoughnutChartComponent, PieChartComponent, BarChartComponent } from 'angular-d3-charts'; // this is needed!
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,6 +75,9 @@ import { MusicPlayerComponent } from './player/music-player/music-player.compone
     PlaylistEditComponent,
     PlaylistListComponent,
     PlaylistDetailsComponent,
+    DoughnutChartComponent, 
+    PieChartComponent, 
+    BarChartComponent,
     UserLocationComponent,
     SongSearchComponent,
     MusicPlayerComponent,
