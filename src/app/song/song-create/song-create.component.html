@@ -58,14 +58,12 @@
             ngModel
             required
             #image="ngModel">
-          <!--TODO ???? maybe change to local file upload ?????????-->
           <mat-hint> Please enter image url to be uploaded </mat-hint> 
           <mat-error *ngIf = "image.invalid"> Not a valid URL </mat-error>
       </mat-form-field>
       <!-- END -->
 
       <!-- RELEASE DATE -->
-      <!-- TODO add validation for future date-->
       <mat-form-field appearance = "legacy" color = "accent">
           <input 
             matInput 

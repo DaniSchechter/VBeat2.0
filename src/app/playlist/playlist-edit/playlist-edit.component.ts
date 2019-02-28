@@ -16,12 +16,9 @@ export class PlaylistEditComponent implements OnInit {
   private playlistId : string;
   private playlistSub: Subscription;
   
-  //! TODO - get the user id of the current user
   playlist : Playlist;
   playlists: Playlist[];
-
-  
-  //TODO add the singed-in user as song for this playlist - and disable his delete option 
+ 
   //Temp array for the selected songs, send to server only on submit
   selected_songs: Song[];
 
@@ -29,26 +26,8 @@ export class PlaylistEditComponent implements OnInit {
   constructor(private playlistService: PlaylistService, public route: ActivatedRoute) {
   }
 
-  // !!!! TODO change to load only one playlist and not the entire playlists
   ngOnInit() {
-    // this.selected_songs = [];
-    // this.playlist = this.playlistService.getPlaylist(this.playlists, this.playlistId);
-    // this.route.paramMap.subscribe((paramMap: ParamMap) => {
-    //     if (paramMap.has('id')){
-    //         this.playlistId = paramMap.get('id');
-    //         this.playlistService.getPlaylist(this.playlists, this.playlistId);
-    //         this.playlistService.getPlaylists();
-    //         this.playlistSub = this.playlistService.getPlaylistsUpdateListener()
-    //         .subscribe((playlistData: {playlists: Playlist[], totalPlaylists: number}) => {
-    //           // get all playlists
-    //             this.playlists = playlistData.playlists;
-    //             // the the edited playlist
-    //             this.playlist = this.playlistService.getPlaylist(this.playlists, this.playlistId);
-    //             // get the song list og the edited playlist
-    //             this.selected_songs = this.playlist.songList;
-    //           });
-    //     }
-    // });
+
   }
 
   // Adds an song that was selected to playlist's songs list
@@ -63,7 +42,7 @@ export class PlaylistEditComponent implements OnInit {
 
   onSubmit(form: NgForm){
     if(!form.valid) {
-      return; //! TODO - display popup message to correct 
+      return; 
     }
       this.playlistService.updatePlaylist(
         this.playlistId, 

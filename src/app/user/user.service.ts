@@ -14,7 +14,7 @@ import { User, UserRole } from './user.model'
 })
 export class UserService {
 
-	private base_url = 'http://localhost:3000/api'; /* TODO need to move this out */
+	private base_url = 'http://localhost:3000/api';
 	artists: User[];
 	artistsUpdated = new Subject<User[]>();
 	userFetched = new Subject<User>();
