@@ -53,6 +53,10 @@ import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-d
 import { UserLocationComponent } from './user/user-location/user-location.component';
 import { SongSearchComponent } from './song/song-search/song-search.component';
 import { MusicPlayerComponent } from './player/music-player/music-player.component';
+import { UserDetailsComponent } from './user/user-details/user-details.component';
+
+//google maps
+import { AgmCoreModule } from '@agm/core';
 
 // D3 graph
 import { DoughnutChartComponent, PieChartComponent, BarChartComponent } from 'angular-d3-charts'; // this is needed!
@@ -81,6 +85,7 @@ import { DoughnutChartComponent, PieChartComponent, BarChartComponent } from 'an
     UserLocationComponent,
     SongSearchComponent,
     MusicPlayerComponent,
+    UserDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -106,6 +111,9 @@ import { DoughnutChartComponent, PieChartComponent, BarChartComponent } from 'an
     MatAutocompleteModule,
     MatPaginatorModule,
     MatSnackBarModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyD_SmdSZQy58OQhbGxJN9fi_SbTT2sBVf4'
+    }), //google maps
   ],
   exports: [
   	BrowserPipe
