@@ -13,13 +13,14 @@ module.exports.onLogin = function(userAgent) {
 	very simple count min sketch usage
 	we'll count the browsers of users
 	*/
-
+	console.log('received user agent => ' + userAgent);
 	if(userAgent == undefined) {
 		return;
 	}
 	var i;
 	for(i = 0; i < majorBrowsers.length; i++) {
 		if(userAgent.toLowerCase().indexOf(majorBrowsers[i].toLowerCase()) != -1){
+			console.log('updating major browser => ' + majorBrowsers[i]);
 			sketchModule.update(majorBrowsers[i], 1);
 		}
 	}

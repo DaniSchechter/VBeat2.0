@@ -130,7 +130,6 @@ app.get("", (req, res, next) => {
 
     playlistQuery
     .then(playlistsResult => {
-        console.log(playlistsResult.songList);
         fetchedPlaylists = playlistsResult;
         return playlistsResult.length;
     })
@@ -246,10 +245,7 @@ async function addSongToPlaylist(playlistId, songId){
     const playlist = await Playlist.findById(playlistId);
 
     let songList = playlist.songList;
-    console.log('got playlist with songs: ',songList);
     songList.push(songId);
-    console.log('the song id is: ',songId);
-    console.log('after adding the song id: ',songList);
     playlist.songList = songList;
     await Playlist.findByIdAndUpdate(playlistId, playlist);
 
