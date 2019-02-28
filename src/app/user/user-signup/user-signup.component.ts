@@ -30,7 +30,7 @@ export class UserSignupComponent implements OnInit {
     this.userService.addUser(form.value.username, 
       form.value.password, 
       form.value.role, 
-      form.value.profile_pic, 
+      encodeURI(form.value.profile_pic), 
       form.value.display_name, 
       form.value.email, 
       form.value.country,

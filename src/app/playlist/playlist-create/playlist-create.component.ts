@@ -17,7 +17,7 @@ export class PlaylistCreateComponent implements OnInit {
 
   onSubmit(form: NgForm){
     if(!form.valid) {
-      return; //! TODO - display popup message to correct 
+      return; 
     }
     if(form.value.name == "LIKED SONGS"){
       this.notificationService.submitNotification(

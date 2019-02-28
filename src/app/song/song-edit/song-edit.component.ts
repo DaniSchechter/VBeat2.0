@@ -6,6 +6,8 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { User } from '../../user/user.model';
 import { UserService } from '../../user/user.service';
+import { NotificationPopupService } from '../../notification/notification-popup.service';
+import { NotificationStatus, Notification } from '../../notification/notification.model';
 
 @Component({
   selector: 'app-song-edit',
@@ -41,9 +43,8 @@ export class SongEditComponent implements OnInit, OnDestroy {
   // Will be automatically added as an artist for the new song
   connectedArtist: User;
 
-  constructor(private songService: SongService, private route: ActivatedRoute,  private userService:UserService) {}
+  constructor(private songService: SongService, private route: ActivatedRoute,  private userService:UserService, private notificationService:NotificationPopupService) {}
 
-  // !!!! TODO change to load only one song and not the entire songs
   ngOnInit() {
     this.selected_artists = [];
     this.filtered_artists = [];  //gets an actual value only from pre-defined length - see updates below
@@ -130,22 +131,34 @@ export class SongEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSubmit(form: NgForm){
+  onSend(form : NgForm){
+    const currentDate = new Date();
     if(!form.valid) {
-      return; //! TODO - display popup message to correct 
+      this.notificationService.submitNotification(
+        new Notification("Form is not valid",NotificationStatus.ERROR)); 
     }
+    else if(form.value.release_date > currentDate){
+      this.notificationService.submitNotification(
+        new Notification("Cannot pick future date",NotificationStatus.ERROR))
+    }
+    else {
+      this.onSubmit(form);
+    }
+  }
+
+  onSubmit(form: NgForm){
       this.songService.updateSong(
         this.songId, 
         form.value.name,
         form.value.genre,
-        form.value.song_path,
-        form.value.song_image,
+        encodeURI(form.value.song_path),
+        encodeURI(form.value.song_image),
         form.value.release_date,
         this.selected_artists, 
         this.song.num_of_times_liked
       )
       form.resetForm();
-    }
+  }
 
   private clearFilteredrtists() {
     this.prefix = null;

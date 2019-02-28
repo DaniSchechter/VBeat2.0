@@ -30,8 +30,6 @@ export class SongActionService{
         this.songUpdatedSubject = this.createSongUpdatedSubject();
     }
 
-    // TODO think of a way without getting Httpclient as paramater
-    // TODO then remove also from song-tool-bar.component.ts
     static getInstance(http:HttpClient ): SongActionService {
         if(!SongActionService.instance) {
             SongActionService.instance = new SongActionService(http, new NotificationPopupService());
