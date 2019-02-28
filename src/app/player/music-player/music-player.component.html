@@ -5,6 +5,6 @@ Your browser does not support the audio element.
 </audio>
 
 <div id="song-name-wrapper">
-  <img [src]="songs[0].image_path" *ngIf="songs">
-  <p *ngIf="songs"> {{ songs[0].name }} </p>
+  <img [src]="songs[0].image_path" *ngIf="songs.length!=0">
+  <p *ngIf="songs.length!=0"> {{ songs[0].name }} </p>
 </div>

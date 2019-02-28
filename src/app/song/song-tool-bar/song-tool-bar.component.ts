@@ -9,6 +9,8 @@ import { SongService } from '../songs.service';
 import { HttpClient } from '@angular/common/http';
 import { NotificationPopupService } from '../../notification/notification-popup.service';
 import { NotificationStatus, Notification } from '../../notification/notification.model';
+import { MusicPlayerService } from '../../player/music-player/music-player.service';
+import { SongPlayAction } from '../../player/music-player/songPlayAction';
 
 @Component({
   selector: 'app-song-tool-bar',
@@ -36,6 +38,7 @@ export class SongToolBarComponent implements OnInit {
     private notificationService: NotificationPopupService,
     private songsService : SongService,
     private playlistService: PlaylistService,
+    private musicPlayerService: MusicPlayerService,
     private http: HttpClient)
   {
     this.songActionService = SongActionService.getInstance(http);
@@ -96,9 +99,8 @@ export class SongToolBarComponent implements OnInit {
   }
 
 
-    //TODO change to real action for the next 2 buttons 
-  onPlay() {alert("song "+ this.song.name +" playnow")}
-  onAddToQueue() {alert("song "+ this.song.name +" queue")}
+  onPlay() { this.musicPlayerService.play([this.song], SongPlayAction.PLAY_SONG_NOW); }
+  onAddToQueue() { this.musicPlayerService.play([this.song], SongPlayAction.ADD_SONG_TO_QUEUE); }
   onLikeToggle() { 
     //If songLiked is true => click is to dislike => we want to decrease the num of likes
     if(this.songLiked) {
