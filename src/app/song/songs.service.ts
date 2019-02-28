@@ -37,6 +37,12 @@ export class SongService{
     return this.searchSongUpdated.asObservable();
   }
 
+  getSong(songId){
+    return this.Http.get<Song>(
+        this.base_url + "/song/" + songId
+      );
+  }
+
   getSongs(songsPerPage = 10, currentPage = 1) {
     
 
@@ -67,6 +73,7 @@ export class SongService{
         songsAfterChange => {
           this.songsCount = songsAfterChange.totalSongs;
           this.songs = songsAfterChange.songs;
+          // console.log('songs', this.songs);
           this.songsUpdated.next({
             songs: [...this.songs],
             totalSongs: songsAfterChange.totalSongs

@@ -50,6 +50,8 @@ app.post("", async (req, res, next) => {
     }
 });
 
+
+
 app.get("", (req, res, next) => {
     console.log(`user seesion: ${req.session.userId}`);
     const pageSize = +req.query.pageSize;
@@ -230,6 +232,26 @@ app.get("/mapreduce", (req, res, next) => {
 
 		res.status(200).json(results);
 	});
+});
+
+app.get("/:id", async (req, res, next)=> {
+    var songId = req.params.id;
+    // song id is not present as a parameter
+    if(!songId){
+        res.status(400).json({
+            message: "bad request: missing song id param"
+        });
+        return;
+    }
+
+    var song = await Song.findById(songId);
+    if(!song) {
+        res.status(404).json({
+            message: "unable to find song"
+        });
+    }
+    console.log('found song', song);
+    res.status(200).json(song);
 });
 
 module.exports = app;

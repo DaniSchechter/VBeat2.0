@@ -55,16 +55,16 @@ export class SongEditComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
         if (paramMap.has('id')){
             this.songId = paramMap.get('id');
-            this.songService.getSongs();
-            this.songSub = this.songService.getSongsUpdateListener()
-            .subscribe((songData: {songs: Song[], totalSongs: number}) => {
-                this.songs = songData.songs;
-                this.song = songData.songs.find( song => this.songId == song.id);
-                this.song.artists.forEach( artist => {
-                    if(!this.selected_artists.some( selectedArtist => artist.username == selectedArtist.username ))
-                      this.selected_artists.push(artist);
-                });
-            });
+            // this.songService.getSongs();
+            this.songService.getSong(this.songId)
+              .subscribe(
+                (song) => {
+                  this.song = song;
+                  this.song.artists.forEach( artist => {
+                      if(!this.selected_artists.some( selectedArtist => artist.username == selectedArtist.username ))
+                        this.selected_artists.push(artist);
+                  });
+              });
         }
     });
 
@@ -166,6 +166,8 @@ export class SongEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.songSub.unsubscribe();
+    if(this.songSub) {
+      this.songSub.unsubscribe();
+    }
   }
 }
