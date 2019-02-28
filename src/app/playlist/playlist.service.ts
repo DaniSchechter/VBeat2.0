@@ -40,14 +40,26 @@ export class PlaylistService{
         .pipe(
             map(playlistData => {
             return {playlists: playlistData.playlists.map(playlist => {
+                let songs = playlist.songList.map( song => {
+                    return {
+                        id: song._id,
+                        name: song.name,
+                        genre: song.genre,
+                        song_path: song.song_path,
+                        image_path: song.image_path,
+                        release_date: song.release_date,
+                        artists: song.artists,
+                        num_of_times_liked: song.num_of_times_liked
+                    };
+                })
                 return {
                     name: playlist.name, 
                     user: playlist.user, 
-                    songList: playlist.songList,
+                    songList: songs,
                     id: playlist._id
                 };
-            }), totalPlaylists: playlistData.totalPlaylists};
-        }))
+        }), totalPlaylists: playlistData.totalPlaylists};
+    }))
         .subscribe(
             (playlistsAfterChange) => {
                 this.playlistsCount = playlistsAfterChange.totalPlaylists;
@@ -101,9 +113,7 @@ export class PlaylistService{
                 this.favoritePlaylistUpdated.next(this.favoritePlaylist);
             },
             error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
-        );
-    }
-
+        );}
     // get playlist by id
     getPlaylistById(playlistId: string){
         this.Http.get<{message: string; playlist: any}>(`${this.base_url}/playlist/getById/${playlistId}`)
