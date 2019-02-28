@@ -12,7 +12,7 @@ import uuid
 
 # settings
 scraping_url = 'https://www.top100singles.net/2017/12/every-aria-top-100-single-in-2018.html'
-mongodb_string = 'mongodb+srv://alex:nE7fHawuXIMUmwlX@cluster0-k5m05.mongodb.net/first-node?retryWrites=true'
+mongodb_string = 'mongodb://alex:nE7fHawuXIMUmwlX@198.46.188.120/first-node?retryWrites=true'
 
 logzero.logfile('debug.log')
 
