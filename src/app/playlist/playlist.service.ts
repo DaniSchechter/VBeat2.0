@@ -276,5 +276,5 @@ export class PlaylistService{
         this.updatePlaylist(playlist.id, playlist.name, songlist, isFavorite);
         this.router.navigate(["/"]);
     }
-]
+
 }
