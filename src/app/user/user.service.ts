@@ -19,13 +19,19 @@ export class UserService {
 	artistsUpdated = new Subject<User[]>();
 	userFetched = new Subject<User>();
 	connectedUser: User;
-  isLoggedIn = false;
+  	isLoggedIn = false;
 
 
   userDetailsFetched = new Subject<User>();
 
 	constructor(private Http: HttpClient,
-				private notificationService: NotificationPopupService, private router:Router) { }
+				private notificationService: NotificationPopupService, private router:Router) { 
+		this.isLoggedIn = document.cookie.indexOf("loggedin") != -1;
+		console.log(
+			'isLoggedIn initialized',
+			this.isLoggedIn
+			);
+	}
 
 
 
@@ -113,6 +119,7 @@ export class UserService {
 									new Notification(responseData.message, NotificationStatus.OK)
 							);
 							this.isLoggedIn = true;
+							document.cookie = 'loggedin=true;';
 							resolve();
 							this.router.navigate(["/"]);
 						},
@@ -198,6 +205,7 @@ export class UserService {
 			.subscribe(data => {
 				this.notificationService.submitNotification(new Notification("logged out!", NotificationStatus.OK));
 				this.isLoggedIn = false;
+				document.cookie = '';
 				onSuccess();
 			},
 			error => {
