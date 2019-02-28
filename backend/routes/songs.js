@@ -1,31 +1,52 @@
 const express = require("express");
 
-
 const Song = require('../models/song');
+const Playlist = require('../models/playlist');
+const User = require('../models/user');
+
+
 const app = express.Router();
 
-app.post("", (req, res, next) => {
-    const song = new Song({
-        name: req.body.name,
-        genre: req.body.genre,
-        song_path: req.body.song_path,
-        image_path: req.body.image_path,
-        release_date: req.body.release_date,
-        artists:  req.body.artists,
-        num_of_times_liked: req.body.num_of_times_liked
-    });
-    song.save()
-    .then(newSong => {
+app.post("", async (req, res, next) => {
+    try{
+
+        artistIds = req.body.artists.map( artist => artist.id );
+
+        // Create the new song
+        const song = new Song({
+            name: req.body.name,
+            genre: req.body.genre,
+            song_path: req.body.song_path,
+            image_path: req.body.image_path,
+            release_date: req.body.release_date,
+            artists: artistIds,
+            num_of_times_liked: req.body.num_of_times_liked,
+            playlists: []
+        });
+        // Save new song
+        const savedSong = await song.save();
+        // for each artist update the song list
+        artistIds.forEach(async artistId => {
+
+            const artist = await User.findById(artistId);
+            if(artist == null) {
+                return;
+            }
+            artist.songs.push(savedSong._id);
+            // Save user's changes
+            await artist.save();
+        });
         res.status(201).json({
             message: "Song added successfully",
-            songId: newSong._id
+            songId: savedSong._id
         });
-    }).catch(error => {
-        console.log(error);
-        res.status(500).json({
-            message: "Could not create a new song"
-        });
-    });
+    }
+    catch (err){
+            console.error(err);
+            res.status(500).json({
+                message: "Could not create a new song"
+            });
+    }
 });
 
 app.get("", (req, res, next) => {
@@ -33,7 +54,7 @@ app.get("", (req, res, next) => {
     const pageSize = +req.query.pageSize;
     const currPage = +req.query.page;
     let fetchedSongs;
-    const songQuery = Song.find();
+    const songQuery = Song.find().populate('artists');
     if (pageSize && currPage){
         songQuery.skip(pageSize * (currPage - 1)).limit(pageSize);
     }
@@ -56,73 +77,61 @@ app.get("", (req, res, next) => {
     });
 });
 
-app.delete("/:id", (req, res, next) => {
-    Song.deleteOne({_id: req.params.id})
-    .then(result => {
+app.delete("/:id", async (req, res, next) => {
+    try{
+        const savedSong = await Song.findById(req.params.id);
+        // Remove the song from all playlists
+        savedSong.playlists.forEach( async playlistId => {
+            const playlist = await Playlist.findById(playlistId);
+            playlist.songList = playlist.songList.filter( songId => songId != req.params.id);
+            await playlist.save();
+        });
+
+        // Remove the song from all users
+        savedSong.artists.forEach( async artistId => {
+            const artist = await User.findById(artistId);
+            artist.songs = artist.songs.filter( songId => songId != req.params.id);
+            await artist.save();
+        });
+        await Song.remove(savedSong)
         res.status(200).json({
             message : "Song deleted"
         });
-    }).catch(error => {
-        console.log(error.message);
+    }
+    catch(error){
+        console.log(error);
         res.status(400).json({
             message: "Could not delete this song"
         });
-    });
+    }
 });
 
-app.put("/:id", (req, res, next) => {
-
-    const song = new Song({
-        _id: req.body.id,
-        name: req.body.name,
-        genre: req.body.genre,
-        song_path: req.body.song_path,
-        image_path: req.body.image_path,
-        release_date: req.body.release_date,
-        artists:  req.body.artists,
-        num_of_times_liked: req.body.num_of_times_liked
-    });
-    Song.updateOne({_id: req.params.id}, song)
-    .then(result => {
+app.put("/:id", async (req, res, next) => {
+    try {
+        // Get the song from DB so we can fetch the playlist from it
+        const savedSong = await Song.findById(req.body.id);
+        const song = new Song({
+            _id: req.body.id,
+            name: req.body.name,
+            genre: req.body.genre,
+            song_path: req.body.song_path,
+            image_path: req.body.image_path,
+            release_date: req.body.release_date,
+            artists:  req.body.artists,
+            num_of_times_liked: req.body.num_of_times_liked,
+            playlists: savedSong.playlists
+        });
+        await Song.findByIdAndUpdate(req.params.id, song);
         res.status(200).json({
             message: "song updated"
         });
-    }).catch(error => {
+    }
+    catch(error) {
         res.status(400).json({
             message: "Could not update this song"
         });
-    });
+    }
 });
-
-
-app.put("/likes/:id", (req, res, next) => {
-    const song = new Song({
-        _id: req.body.id,
-        name: req.body.name,
-        genre: req.body.genre,
-        song_path: req.body.song_path,
-        image_path: req.body.image_path,
-        release_date: req.body.release_date,
-        artists:  req.body.artists,
-        num_of_times_liked: req.body.num_of_times_liked
-    });
-
-    Song.updateOne({_id: req.params.id}, song)
-    .then(
-        result => {
-        res.status(200).json({
-            message: "likes updated"
-        });
-    }).catch(error => {
-        res.status(400).json({
-            message: "Could not update num of likes"
-        });
-    });
-});
-
-
-
-
 
 app.get("/search", (req, res, next) => {
     const pageSize = +req.query.pageSize;
@@ -139,7 +148,7 @@ app.get("/search", (req, res, next) => {
     if(genreName!=='') query["genre"] = genreName;
 
 
-    const songQuery = Song.find(query);
+    const songQuery = Song.find(query).populate('artists');
 
 
     if (pageSize && currPage){

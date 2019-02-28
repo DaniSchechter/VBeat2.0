@@ -58,6 +58,9 @@ import { UserDetailsComponent } from './user/user-details/user-details.component
 //google maps
 import { AgmCoreModule } from '@agm/core';
 
+// D3 graph
+import { DoughnutChartComponent, PieChartComponent, BarChartComponent } from 'angular-d3-charts'; // this is needed!
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,6 +79,9 @@ import { AgmCoreModule } from '@agm/core';
     PlaylistEditComponent,
     PlaylistListComponent,
     PlaylistDetailsComponent,
+    DoughnutChartComponent, 
+    PieChartComponent, 
+    BarChartComponent,
     UserLocationComponent,
     SongSearchComponent,
     MusicPlayerComponent,

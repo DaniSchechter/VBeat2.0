@@ -6,7 +6,6 @@ const mongoose = require('mongoose');
 const songsRoutes = require("./routes/songs");
 const usersRoutes = require("./routes/users");
 const playlistRoutes = require("./routes/playlists");
-
 const app = express();
 
 mongoose.connect("mongodb+srv://alex:nE7fHawuXIMUmwlX@cluster0-k5m05.mongodb.net/first-node?retryWrites=true")
@@ -42,6 +41,5 @@ app.use((req, res, next) => {
 app.use("/api/song", songsRoutes);
 app.use("/api/user", usersRoutes);
 app.use("/api/playlist", playlistRoutes);
-
 
 module.exports = app;
