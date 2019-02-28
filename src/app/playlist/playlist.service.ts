@@ -78,9 +78,6 @@ export class PlaylistService{
     }
 
     getFavPlaylist(){
-        if(!this.userService.isLoggedIn){
-            return;
-        }
         // get the favorite playlist id if there is one
         this.Http.get<{message: string; playlist: any}>(this.base_url + '/playlist/' + "LIKED SONGS")
         .pipe(
