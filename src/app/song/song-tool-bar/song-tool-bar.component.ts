@@ -86,11 +86,16 @@ export class SongToolBarComponent implements OnInit {
     }
   }
 
-  onAddToPlaylist() {
+  onAddToPlaylist(song: Song) {
     this.playlistService.getPlaylists();
     this.playlistService.getPlaylistsUpdateListener().subscribe(
       (playlistData: {playlists: Playlist[], totalPlaylists: number}) => {
         this.playlists = playlistData.playlists.filter(playlist => playlist.name != "LIKED SONGS");
+        this.playlists.forEach(playlistToRemove => {
+          if(playlistToRemove.songList.some( songInPlaylist => songInPlaylist.id == song.id )){
+            this.playlists = this.playlists.filter( playlist => playlist.id != playlistToRemove.id );
+          }
+        })
         this.selectedPlaylists = [];
     })
   }
@@ -127,8 +132,13 @@ export class SongToolBarComponent implements OnInit {
     else{
       this.playlistService.addSongToPlaylists(this.selectedPlaylists, song);
     }
+    this.playlists.forEach(playlist => {
+      if (this.selectedPlaylists.includes(playlist)){
+        this.playlists = this.playlists.filter(playlistToRemove => playlistToRemove.id != playlist.id);
+      }
+    });
     this.selectedPlaylists = [];
-    }
+  }
 
   loadPermissionToConnectedUser() {
     if(this.userService.connectedUser == undefined)
