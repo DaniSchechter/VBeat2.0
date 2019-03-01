@@ -155,6 +155,14 @@ export class PlaylistService{
         ))
         .subscribe(
             playlistsAfterChange => {
+                if(!playlistsAfterChange){
+                    this.notificationService.submitNotification(
+                            new Notification(
+                                    "can't find playlist",
+                                    NotificationStatus.ERROR
+                                )
+                        );
+                }
                 this.playlist = playlistsAfterChange;
                 this.playlistUpdated.next(this.playlist);
             },
