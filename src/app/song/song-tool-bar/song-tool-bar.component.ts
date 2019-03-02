@@ -161,7 +161,7 @@ export class SongToolBarComponent implements OnInit {
             return artist.username == this.userService.connectedUser.username
           }
         );
-      console.log('owner permissions for song => ',this.song.name, this.hasOwnerPermissions);
+      // console.log('owner permissions for song => ',this.song.name, this.hasOwnerPermissions);
     }
   }
 }
