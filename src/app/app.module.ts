@@ -64,6 +64,8 @@ import { AgmCoreModule } from '@agm/core';
 // D3 graph
 import { DoughnutChartComponent, PieChartComponent, BarChartComponent } from 'angular-d3-charts'; // this is needed!
 
+import { DonutChart } from './stats/donutDirective'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -91,6 +93,7 @@ import { DoughnutChartComponent, PieChartComponent, BarChartComponent } from 'an
     PlaylistSearchComponent,
     UserDetailsComponent,
     GraphComponent,
+    DonutChart,
   ],
   imports: [
     BrowserModule,

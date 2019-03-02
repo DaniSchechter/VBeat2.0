@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { StatsService } from '../stats.service';
-import * as d3 from 'd3';
 @Component({
   selector: 'bar-chart',
   templateUrl: './graph.component.html',
@@ -8,9 +7,10 @@ import * as d3 from 'd3';
 })
 export class GraphComponent implements OnInit {
 
-  public data =[];
+  data =[];
+  showData: Boolean = false;
 
-  public colors = ['red', 'blue', 'green', 'yellow', 'pink', 'grey', 'brown', ]
+  public colors = ['red', 'blue', 'green', 'yellow', 'pink', 'grey', 'brown' ]
 
   constructor(private statsService: StatsService) {}
 
@@ -22,6 +22,7 @@ export class GraphComponent implements OnInit {
           this.data.push({id: id, label:result._id, value:result.value, color: this.colors[id]});
           id++;
         });
+        this.showData = true;
       }
     }).catch(err => {
       alert(err);

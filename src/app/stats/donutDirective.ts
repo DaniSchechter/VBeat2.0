@@ -24,12 +24,10 @@ export class DonutChart implements OnInit{
     private color: any;
     private svg: any;
 
-
-
     constructor(private el: ElementRef){
         this.width = 900- this.margin.left-this.margin.right;
         this.height = 900- this.margin.top-this.margin.bottom;
-        this.radius = Math.min(this.width, this.height) /2;
+        this.radius = Math.min(this.width, this.height) /3;
 
     }
 
@@ -39,15 +37,19 @@ export class DonutChart implements OnInit{
     }
 
     private svgInit(){
-        this.color = d3Scale.scaleOrdinal().range(['#98abc5', '#8a89a6']);
-        this.arc = d3Shape.arc().outerRadius( this.radius - 40)
+        this.color = d3Scale.scaleOrdinal().range(['red', 'blue', 'green', 'yellow', 'pink', 'grey', 'brown']);
+        this.arc = d3Shape.arc()
+        .outerRadius(this.radius - 10)
+        .innerRadius(0)
+        this.label = d3Shape.arc()
+        .outerRadius( this.radius - 40)
         .innerRadius(this.radius - 40);
         this.pie = d3Shape.pie()
-        .sort(null).value((d: any) => d.count);
+        .sort(null).value((d: any) => d.value);
         this.svg = d3.select(this.el.nativeElement)
         .append('g')
         .attr('transform', 'translate(' + this.width/2 + ',' + this.height/2 + ')');
-        this.el.nativeElement.style.height = '500';
+        this.el.nativeElement.style.height = '900';
         this.el.nativeElement.style.width = '950';
     }
 
@@ -57,9 +59,8 @@ export class DonutChart implements OnInit{
             .enter().append('g')
             .attr('class', 'arc');
         g.append('path').attr('d', this.arc)
-        .style('fill', (d:any) => this.color(d.data._id));
+        .style('fill', (d:any) => this.color(d.data.id));
         g.append('text').attr('transform', (d: any) => 'translate(' + this.label.centroid(d) + ')')
-        .attr('dy', '.3Sem')
-        .text((d:any) => (d.data._id + ' ' + d.data.count));
+        .text((d:any) => (d.data.label));
     }
 }
