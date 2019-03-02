@@ -56,6 +56,8 @@ import { QuickSearchComponent } from './quick-search/quick-search.component';
 import { PlaylistSearchComponent } from './playlist/playlist-search/playlist-search.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 
+import { GraphComponent } from './stats/graph/graph.component'
+
 //google maps
 import { AgmCoreModule } from '@agm/core';
 
@@ -88,6 +90,7 @@ import { DoughnutChartComponent, PieChartComponent, BarChartComponent } from 'an
     QuickSearchComponent,
     PlaylistSearchComponent,
     UserDetailsComponent,
+    GraphComponent,
   ],
   imports: [
     BrowserModule,

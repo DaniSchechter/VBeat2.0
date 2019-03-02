@@ -212,6 +212,7 @@ app.post("/quick_search", (req, res, next) => {
 });
 
 app.get("/mapreduce", (req, res, next) => {
+    console.log("asdasdasdasd");
 	const o = {};
 
 	o.map = function(){
@@ -224,12 +225,13 @@ app.get("/mapreduce", (req, res, next) => {
 
 	Song.mapReduce(o, function(err, results, stats){
 		if(err != undefined || err != null){
+            console.log("oops");
 			res.status(500).json({
 				message: err
 			});
 			return;
 		}
-
+        console.log(results);
 		res.status(200).json(results);
 	});
 });

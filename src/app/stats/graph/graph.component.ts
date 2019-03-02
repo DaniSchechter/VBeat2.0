@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { StatsService } from '../stats.service';
+import * as d3 from 'd3';
 @Component({
   selector: 'bar-chart',
   templateUrl: './graph.component.html',
@@ -6,37 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GraphComponent implements OnInit {
 
-  public donutChartData = [{
-    id: 0,
-    label: 'water',
-    value: 20,
-    color: 'red',
-  }, {
-    id: 1,
-    label: 'land',
-    value: 20,
-    color: 'blue',
-  }, {
-    id: 2,
-    label: 'sand',
-    value: 30,
-    color: 'green',
-  }, {
-    id: 3,
-    label: 'grass',
-    value: 20,
-    color: 'yellow',
-  }, {
-    id: 4,
-    label: 'earth',
-    value: 10,
-    color: 'pink',
-  }];
+  public data =[];
 
-  constructor() {}
+  public colors = ['red', 'blue', 'green', 'yellow', 'pink', 'grey', 'brown', ]
+
+  constructor(private statsService: StatsService) {}
 
   ngOnInit() {
-    
+    this.statsService.getMapReduce().then((results: any[]) => {
+      if(results){
+        var id = 0;
+        results.forEach(result => {
+          this.data.push({id: id, label:result._id, value:result.value, color: this.colors[id]});
+          id++;
+        });
+      }
+    }).catch(err => {
+      alert(err);
+    });
   }
    
 
