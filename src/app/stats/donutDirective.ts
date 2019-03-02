@@ -37,10 +37,12 @@ export class DonutChart implements OnInit{
     }
 
     private svgInit(){
-        this.color = d3Scale.scaleOrdinal().range(['red', 'blue', 'green', 'yellow', 'pink', 'grey', 'brown']);
+        this.color = d3Scale.scaleOrdinal().range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
         this.arc = d3Shape.arc()
         .outerRadius(this.radius - 10)
-        .innerRadius(0)
+        .innerRadius(this.radius - 100)
+        .cornerRadius(12)
+        .padAngle(0.03);
         this.label = d3Shape.arc()
         .outerRadius( this.radius - 40)
         .innerRadius(this.radius - 40);
