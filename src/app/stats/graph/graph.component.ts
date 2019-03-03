@@ -19,8 +19,11 @@ export class GraphComponent implements OnInit {
       if(results){
         var id = 0;
         results.forEach(result => {
-          this.data.push({id: id, label:result._id, value:result.value, color: this.colors[id]});
-          id++;
+          if (result.value > 0){
+            this.data.push({id: id, label:result._id, value:result.value, color: this.colors[id]});
+            id++;
+          }
+          
         });
         this.showData = true;
       }
