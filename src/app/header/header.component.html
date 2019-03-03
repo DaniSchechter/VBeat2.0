@@ -7,33 +7,62 @@
         <ul>
 
             <li>
-                <a class="link" mat-raised-button routerLink="/quick_search">Quick Search</a>
+                <a class="link" mat-raised-button routerLink="/quick_search">
+                    Quick Search
+                    <mat-icon>youtube_searched_for</mat-icon>
+                </a>
             </li>
+            
             <li>
-                <a class="link" *ngIf="loggedIn" mat-raised-button routerLink="/user_details">User Details</a>
+                <a class="link" *ngIf="loggedIn" mat-raised-button routerLink="/song_search">
+                    Search Song
+                    <mat-icon>search</mat-icon>
+                </a>
             </li>
 
             <li>
-                <a class="link" *ngIf="loggedIn" mat-raised-button routerLink="/song_search">Search Song</a>
+                <a class="link" *ngIf="loggedIn && user.role==artistRole" mat-raised-button routerLink="/create_song">
+                    New Song
+                    <mat-icon>add_circle</mat-icon>
+                </a>
             </li>
 
-
             <li>
-                <a class="link" *ngIf="loggedIn" mat-raised-button routerLink="/playlist_search">Search Playlist</a>
+                <a class="link" *ngIf="loggedIn" mat-raised-button routerLink="/playlist_search">
+                    Search Playlist
+                    <mat-icon>search</mat-icon>
+                </a>
             </li>
 
             <li>
-                <a class="link" *ngIf="loggedIn && user.role==artistRole" mat-raised-button routerLink="/create_song">New Song</a>
+                <a class="link" *ngIf="loggedIn" mat-raised-button routerLink="/playlist">
+                    Playlists
+                    <mat-icon>storage</mat-icon>
+                </a>
             </li>
+
             <li>
-                <a class="link" *ngIf="loggedIn" mat-raised-button routerLink="/playlist">Playlists</a>
+                <a class="link" *ngIf="loggedIn" mat-raised-button routerLink="/create_playlist">
+                    New Playlist
+                    <mat-icon>playlist_add</mat-icon>
+                </a>
+
             </li>
+
             <li>
-                <a class="link" *ngIf="loggedIn" mat-raised-button routerLink="/create_playlist">New Playlist</a>
+                <a color = "primary" class="link" *ngIf="loggedIn" mat-raised-button routerLink="/user_details">
+                    {{ (user.username.length > 10) ? (user.username | slice:0:10)+'...' : (user.username) }}
+                    <mat-icon>person</mat-icon>
+                </a>
             </li>
-	    <li>
-	    	<a class="link" *ngIf="loggedIn" mat-raised-button (click)="onLogoutClicked()">Logout</a>
-	    </li>
+
+            <li>
+                <a class="link" *ngIf="loggedIn" mat-raised-button (click)="onLogoutClicked()">
+                    Logout
+                    <mat-icon>exit_to_app</mat-icon>
+                </a>
+            </li>
+            
             <li>
                 <a class="link" *ngIf="loggedIn == false" mat-raised-button routerLink="/login">Log In</a>
             </li>
