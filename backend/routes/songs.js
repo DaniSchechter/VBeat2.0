@@ -243,14 +243,16 @@ app.get("/:id", async (req, res, next)=> {
         return;
     }
 
-    var song = await Song.findById(songId);
+    var song = await Song.findById(songId).populate('artists');
+
     if(!song) {
         res.status(404).json({
             message: "unable to find song"
         });
     }
     console.log('found song', song);
-    res.status(200).json(song);
+    res.status(200).json({
+        song: song});
 });
 
 module.exports = app;
