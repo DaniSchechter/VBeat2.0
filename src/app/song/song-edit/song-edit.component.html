@@ -32,17 +32,17 @@
           <mat-error *ngIf = "genre.invalid"> Please select one genre </mat-error>
       </mat-form-field>
       
-      <!-- SONG PATH -->
+      <!-- SONG NAME - FROM SONGS FOFLDER INSIDE ASSETS -->
       <mat-form-field appearance = "legacy" color = "accent">
           <input 
             matInput 
-            pattern="https?://\S+"
-            placeholder = "Song path"
+
+            placeholder = "Song name"
             name = "song_path"
             [ngModel] = "song.song_path"
             required
             #path = "ngModel">
-          <mat-hint>Please enter song url to be uploaded</mat-hint> 
+          <mat-hint>Please enter song name to be uploaded</mat-hint> 
       </mat-form-field>
      
       <!-- IMAGE PATH -->
