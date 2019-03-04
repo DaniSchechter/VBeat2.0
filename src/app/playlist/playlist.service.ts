@@ -228,8 +228,8 @@ export class PlaylistService{
                 user: null,
                 songList: [song]
             };
-            this.Http.post<{message: string, playlistId: string}>(this.base_url + '/playlist', playlist)
-            .subscribe(
+                this.Http.post<{message: string, playlistId: string}>(this.base_url + '/playlist', playlist)
+                .subscribe(
                     responseData => {
                         this.favoritePlaylist = {
                             id : responseData.playlistId,
