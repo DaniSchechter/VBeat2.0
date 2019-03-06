@@ -1,5 +1,5 @@
 
-<div>
+<div id="accordion-wrapper">
   <mat-accordion [class.col-sm-7]="selectedSong">
     
     <mat-expansion-panel *ngFor="let song of songs" (click)="onSelectSong(song)">
@@ -35,5 +35,4 @@
 
 <div>
     <mat-paginator [length]="totalSongs" [pageSize]="songsPerPage" (page)="onChangePage($event)"></mat-paginator>
-
 </div>

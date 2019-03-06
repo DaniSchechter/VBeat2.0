@@ -117,10 +117,12 @@ export class SongToolBarComponent implements OnInit {
       this.playlistService.removeSongFromFavoritePlaylist(this.song);
     }
     else {
-      // activate the like button
-      this.songActionService.like(this.song);
-      // create or update favorite playlist
-      this.playlistService.addSongToFavoritePlaylist(this.song);  
+        // activate the like button
+      this.songActionService.like(this.song).then(()=>{
+        // create or update favorite playlist
+        this.playlistService.addSongToFavoritePlaylist(this.song);
+      });  
+      
     }
   }
 
@@ -161,7 +163,7 @@ export class SongToolBarComponent implements OnInit {
             return artist.username == this.userService.connectedUser.username
           }
         );
-      console.log('owner permissions for song => ',this.song.name, this.hasOwnerPermissions);
+      // console.log('owner permissions for song => ',this.song.name, this.hasOwnerPermissions);
     }
   }
 }

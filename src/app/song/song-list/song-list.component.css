@@ -11,3 +11,7 @@ mat-accordion {
 mat-paginator{
     margin: 10px;
 }
+
+#accordion-wrapper {
+    display: flow-root;
+}

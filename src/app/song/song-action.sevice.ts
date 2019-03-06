@@ -82,14 +82,19 @@ export class SongActionService{
         // Inform for local change
         this.localSongUpdated.next(song);
         // Update in DB
-        this.http.put<{message: string}>(this.base_url + '/song/' + song.id, song).subscribe(
-            res => {
-            this.notificationService.submitNotification(
-                new Notification(res.message,NotificationStatus.OK)
-            )}, 
-            error => this.notificationService.submitNotification(
-                new Notification(error.message,NotificationStatus.ERROR))
-        );
+        return new Promise((resolve, reject) => {
+            this.http.put<{message: string}>(this.base_url + '/song/' + song.id, song).subscribe(
+                res => {
+                this.notificationService.submitNotification(
+                    new Notification(res.message,NotificationStatus.OK)
+                )
+                resolve();
+            }, 
+                error => this.notificationService.submitNotification(
+                    new Notification(error.message,NotificationStatus.ERROR))
+            );
+        })
+        
     }
 
     unlike(song: Song) {
