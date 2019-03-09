@@ -22,13 +22,19 @@ app.post("", async (req, res, next) => {
     	return;
     }
     try {
+        if (req.body.songList){
+            songList = req.body.songList.map(song => song.id);
+        }
+        else{
+            songList = [];
+        }
         // Find the user to add the playlist to
         const user = await User.findById(req.session.userId);
         // Create the new playlist
         const playlist = new Playlist({
             name: req.body.name,
             user: user,
-            songList: []
+            songList: songList
         });
         // Save new playlist
         const savedPlaylist = await playlist.save();
