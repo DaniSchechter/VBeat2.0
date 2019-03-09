@@ -5,7 +5,10 @@ export enum Genre {
     COUNTRY = "Countrey",
     POP = "Pop",
     CLASSIC = "Classic", 
-    ELECTRONIC = "Electronic"
+    ELECTRONIC = "Electronic",
+    ROCK = "Rock",
+    JAZZ = "Jazz",
+    HIPHOP = "Hip-Hop"
 }
 
 export class Song {
