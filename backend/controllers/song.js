@@ -237,7 +237,6 @@ exports.mapReduce = function(req,res){
 			});
 			return;
 		}
-
 		res.status(200).json(results);
 	});
 }
@@ -254,7 +253,7 @@ exports.getSongById = async function(req,res){
         return;
     }
 
-    var song = await Song.findById(songId);
+    var song = await Song.findById(songId).populate('artists');
     if(!song) {
         res.status(404).json({
             message: "unable to find song"

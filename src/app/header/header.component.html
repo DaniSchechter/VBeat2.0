@@ -55,6 +55,9 @@
                     <mat-icon>person</mat-icon>
                 </a>
             </li>
+            <li>
+                <a class="link" *ngIf="loggedIn" mat-raised-button routerLink="/mapReduce">stats</a>
+            </li>
 
             <li>
                 <a class="link" *ngIf="loggedIn" mat-raised-button (click)="onLogoutClicked()">
@@ -62,7 +65,6 @@
                     <mat-icon>exit_to_app</mat-icon>
                 </a>
             </li>
-            
             <li>
                 <a class="link" *ngIf="loggedIn == false" mat-raised-button routerLink="/login">Log In</a>
             </li>

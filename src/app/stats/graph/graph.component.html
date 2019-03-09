@@ -1,2 +1,4 @@
-<angular-d3-donut [id]="donutChartId" [data]="donutChartData"></angular-d3-donut>   
+<div *ngIf="showData">
+    <svg donutChart *ngIf="data" [data]="data"></svg>   
+</div>
 

@@ -13,6 +13,7 @@ import { PlaylistDetailsComponent } from './playlist/playlist-details/playlist-d
 import { QuickSearchComponent } from './quick-search/quick-search.component';
 import { PlaylistSearchComponent } from './playlist/playlist-search/playlist-search.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
+import { GraphComponent } from './stats/graph/graph.component';
 
 
 const routes: Routes = [
@@ -28,7 +29,8 @@ const routes: Routes = [
   {path: 'song_search', component: SongSearchComponent},
   {path: 'quick_search', component: QuickSearchComponent},
   {path: 'playlist_search', component: PlaylistSearchComponent},
-  {path: 'user_details', component: UserDetailsComponent}
+  {path: 'user_details', component: UserDetailsComponent},
+  {path: 'mapReduce', component: GraphComponent}
 ];
 
 @NgModule({

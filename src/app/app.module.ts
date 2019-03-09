@@ -56,11 +56,15 @@ import { QuickSearchComponent } from './quick-search/quick-search.component';
 import { PlaylistSearchComponent } from './playlist/playlist-search/playlist-search.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 
+import { GraphComponent } from './stats/graph/graph.component'
+
 //google maps
 import { AgmCoreModule } from '@agm/core';
 
 // D3 graph
 import { DoughnutChartComponent, PieChartComponent, BarChartComponent } from 'angular-d3-charts'; // this is needed!
+
+import { DonutChart } from './stats/donutDirective'
 
 @NgModule({
   declarations: [
@@ -88,6 +92,8 @@ import { DoughnutChartComponent, PieChartComponent, BarChartComponent } from 'an
     QuickSearchComponent,
     PlaylistSearchComponent,
     UserDetailsComponent,
+    GraphComponent,
+    DonutChart,
   ],
   imports: [
     BrowserModule,
