@@ -3,8 +3,11 @@ import { ViewChild } from '@angular/core';
 
 import { Song } from '../../song/song.model';
 import { MusicPlayerService } from '../music-player/music-player.service';
-import { SongPlayAction } from '../music-player/songPlayAction'
+import { SongPlayAction } from '../music-player/songPlayAction';
+import { NotificationPopupService } from '../../notification/notification-popup.service';
+import { NotificationStatus, Notification } from '../../notification/notification.model';
 
+import * as fs from 'fs';
 @Component({
   selector: 'app-music-player',
   templateUrl: './music-player.component.html',
@@ -17,7 +20,7 @@ export class MusicPlayerComponent implements OnInit {
 
   songs: Song[] = [];
 
-  constructor( private musicPlayerService: MusicPlayerService ) { }
+  constructor( private musicPlayerService: MusicPlayerService, private notificationService: NotificationPopupService) { }
 
   ngOnInit() {
     this.musicPlayerService.getSongPlayedListener().subscribe( playAction => {
@@ -43,9 +46,14 @@ export class MusicPlayerComponent implements OnInit {
   }
 
   playNow(song: Song): void {
-    this.songs.unshift(song);
-    this.player.nativeElement.load();
-    this.player.nativeElement.play();
+    if(this.fileExists(song.song_path)) {
+      this.songs.unshift(song);
+      this.player.nativeElement.load();
+      this.player.nativeElement.play();
+    }
+    else {
+      this.notificationService.submitNotification(new Notification('can not find song path', NotificationStatus.ERROR));
+    }
   }
 
   addToQueue(song: Song): void {
@@ -54,9 +62,26 @@ export class MusicPlayerComponent implements OnInit {
   }
 
   playPlaylist(songs: Song[]): void {
-    this.songs = songs;
+    let tempSongs: Song[]; // filter all the songs that their path is not valid
+    songs.forEach((song)=>{
+      if(this.fileExists(song.song_path)){
+        tempSongs.push(song);
+      }
+    })
+
+    this.songs = tempSongs;
     this.player.nativeElement.load();
     this.player.nativeElement.play();
+  }
+
+  fileExists(songPath: string) {
+
+    if (fs.existsSync(songPath)){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 
 }
