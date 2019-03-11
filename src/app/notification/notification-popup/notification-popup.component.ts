@@ -11,7 +11,7 @@ import { Notification, NotificationStatus } from '../notification.model'
 export class NotificationPopupComponent implements OnInit{
 
   notification: Notification;
-  duration: number = 6000; //Pop up time in mili seconds
+  duration: number = 4000; //Pop up time in mili seconds
 
   constructor(private popup:MatSnackBar, 
               private notificationService:NotificationPopupService) {}
