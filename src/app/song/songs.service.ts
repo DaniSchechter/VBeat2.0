@@ -80,7 +80,7 @@ export class SongService{
     },
     error =>{
         this.notificationService.submitNotification(
-          new Notification(error.error.error.message, NotificationStatus.ERROR)
+          new Notification(error.error.message, NotificationStatus.ERROR)
         )
         this.router.navigate(["/"]);
     })
@@ -179,7 +179,7 @@ export class SongService{
                 )
             },
             error => this.notificationService.submitNotification(
-                new Notification(error.error.error.message,NotificationStatus.ERROR))
+                new Notification(error.error.message,NotificationStatus.ERROR))
         );
         this.router.navigate(["/"]);
     }
