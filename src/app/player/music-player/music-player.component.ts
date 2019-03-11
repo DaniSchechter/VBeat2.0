@@ -7,7 +7,8 @@ import { SongPlayAction } from '../music-player/songPlayAction';
 import { NotificationPopupService } from '../../notification/notification-popup.service';
 import { NotificationStatus, Notification } from '../../notification/notification.model';
 
-import * as fs from 'fs';
+
+import { existsSync } from 'fs';
 @Component({
   selector: 'app-music-player',
   templateUrl: './music-player.component.html',
@@ -76,7 +77,7 @@ export class MusicPlayerComponent implements OnInit {
 
   fileExists(songPath: string) {
 
-    if (fs.existsSync(songPath)){
+    if (existsSync(songPath)){
       return true;
     }
     else{
