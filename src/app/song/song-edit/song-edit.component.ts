@@ -59,7 +59,6 @@ export class SongEditComponent implements OnInit, OnDestroy {
             this.songService.getSong(this.songId)
               .subscribe(
                 (song) => {
-                  console.log(song);
                   if(song){
                     this.song = song;
                     this.song.artists.forEach( artist => {

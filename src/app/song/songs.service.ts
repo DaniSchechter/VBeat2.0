@@ -42,6 +42,7 @@ export class SongService{
         this.base_url + "/song/" + songId
       ).pipe(
         map((songData) => {
+          console.log(songData);
             if(songData.song.artists){
                 let srtists = songData.song.artists.map( artist => {
                     return {
