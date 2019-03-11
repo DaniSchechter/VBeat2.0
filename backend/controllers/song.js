@@ -260,5 +260,8 @@ exports.getSongById = async function(req,res){
         });
     }
     console.log('found song', song);
-    res.status(200).json(song);
+    res.status(200).json({
+        message: "ok",
+        song: song}
+    );
 }

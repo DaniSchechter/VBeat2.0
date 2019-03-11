@@ -38,12 +38,12 @@ export class SongService{
   }
 
   getSong(songId){
-    return this.Http.get(
+    return this.Http.get<{ message: string; song: any }>(
         this.base_url + "/song/" + songId
       ).pipe(
-        map((songData: any) => {
-            if(songData.artists){
-                let srtists = songData.artists.map( artist => {
+        map((songData) => {
+            if(songData.song.artists){
+                let srtists = songData.song.artists.map( artist => {
                     return {
                       id: artist._id,
                       username: artist.username,
@@ -59,19 +59,18 @@ export class SongService{
                     }
                 })
                 return {
-                  id: songData._id,
-                  name: songData.name,
-                  genre: songData.genre,
-                  song_path: songData.song_path,
-                  image_path: songData.image_path,
-                  release_date: songData.release_date,
+                  id: songData.song._id,
+                  name: songData.song.name,
+                  genre: songData.song.genre,
+                  song_path: songData.song.song_path,
+                  image_path: songData.song.image_path,
+                  release_date: songData.song.release_date,
                   artists: srtists,
-                  num_of_times_liked: songData.num_of_times_liked,
+                  num_of_times_liked: songData.song.num_of_times_liked,
                 };
             }
         }
     ))
-    
   }
 
   getSongs(songsPerPage = 10, currentPage = 1) {
