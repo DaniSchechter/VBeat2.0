@@ -256,7 +256,8 @@ exports.getSongById = async function(req,res){
     var song = await Song.findById(songId).populate('artists');
     if(!song) {
         res.status(404).json({
-            message: "unable to find song"
+            message: "unable to find song",
+            song:null
         });
     }
     console.log('found song', song);

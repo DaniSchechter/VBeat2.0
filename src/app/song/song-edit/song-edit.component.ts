@@ -53,10 +53,10 @@ export class SongEditComponent implements OnInit, OnDestroy {
 
     // Fetch the correct song to be edited by id
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-        if (paramMap.has('id')){
             this.songId = paramMap.get('id');
             // this.songService.getSongs();
             this.songService.getSong(this.songId)
+            this.songSub = this.songService.getSongUpdateListener()
               .subscribe(
                 (song) => {
                   if(song){
@@ -66,11 +66,7 @@ export class SongEditComponent implements OnInit, OnDestroy {
                         this.selected_artists.push(artist);
                   });
                   }
-                  else{
-                    alert("oops");
-                  }
               });
-        }
     });
 
     // Get the current signed in artist and set him as an artist for the new song

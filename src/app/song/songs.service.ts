@@ -37,12 +37,15 @@ export class SongService{
     return this.searchSongUpdated.asObservable();
   }
 
+  getSongUpdateListener() {
+    return this.songUpdated.asObservable();
+  }
+
   getSong(songId){
     return this.Http.get<{ message: string; song: any }>(
         this.base_url + "/song/" + songId
       ).pipe(
         map((songData) => {
-          console.log(songData);
             if(songData.song.artists){
                 let srtists = songData.song.artists.map( artist => {
                     return {
@@ -71,7 +74,16 @@ export class SongService{
                 };
             }
         }
-    ))
+    )).subscribe(songAfterChange => {
+      this.song = songAfterChange;
+          this.songUpdated.next({...this.song});
+    },
+    error =>{
+        this.notificationService.submitNotification(
+          new Notification(error.error.error.message, NotificationStatus.ERROR)
+        )
+        this.router.navigate(["/"]);
+    })
   }
 
   getSongs(songsPerPage = 10, currentPage = 1) {
@@ -112,13 +124,9 @@ export class SongService{
         },
         error =>
           this.notificationService.submitNotification(
-            new Notification(error.message, NotificationStatus.ERROR)
+            new Notification(error.error.message, NotificationStatus.ERROR)
           )
       );
-  }
-
-  getSongUpdateListener() {
-    return this.songUpdated.asObservable();
   }
 
   addSong(
@@ -153,7 +161,7 @@ export class SongService{
       },
       error =>
         this.notificationService.submitNotification(
-          new Notification(error.message, NotificationStatus.ERROR)
+          new Notification(error.error.message, NotificationStatus.ERROR)
         )
     );
   }
@@ -171,7 +179,7 @@ export class SongService{
                 )
             },
             error => this.notificationService.submitNotification(
-                new Notification(error.message,NotificationStatus.ERROR))
+                new Notification(error.error.error.message,NotificationStatus.ERROR))
         );
         this.router.navigate(["/"]);
     }
@@ -212,7 +220,7 @@ export class SongService{
         },
         error =>
           this.notificationService.submitNotification(
-            new Notification(error.message, NotificationStatus.ERROR)
+            new Notification(error.error.message, NotificationStatus.ERROR)
           )
       );
   }
@@ -238,7 +246,7 @@ export class SongService{
 
                 },
                 error => this.notificationService.submitNotification(
-                    new Notification(error.message,NotificationStatus.ERROR))
+                    new Notification(error.error.message,NotificationStatus.ERROR))
             );
     }
 
