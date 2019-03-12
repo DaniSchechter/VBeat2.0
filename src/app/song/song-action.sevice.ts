@@ -91,7 +91,7 @@ export class SongActionService{
                 resolve();
             }, 
                 error => this.notificationService.submitNotification(
-                    new Notification(error.message,NotificationStatus.ERROR))
+                    new Notification(error.error.message,NotificationStatus.ERROR))
             );
         })
         
@@ -112,7 +112,7 @@ export class SongActionService{
                 new Notification(res.message,NotificationStatus.OK)
             )}, 
             error => this.notificationService.submitNotification(
-                new Notification(error.message,NotificationStatus.ERROR))
+                new Notification(error.error.message,NotificationStatus.ERROR))
         );
     }
 }

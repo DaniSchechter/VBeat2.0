@@ -31,7 +31,7 @@ export class StatsService {
 				resolve(res.results);
 			},
 			error=>{
-				console.log(error.message);
+				console.log(error.error.message);
 				reject("Could not dispaly the graph");
 			}
 		)})

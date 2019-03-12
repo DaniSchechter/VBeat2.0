@@ -80,7 +80,7 @@ export class PlaylistService{
                     totalPlaylists: playlistsAfterChange.totalPlaylists
                 });
             },
-            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+            error => this.notificationService.submitNotification(new Notification(error.error.message,NotificationStatus.ERROR))
         );
     }
 
@@ -124,7 +124,7 @@ export class PlaylistService{
                 this.favoritePlaylist = playlistsAfterChange;
                 this.favoritePlaylistUpdated.next(this.favoritePlaylist);
             },
-            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+            error => this.notificationService.submitNotification(new Notification(error.error.message,NotificationStatus.ERROR))
         );}
     // get playlist by id
     getPlaylistById(playlistId: string){
@@ -167,7 +167,7 @@ export class PlaylistService{
                 this.playlistUpdated.next(this.playlist);
             },
             error => this.notificationService.submitNotification(
-                new Notification(error.message,NotificationStatus.ERROR))
+                new Notification(error.error.message,NotificationStatus.ERROR))
         );
     }
 
@@ -190,7 +190,7 @@ export class PlaylistService{
                         new Notification(responseData.message,NotificationStatus.OK))
                     this.router.navigate(["/"])
             },
-            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+            error => this.notificationService.submitNotification(new Notification(error.error.message,NotificationStatus.ERROR))
 
         );
     }
@@ -209,7 +209,7 @@ export class PlaylistService{
                 )
                 this.router.navigate(["/"]);
             },
-            error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+            error => this.notificationService.submitNotification(new Notification(error.error.message,NotificationStatus.ERROR))
         );
     }
 
@@ -244,7 +244,7 @@ export class PlaylistService{
                             new Notification("Added to liked songs playlist",NotificationStatus.OK)
                         )
                 },
-                error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+                error => this.notificationService.submitNotification(new Notification(error.error.message,NotificationStatus.ERROR))
             );
         }
     }
@@ -278,7 +278,7 @@ export class PlaylistService{
             },
             error => {
                 this.notificationService.submitNotification(
-                    new Notification(error.message,NotificationStatus.ERROR));
+                    new Notification(error.error.message,NotificationStatus.ERROR));
             }
         );
     }
@@ -292,7 +292,7 @@ export class PlaylistService{
             },
             error => {
                 this.notificationService.submitNotification(
-                    new Notification(error.message,NotificationStatus.ERROR));
+                    new Notification(error.error.message,NotificationStatus.ERROR));
             }
         );
     }
@@ -326,7 +326,7 @@ export class PlaylistService{
                   totalPlaylists: this.searchPlaylistsCount
               });
           },
-          error => this.notificationService.submitNotification(new Notification(error.message,NotificationStatus.ERROR))
+          error => this.notificationService.submitNotification(new Notification(error.error.message,NotificationStatus.ERROR))
       );
     }
 
