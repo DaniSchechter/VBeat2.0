@@ -301,7 +301,7 @@ exports.updatePlaylist = async function(req,res){
 }
 
 // add song to playlist
-async function addSongToPlaylist(){
+async function addSongToPlaylist(playlistId, songId){
     const playlist = await Playlist.findById(playlistId);
 
     let songList = playlist.songList;
