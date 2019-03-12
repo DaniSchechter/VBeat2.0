@@ -45,8 +45,8 @@ Thumbs.db
 # package lock
 package-lock.json
 
-# song assets
-*.mp3
+# # song assets
+# *.mp3
 
 #VIM
 
