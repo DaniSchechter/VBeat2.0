@@ -21,8 +21,18 @@ export class MusicPlayerService {
   play(songs: Song[], action: SongPlayAction) {
     // Add base path to each song
     let fullPathsongs = songs;
-    fullPathsongs.forEach( song => song.song_path = this.songBasePath + song.song_path);
-    this.songPlayed.next({songs, action});
+    // needs to do a deep copy
+    fullPathsongs = fullPathsongs.map( song => new Song(
+      song.id,
+      song.name,
+      song.genre,
+      this.songBasePath + song.song_path,
+      song.image_path,
+      song.release_date,
+      song.artists,
+      song.num_of_times_liked
+    ));
+    this.songPlayed.next({songs: fullPathsongs, action: action});
   }
 
 

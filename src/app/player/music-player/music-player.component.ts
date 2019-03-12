@@ -54,9 +54,9 @@ export class MusicPlayerComponent implements OnInit {
         this.player.nativeElement.load();
         this.player.nativeElement.play();
       })
-      .catch( (err) => this.notificationPopupService.submitNotification(
-        new Notification(`Cannot find "${song.name}"'s resource`,NotificationStatus.ERROR)
-      ));
+      .catch( (err) => {this.notificationPopupService.submitNotification(
+        new Notification(`Cannot find "${song.name}"'s resource - path:${song.song_path}`,NotificationStatus.ERROR))
+      });
   }
 
   addToQueue(song: Song): void {
@@ -76,16 +76,18 @@ export class MusicPlayerComponent implements OnInit {
     this.player.nativeElement.play();
   }
 
-
-
   private songResourceExists(song: Song){
+    // Checl if the file exists without the prefix
+    let path = song.song_path.replace("../../..","");
     return new Promise((resolve, reject) => {
-      this.http.get(song.song_path).subscribe( 
-        response => { 
-          if(response) resolve();
-          else reject();
+      this.http.get(encodeURI(path)).subscribe( 
+        () => { 
+          // never gets here - too long time I couldn't get it - so if u see it, Please explain ;-)
         },
-        error =>  { reject(); }
+        response =>  {
+          if(response.status == 200) resolve();
+          else reject();
+        }
       );
     });
   }
