@@ -80,7 +80,7 @@ export class MusicPlayerComponent implements OnInit {
 
   private songResourceExists(song: Song){
     return new Promise((resolve, reject) => {
-      this.http.get(`../../../assets/songs/${song.name}`).subscribe( 
+      this.http.get(song.song_path).subscribe( 
         response => { 
           if(response) resolve();
           else reject();
