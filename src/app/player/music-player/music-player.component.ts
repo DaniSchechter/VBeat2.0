@@ -1,9 +1,12 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http'
 
 import { Song } from '../../song/song.model';
 import { MusicPlayerService } from '../music-player/music-player.service';
 import { SongPlayAction } from '../music-player/songPlayAction'
+import { NotificationPopupService } from '../../notification/notification-popup.service';
+import { Notification, NotificationStatus } from '../../notification/notification.model';
 
 @Component({
   selector: 'app-music-player',
@@ -17,7 +20,9 @@ export class MusicPlayerComponent implements OnInit {
 
   songs: Song[] = [];
 
-  constructor( private musicPlayerService: MusicPlayerService ) { }
+  constructor(private musicPlayerService: MusicPlayerService, 
+              private http: HttpClient,
+              private notificationPopupService: NotificationPopupService ) { }
 
   ngOnInit() {
     this.musicPlayerService.getSongPlayedListener().subscribe( playAction => {
@@ -43,14 +48,26 @@ export class MusicPlayerComponent implements OnInit {
   }
 
   playNow(song: Song): void {
-    this.songs.unshift(song);
-    this.player.nativeElement.load();
-    this.player.nativeElement.play();
+    this.songResourceExists(song)
+      .then( () => {
+        this.songs.unshift(song);
+        this.player.nativeElement.load();
+        this.player.nativeElement.play();
+      })
+      .catch( (err) => {this.notificationPopupService.submitNotification(
+        new Notification(`Cannot find "${song.name}"'s resource - path:${song.song_path}`,NotificationStatus.ERROR))
+      });
   }
 
   addToQueue(song: Song): void {
-    // Add new song to the end of the array
-    this.songs.push(song);
+    this.songResourceExists(song)
+    .then( () => {
+      // Add new song to the end of the array
+      this.songs.push(song);
+    })
+    .catch( (err) => this.notificationPopupService.submitNotification(
+      new Notification(`Cannot find "${song.name}"'s resource`,NotificationStatus.ERROR)
+    ));
   }
 
   playPlaylist(songs: Song[]): void {
@@ -59,4 +76,19 @@ export class MusicPlayerComponent implements OnInit {
     this.player.nativeElement.play();
   }
 
+  private songResourceExists(song: Song){
+    // Checl if the file exists without the prefix
+    let path = song.song_path.replace("../../..","");
+    return new Promise((resolve, reject) => {
+      this.http.get(encodeURI(path)).subscribe( 
+        () => { 
+          // never gets here - too long time I couldn't get it - so if u see it, Please explain ;-)
+        },
+        response =>  {
+          if(response.status == 200) resolve();
+          else reject();
+        }
+      );
+    });
+  }
 }
