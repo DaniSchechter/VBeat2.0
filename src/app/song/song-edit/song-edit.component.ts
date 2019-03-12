@@ -53,19 +53,20 @@ export class SongEditComponent implements OnInit, OnDestroy {
 
     // Fetch the correct song to be edited by id
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
-        if (paramMap.has('id')){
             this.songId = paramMap.get('id');
             // this.songService.getSongs();
             this.songService.getSong(this.songId)
+            this.songSub = this.songService.getSongUpdateListener()
               .subscribe(
                 (song) => {
-                  this.song = song;
-                  this.song.artists.forEach( artist => {
+                  if(song){
+                    this.song = song;
+                    this.song.artists.forEach( artist => {
                       if(!this.selected_artists.some( selectedArtist => artist.username == selectedArtist.username ))
                         this.selected_artists.push(artist);
                   });
+                  }
               });
-        }
     });
 
     // Get the current signed in artist and set him as an artist for the new song

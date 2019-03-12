@@ -84,7 +84,7 @@ export class UserService {
 				},
 				error => {
 					this.notificationService.submitNotification(
-						new Notification(error.message, NotificationStatus.ERROR));
+						new Notification(error.error.message, NotificationStatus.ERROR));
 					reject();
 				}
 			)
@@ -125,7 +125,7 @@ export class UserService {
 						},
 						error => {
 							this.notificationService.submitNotification(
-									new Notification(error.message, NotificationStatus.ERROR)
+									new Notification(error.error.message, NotificationStatus.ERROR)
 							);
 							reject();
 						}
@@ -159,7 +159,7 @@ export class UserService {
                 this.artistsUpdated.next([...this.artists]);
             },
             error => this.notificationService.submitNotification(
-                new Notification(error.message,NotificationStatus.ERROR))
+                new Notification(error.error.message,NotificationStatus.ERROR))
         );
 	}
 
@@ -192,7 +192,7 @@ export class UserService {
 		},
 		error => {
 			this.notificationService.submitNotification(
-				new Notification(error.message, NotificationStatus.ERROR));
+				new Notification(error.error.message, NotificationStatus.ERROR));
 		})
 	}
 
@@ -221,7 +221,7 @@ export class UserService {
 		},
 		error => {
 			this.notificationService.submitNotification(
-				new Notification(error.message, NotificationStatus.ERROR));
+				new Notification(error.error.message, NotificationStatus.ERROR));
     });
   }
 
